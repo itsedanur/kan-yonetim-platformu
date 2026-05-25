@@ -87,11 +87,39 @@ namespace KanYonetim.API.Models.DTOs
     // Stats DTO
     public class StatsDto
     {
+        public int TotalUsers { get; set; }
         public int TotalDonors { get; set; }
         public int TotalHospitals { get; set; }
         public int ActiveRequests { get; set; }
         public int TotalApplications { get; set; }
         public int TotalDonationsCompleted { get; set; }
+        public int TodayApplications { get; set; }
+        public int CriticalBloodTypeCount { get; set; }
+        public int PendingApprovals { get; set; }
+        public int DailySystemTraffic { get; set; }
+        
+        // Chart Data
+        public List<BloodTypeChartDto> BloodTypeDistribution { get; set; } = new();
+        public List<DistrictChartDto> DistrictDemand { get; set; } = new();
+        public List<ApplicationChartDto> DailyApplications { get; set; } = new();
+    }
+
+    public class BloodTypeChartDto
+    {
+        public string Name { get; set; } = string.Empty;
+        public int Value { get; set; }
+    }
+
+    public class DistrictChartDto
+    {
+        public string Name { get; set; } = string.Empty;
+        public int Demand { get; set; }
+    }
+
+    public class ApplicationChartDto
+    {
+        public string Date { get; set; } = string.Empty;
+        public int Applications { get; set; }
     }
 
     // User List DTO
@@ -105,6 +133,92 @@ namespace KanYonetim.API.Models.DTOs
         public string Role { get; set; } = string.Empty;
         public string BloodTypeName { get; set; } = string.Empty;
         public string DistrictName { get; set; } = string.Empty;
+        public DateTime CreatedAt { get; set; }
+    }
+    // Profile DTOs
+    public class UserProfileDto
+    {
+        public int Id { get; set; }
+        public string FullName { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string Tc { get; set; } = string.Empty;
+        public string Phone { get; set; } = string.Empty;
+        public string Gender { get; set; } = string.Empty;
+        public string Role { get; set; } = string.Empty;
+        public string BloodType { get; set; } = string.Empty;
+        public int BloodTypeId { get; set; }
+        public string District { get; set; } = string.Empty;
+        public int DistrictId { get; set; }
+        public bool IsEmailVerified { get; set; }
+
+        public DateTime? DateOfBirth { get; set; }
+        public double? Weight { get; set; }
+        public string? Title { get; set; }
+        
+        public bool HasChronicDisease { get; set; }
+        public bool UsesMedication { get; set; }
+        public bool RecentAlcoholUse { get; set; }
+        public bool RecentSurgery { get; set; }
+
+        public string? EmergencyContactName { get; set; }
+        public string? EmergencyContactRelation { get; set; }
+        public string? EmergencyContactPhone { get; set; }
+
+        public string? City { get; set; }
+        public string? Neighborhood { get; set; }
+        public string? NearestHospital { get; set; }
+
+        public string ProfileVisibility { get; set; } = string.Empty;
+        public bool AllowPhoneShare { get; set; }
+        public bool EmailNotifications { get; set; }
+        public bool SmsNotifications { get; set; }
+        public bool LocationBasedNotifications { get; set; }
+        
+        public bool TwoFactorEnabled { get; set; }
+        public bool IsPhoneVerified { get; set; }
+        public int ProfileCompletionRate { get; set; }
+    }
+
+    public class UpdateUserProfileDto
+    {
+        public string FullName { get; set; } = string.Empty;
+        public string Tc { get; set; } = string.Empty;
+        public string Phone { get; set; } = string.Empty;
+        public string Gender { get; set; } = string.Empty;
+        public int BloodTypeId { get; set; }
+        public int DistrictId { get; set; }
+
+        public DateTime? DateOfBirth { get; set; }
+        public double? Weight { get; set; }
+        public string? Title { get; set; }
+        
+        public bool HasChronicDisease { get; set; }
+        public bool UsesMedication { get; set; }
+        public bool RecentAlcoholUse { get; set; }
+        public bool RecentSurgery { get; set; }
+
+        public string? EmergencyContactName { get; set; }
+        public string? EmergencyContactRelation { get; set; }
+        public string? EmergencyContactPhone { get; set; }
+
+        public string? City { get; set; }
+        public string? Neighborhood { get; set; }
+        public string? NearestHospital { get; set; }
+
+        public string ProfileVisibility { get; set; } = "Public";
+        public bool AllowPhoneShare { get; set; }
+        public bool EmailNotifications { get; set; }
+        public bool SmsNotifications { get; set; }
+        public bool LocationBasedNotifications { get; set; }
+        
+        public bool TwoFactorEnabled { get; set; }
+    }
+
+    public class ProfileActivityLogDto
+    {
+        public int Id { get; set; }
+        public string ActionType { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; }
     }
 }

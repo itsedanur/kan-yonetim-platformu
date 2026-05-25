@@ -14,7 +14,12 @@ namespace KanYonetim.API.Data
         public DbSet<BloodStock> BloodStocks => Set<BloodStock>();
         public DbSet<DonationRequest> DonationRequests => Set<DonationRequest>();
         public DbSet<DonationApplication> DonationApplications => Set<DonationApplication>();
-
+        public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
+        public DbSet<Notification> Notifications => Set<Notification>();
+        public DbSet<RequestApproval> RequestApprovals => Set<RequestApproval>();
+        public DbSet<LogisticsTransfer> LogisticsTransfers => Set<LogisticsTransfer>();
+        public DbSet<UserActivityLog> UserActivityLogs => Set<UserActivityLog>();
+        public DbSet<ProfileActivityLog> ProfileActivityLogs => Set<ProfileActivityLog>();
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

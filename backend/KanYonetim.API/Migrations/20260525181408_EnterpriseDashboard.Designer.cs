@@ -3,6 +3,7 @@ using System;
 using KanYonetim.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KanYonetim.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260525181408_EnterpriseDashboard")]
+    partial class EnterpriseDashboard
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -708,35 +711,6 @@ namespace KanYonetim.API.Migrations
                     b.ToTable("Notifications");
                 });
 
-            modelBuilder.Entity("KanYonetim.API.Models.ProfileActivityLog", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ActionType")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("ProfileActivityLogs");
-                });
-
             modelBuilder.Entity("KanYonetim.API.Models.RequestApproval", b =>
                 {
                     b.Property<int>("Id")
@@ -779,19 +753,10 @@ namespace KanYonetim.API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<bool>("AllowPhoneShare")
-                        .HasColumnType("boolean");
-
                     b.Property<int>("BloodTypeId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("City")
-                        .HasColumnType("text");
-
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("DateOfBirth")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("DistrictId")
@@ -801,19 +766,7 @@ namespace KanYonetim.API.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<bool>("EmailNotifications")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("EmailVerificationCode")
-                        .HasColumnType("text");
-
-                    b.Property<string>("EmergencyContactName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("EmergencyContactPhone")
-                        .HasColumnType("text");
-
-                    b.Property<string>("EmergencyContactRelation")
                         .HasColumnType("text");
 
                     b.Property<string>("FullName")
@@ -824,26 +777,11 @@ namespace KanYonetim.API.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<bool>("HasChronicDisease")
-                        .HasColumnType("boolean");
-
                     b.Property<bool>("IsEmailVerified")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsPhoneVerified")
                         .HasColumnType("boolean");
 
                     b.Property<DateTime?>("LastDonationDate")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("LocationBasedNotifications")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("NearestHospital")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Neighborhood")
-                        .HasColumnType("text");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
@@ -853,41 +791,13 @@ namespace KanYonetim.API.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("ProfileCompletionRate")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("ProfileVisibility")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<bool>("RecentAlcoholUse")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("RecentSurgery")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("Role")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<bool>("SmsNotifications")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("Tc")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("UsesMedication")
-                        .HasColumnType("boolean");
-
-                    b.Property<double?>("Weight")
-                        .HasColumnType("double precision");
 
                     b.HasKey("Id");
 
@@ -1051,17 +961,6 @@ namespace KanYonetim.API.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("KanYonetim.API.Models.ProfileActivityLog", b =>
-                {
-                    b.HasOne("KanYonetim.API.Models.User", "User")
-                        .WithMany("ProfileActivityLogs")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("KanYonetim.API.Models.RequestApproval", b =>
                 {
                     b.HasOne("KanYonetim.API.Models.User", "Admin")
@@ -1115,11 +1014,6 @@ namespace KanYonetim.API.Migrations
                     b.Navigation("BloodStocks");
 
                     b.Navigation("DonationRequests");
-                });
-
-            modelBuilder.Entity("KanYonetim.API.Models.User", b =>
-                {
-                    b.Navigation("ProfileActivityLogs");
                 });
 #pragma warning restore 612, 618
         }

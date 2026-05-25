@@ -3,11 +3,50 @@ import { Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom'
 import { Toaster, toast } from 'react-hot-toast'
 import { Droplets, Heart, LayoutDashboard, LogOut, User, Menu, X, PlusCircle, Activity, MapPin, Calendar, ArrowRight, Settings, Users, Shield, UserRound, Search, Mail, Phone, Filter, TrendingUp, TrendingDown, Truck, CheckCircle, AlertTriangle, RefreshCw, Bell, Trash2 } from 'lucide-react'
 import axios from 'axios'
+import AdminDashboardOverview from './pages/admin/AdminDashboardOverview';
+import UserManagement from './pages/admin/UserManagement';
+import AuditLogs from './pages/admin/AuditLogs';
+import RequestApprovals from './pages/admin/RequestApprovals';
+import Logistics from './pages/admin/Logistics';
+import SecurityPanel from './pages/admin/SecurityPanel';
+import LiveTracking from './pages/admin/LiveTracking';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google'
 import ReCAPTCHA from "react-google-recaptcha"
+import Profile from './pages/Profile';
 
 // API Base URL
 axios.defaults.baseURL = 'http://localhost:5090/api';
+
+// Axios Interceptor for Authentication Token
+axios.interceptors.request.use((config) => {
+  const userStr = localStorage.getItem('user');
+  if (userStr) {
+    try {
+      const user = JSON.parse(userStr);
+      if (user && user.token) {
+        config.headers.Authorization = `Bearer ${user.token}`;
+      }
+    } catch (e) {}
+  }
+  return config;
+}, (error) => {
+  return Promise.reject(error);
+});
+
+// Axios Response Interceptor for handling 401 Unauthorized
+axios.interceptors.response.use((response) => {
+  return response;
+}, (error) => {
+  if (error.response && error.response.status === 401) {
+    // If we receive a 401 Unauthorized, the token is invalid or expired
+    if (window.location.pathname !== '/login' && window.location.pathname !== '/register') {
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
+      window.location.href = '/login';
+    }
+  }
+  return Promise.reject(error);
+});
 
 // Main Application
 const initialUsers = [
@@ -108,18 +147,18 @@ const App = () => {
               <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
                 {user.role === 'Admin' ? (
                   <>
-                    <Link to="/" style={{ textDecoration: 'none', fontWeight: '600', color: location.pathname === '/' ? '#e11d48' : '#64748b', fontSize: '0.9rem', transition: 'color 0.2s' }}>Ana Sayfa</Link>
-                    <Link to="/logistics" style={{ textDecoration: 'none', fontWeight: '600', color: location.pathname === '/logistics' ? '#e11d48' : '#64748b', fontSize: '0.9rem', transition: 'color 0.2s' }}>Lojistik</Link>
-                    <Link to="/dashboard" style={{ textDecoration: 'none', fontWeight: '600', color: location.pathname === '/dashboard' ? '#e11d48' : '#64748b', fontSize: '0.9rem', transition: 'color 0.2s' }}>Yönetim Paneli</Link>
+                    <Link to="/" style={{ textDecoration: 'none', fontWeight: '600', color: location.pathname === '/' ? '#e11d48' : '#64748b', fontSize: '0.85rem', transition: 'color 0.2s' }}>Ana Sayfa</Link>
+                    <Link to="/logistics" style={{ textDecoration: 'none', fontWeight: '600', color: location.pathname === '/logistics' ? '#e11d48' : '#64748b', fontSize: '0.85rem', transition: 'color 0.2s' }}>Lojistik</Link>
+                    <Link to="/dashboard" style={{ textDecoration: 'none', fontWeight: '600', color: location.pathname === '/dashboard' ? '#e11d48' : '#64748b', fontSize: '0.85rem', transition: 'color 0.2s' }}>Yönetim Paneli</Link>
                   </>
                 ) : (
                   <>
-                    <Link to="/dashboard" style={{ textDecoration: 'none', fontWeight: '600', color: location.pathname === '/dashboard' || location.pathname === '/' ? '#e11d48' : '#64748b', fontSize: '0.9rem', transition: 'color 0.2s' }}>Ana Sayfa</Link>
+                    <Link to="/dashboard" style={{ textDecoration: 'none', fontWeight: '600', color: location.pathname === '/dashboard' || location.pathname === '/' ? '#e11d48' : '#64748b', fontSize: '0.85rem', transition: 'color 0.2s' }}>Ana Sayfa</Link>
                     <NavBloodRequestsLink pathname={location.pathname} />
                     <NavMyRequestsLink pathname={location.pathname} user={user} />
                   </>
                 )}
-                <Link to="/profile" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', textDecoration: 'none', fontWeight: '600', color: location.pathname === '/profile' ? '#e11d48' : '#64748b', fontSize: '0.9rem', transition: 'color 0.2s' }}>
+                <Link to="/profile" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', textDecoration: 'none', fontWeight: '600', color: location.pathname === '/profile' ? '#e11d48' : '#64748b', fontSize: '0.85rem', transition: 'color 0.2s' }}>
                   <User size={16} /> Profilim
                 </Link>
               </div>
@@ -128,7 +167,7 @@ const App = () => {
             {user ? (
               <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', borderLeft: '1px solid #e2e8f0', paddingLeft: '2rem' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-                  <span style={{ fontSize: '0.9rem', fontWeight: '700', color: '#1e293b', lineHeight: '1.2' }}>{user.fullName}</span>
+                  <span style={{ fontSize: '0.85rem', fontWeight: '700', color: '#1e293b', lineHeight: '1.2' }}>{user.fullName}</span>
                   <span style={{ fontSize: '0.7rem', color: '#94a3b8', fontWeight: '500' }}>{user.role === 'Admin' ? 'Yönetici' : 'Bağışçı'}</span>
                 </div>
                 <button
@@ -201,7 +240,7 @@ const NavBloodRequestsLink = ({ pathname }) => {
         textDecoration: 'none',
         fontWeight: '600',
         color: isActive ? '#e11d48' : '#64748b',
-        fontSize: '0.9rem',
+        fontSize: '0.85rem',
         transition: 'color 0.2s',
         display: 'flex',
         alignItems: 'center',
@@ -274,7 +313,7 @@ const NavMyRequestsLink = ({ pathname, user }) => {
         textDecoration: 'none',
         fontWeight: '600',
         color: isActive ? '#e11d48' : '#64748b',
-        fontSize: '0.9rem',
+        fontSize: '0.85rem',
         transition: 'color 0.2s',
         position: 'relative',
         display: 'flex',
@@ -403,18 +442,18 @@ const MyRequests = ({ user }) => {
               <div key={alert.id} style={{ background: '#ffffff', borderRadius: '24px', padding: '2rem', border: '1px solid #f1f5f9', boxShadow: '0 4px 20px rgba(0,0,0,0.02)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.5rem' }}>
                   <div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.5rem' }}>
                       <span style={{ background: '#fff1f2', color: '#e11d48', padding: '0.25rem 0.75rem', borderRadius: '8px', fontSize: '0.75rem', fontWeight: '800' }}>{alert.bloodType}</span>
                       <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: '600' }}>{alert.date} {alert.time}</span>
                     </div>
                     <h3 style={{ margin: 0, fontSize: '1.25rem', fontWeight: '800', color: '#0f172a' }}>{alert.hastane}</h3>
-                    <p style={{ margin: '0.25rem 0 0 0', color: '#64748b', fontSize: '0.9rem' }}>{alert.ilce} - {alert.requestType}</p>
+                    <p style={{ margin: '0.25rem 0 0 0', color: '#64748b', fontSize: '0.85rem' }}>{alert.ilce} - {alert.requestType}</p>
                   </div>
                   <div style={{ background: '#f0fdf4', color: '#16a34a', padding: '0.5rem 1rem', borderRadius: '12px', fontSize: '0.85rem', fontWeight: '700' }}>{getApplicantsForAlert(alert.id).length} Başvuru</div>
                 </div>
 
                 <div style={{ borderTop: '1px solid #f1f5f9', paddingTop: '1.5rem' }}>
-                  <h4 style={{ fontSize: '0.9rem', fontWeight: '800', color: '#475569', marginBottom: '1rem' }}>Gelen Başvurular</h4>
+                  <h4 style={{ fontSize: '0.85rem', fontWeight: '800', color: '#475569', marginBottom: '1rem' }}>Gelen Başvurular</h4>
                   {getApplicantsForAlert(alert.id).length === 0 ? (
                     <p style={{ fontSize: '0.85rem', color: '#94a3b8', fontStyle: 'italic' }}>Henüz başvuru gelmedi.</p>
                   ) : (
@@ -424,7 +463,7 @@ const MyRequests = ({ user }) => {
                           <div>
                             <div style={{ fontWeight: '800', color: '#0f172a', marginBottom: '0.25rem', fontSize: '1rem' }}>{maskName(app.applicantName)}</div>
                             <div style={{ fontSize: '0.8rem', color: '#64748b', marginBottom: '0.5rem' }}>Kan Grubu: <span style={{ color: '#e11d48', fontWeight: '700' }}>{app.applicantBlood}</span></div>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#94a3b8', fontSize: '0.8rem', fontWeight: '600' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#94a3b8', fontSize: '0.8rem', fontWeight: '600' }}>
                               <Phone size={12} /> {maskPhone(app.applicantPhone)}
                             </div>
                           </div>
@@ -449,7 +488,7 @@ const MyRequests = ({ user }) => {
             myApplications.map(app => (
               <div key={app.id} style={{ background: '#ffffff', borderRadius: '20px', padding: '1.5rem', border: '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.25rem' }}>
                     <span style={{ background: '#f0fdf4', color: '#16a34a', padding: '0.2rem 0.5rem', borderRadius: '6px', fontSize: '0.7rem', fontWeight: '800' }}>BAŞVURU ONAYLANDI</span>
                     <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>{app.date}</span>
                   </div>
@@ -460,7 +499,7 @@ const MyRequests = ({ user }) => {
                 <div style={{ textAlign: 'right' }}>
                   <button
                     onClick={() => setActiveChat({ chatId: `${app.alertId}_${app.applicantTc}`, otherName: app.requesterName })}
-                    style={{ background: '#e11d48', color: 'white', border: 'none', padding: '0.65rem 1.25rem', borderRadius: '12px', fontSize: '0.85rem', fontWeight: '700', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+                    style={{ background: '#e11d48', color: 'white', border: 'none', padding: '0.65rem 1.25rem', borderRadius: '12px', fontSize: '0.85rem', fontWeight: '700', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem' }}
                   >
                     <Mail size={16} /> Mesaj Gönder
                   </button>
@@ -533,11 +572,11 @@ const ChatWindow = ({ user, chatId, otherName, onClose }) => {
       <div style={{ padding: '1.25rem', background: '#0f172a', borderRadius: '24px 24px 0 0', color: 'white', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
           <div>
-            <div style={{ fontSize: '0.9rem', fontWeight: '800' }}>{maskName(otherName)}</div>
+            <div style={{ fontSize: '0.85rem', fontWeight: '800' }}>{maskName(otherName)}</div>
             <div style={{ fontSize: '0.65rem', opacity: 0.7 }}>Kan Bağışı Yardımlaşma</div>
           </div>
         </div>
-        <div style={{ display: 'flex', gap: '0.5rem' }}>
+        <div style={{ display: 'flex', gap: '0.4rem' }}>
           <button onClick={clearChat} title="Sohbeti Temizle" style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', padding: '0.5rem' }}><Trash2 size={16} /></button>
           <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'white', cursor: 'pointer', padding: '0.5rem' }}><X size={20} /></button>
         </div>
@@ -562,7 +601,7 @@ const ChatWindow = ({ user, chatId, otherName, onClose }) => {
         ))}
       </div>
 
-      <form onSubmit={handleSend} style={{ padding: '1rem', borderTop: '1px solid #f1f5f9', display: 'flex', gap: '0.5rem' }}>
+      <form onSubmit={handleSend} style={{ padding: '1rem', borderTop: '1px solid #f1f5f9', display: 'flex', gap: '0.4rem' }}>
         <input
           value={inputText}
           onChange={e => setInputText(e.target.value)}
@@ -873,7 +912,7 @@ const KanTalepleri = ({ user }) => {
 
               {/* Üst: Aciliyet + Tarih */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.25rem', paddingLeft: '0.5rem' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
                   <span style={{
                     fontSize: '0.65rem',
                     fontWeight: '800',
@@ -1086,7 +1125,7 @@ const Login = ({ setUser, usersList }) => {
       <div className="animate-in" style={{ maxWidth: '440px', margin: '2rem auto' }}>
         <div className="card glass p-10">
           <h2 style={{ textAlign: 'center', marginBottom: '0.5rem', fontSize: '2rem', fontWeight: '800', color: '#0f172a' }}>Giriş Yap</h2>
-          <p style={{ textAlign: 'center', color: '#64748b', marginBottom: '2.5rem', fontSize: '0.9rem' }}>Hesabınıza erişmek için bilgilerinizi girin</p>
+          <p style={{ textAlign: 'center', color: '#64748b', marginBottom: '2.5rem', fontSize: '0.85rem' }}>Hesabınıza erişmek için bilgilerinizi girin</p>
 
           <form onSubmit={handle} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
             <div>
@@ -1121,7 +1160,7 @@ const Login = ({ setUser, usersList }) => {
             />
           </div>
 
-          <div style={{ textAlign: 'center', marginTop: '2rem', fontSize: '0.9rem', color: '#64748b' }}>
+          <div style={{ textAlign: 'center', marginTop: '2rem', fontSize: '0.85rem', color: '#64748b' }}>
             Hesabınız yok mu? <Link to="/register" style={{ color: '#e11d48', fontWeight: '600', textDecoration: 'none' }}>Kaydolun</Link>
           </div>
         </div>
@@ -1227,7 +1266,7 @@ const Register = ({ setUser, usersList, setUsersList }) => {
     <div className="animate-in" style={{ maxWidth: '800px', margin: '2rem auto' }}>
       <div className="card glass p-10" style={{ background: '#ffffff', borderRadius: '32px', boxShadow: '0 10px 40px rgba(0,0,0,0.04)', padding: '3rem', border: '1px solid rgba(0,0,0,0.03)' }}>
         <h2 style={{ textAlign: 'center', marginBottom: '0.5rem', fontSize: '2rem', fontWeight: '800', color: '#0f172a' }}>Yeni Kayıt</h2>
-        <p style={{ textAlign: 'center', color: '#64748b', marginBottom: '2.5rem', fontSize: '0.9rem' }}>Kan bağışçısı topluluğuna eksiksiz katılın</p>
+        <p style={{ textAlign: 'center', color: '#64748b', marginBottom: '2.5rem', fontSize: '0.85rem' }}>Kan bağışçısı topluluğuna eksiksiz katılın</p>
 
         <form onSubmit={handle} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
@@ -1330,7 +1369,7 @@ const Register = ({ setUser, usersList, setUsersList }) => {
           </div>
         </form>
 
-        <div style={{ textAlign: 'center', marginTop: '2rem', fontSize: '0.9rem', color: '#64748b' }}>
+        <div style={{ textAlign: 'center', marginTop: '2rem', fontSize: '0.85rem', color: '#64748b' }}>
           Zaten üye misiniz? <Link to="/login" style={{ color: '#e11d48', fontWeight: '600', textDecoration: 'none' }}>Giriş Yapın</Link>
         </div>
       </div>
@@ -1354,7 +1393,7 @@ const Register = ({ setUser, usersList, setUsersList }) => {
               </button>
             </div>
             
-            <div style={{ fontSize: '0.9rem', color: '#475569', lineHeight: '1.6', marginBottom: '1.5rem', borderTop: '1px solid #e2e8f0', paddingTop: '1rem' }}>
+            <div style={{ fontSize: '0.85rem', color: '#475569', lineHeight: '1.6', marginBottom: '1.5rem', borderTop: '1px solid #e2e8f0', paddingTop: '1rem' }}>
               <p>Bu aydınlatma metni, 6698 sayılı Kişisel Verilerin Korunması Kanunu ("KVKK") uyarınca, kişisel verilerinizin işlenmesine ilişkin usul ve esasları belirlemek amacıyla hazırlanmıştır.</p>
               <br />
               <h4 style={{ fontWeight: '600', color: '#1e293b' }}>1. Veri Sorumlusunun Kimliği</h4>
@@ -1410,7 +1449,7 @@ const VerifyEmail = () => {
     <div className="animate-in" style={{ maxWidth: '440px', margin: '4rem auto' }}>
       <div className="card glass p-10">
         <h2 style={{ textAlign: 'center', marginBottom: '0.5rem', fontSize: '1.8rem', fontWeight: '800', color: '#0f172a' }}>Mail Doğrulama</h2>
-        <p style={{ textAlign: 'center', color: '#64748b', marginBottom: '2rem', fontSize: '0.9rem' }}>Lütfen e-posta adresinize gönderilen 6 haneli doğrulama kodunu girin.</p>
+        <p style={{ textAlign: 'center', color: '#64748b', marginBottom: '2rem', fontSize: '0.85rem' }}>Lütfen e-posta adresinize gönderilen 6 haneli doğrulama kodunu girin.</p>
 
         <form onSubmit={handleVerify} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
           <div>
@@ -1428,255 +1467,12 @@ const VerifyEmail = () => {
   );
 };
 
-const UserManagement = ({ usersList, setUsersList }) => {
-  const totalUsers = usersList.length;
-  const adminCount = usersList.filter(u => u.role === 'Yönetici').length;
-  const donorCount = usersList.filter(u => u.role !== 'Yönetici').length;
-  const [editModal, setEditModal] = useState(null); // null veya düzenlenen user objesi
-
-  const handleDelete = async (id) => {
-    if (window.confirm('Bu kullanıcıyı silmek istediğinizden emin misiniz?')) {
-      try {
-        await axios.delete(`/Admin/users/${id}`);
-        setUsersList(prev => prev.filter(u => u.id !== id));
-        toast.success('Kullanıcı başarıyla silindi.');
-      } catch (error) {
-        toast.error('Kullanıcı silinirken bir hata oluştu.');
-      }
-    }
-  };
-
-  const handleEditSave = (e) => {
-    e.preventDefault();
-    const fd = new FormData(e.target);
-    setUsersList(prev => prev.map(u => u.id === editModal.id ? {
-      ...u,
-      name: fd.get('name'),
-      email: fd.get('email'),
-      phone: fd.get('phone'),
-      tc: fd.get('tc'),
-      bloodType: fd.get('bloodType'),
-      gender: fd.get('gender'),
-      district: fd.get('district'),
-      role: fd.get('role')
-    } : u));
-    toast.success('Kullanıcı bilgileri güncellendi.');
-    setEditModal(null);
-  };
-
-  return (
-    <div className="animate-in" style={{ padding: '0 0 4rem 0' }}>
-      {/* Top Stats Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem', marginBottom: '2rem' }}>
-        <div className="glass" style={{ background: '#ffffff', borderRadius: '24px', padding: '1.5rem', display: 'flex', alignItems: 'center', gap: '1.5rem', border: '1px solid rgba(0,0,0,0.03)', boxShadow: '0 10px 40px rgba(0,0,0,0.02)' }}>
-          <div style={{ width: '48px', height: '48px', borderRadius: '16px', background: 'rgba(59, 130, 246, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Users size={24} style={{ color: '#3b82f6' }} />
-          </div>
-          <div>
-            <div style={{ fontSize: '1.5rem', fontWeight: '800', color: '#0f172a', lineHeight: '1' }}>{totalUsers}</div>
-            <div style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: '500', marginTop: '0.25rem' }}>Toplam Kullanıcı</div>
-          </div>
-        </div>
-
-        <div className="glass" style={{ background: '#ffffff', borderRadius: '24px', padding: '1.5rem', display: 'flex', alignItems: 'center', gap: '1.5rem', border: '1px solid rgba(0,0,0,0.03)', boxShadow: '0 10px 40px rgba(0,0,0,0.02)' }}>
-          <div style={{ width: '48px', height: '48px', borderRadius: '16px', background: 'rgba(239, 68, 68, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Shield size={24} style={{ color: '#ef4444' }} />
-          </div>
-          <div>
-            <div style={{ fontSize: '1.5rem', fontWeight: '800', color: '#0f172a', lineHeight: '1' }}>{adminCount}</div>
-            <div style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: '500', marginTop: '0.25rem' }}>Yönetici</div>
-          </div>
-        </div>
-
-        <div className="glass" style={{ background: '#ffffff', borderRadius: '24px', padding: '1.5rem', display: 'flex', alignItems: 'center', gap: '1.5rem', border: '1px solid rgba(0,0,0,0.03)', boxShadow: '0 10px 40px rgba(0,0,0,0.02)' }}>
-          <div style={{ width: '48px', height: '48px', borderRadius: '16px', background: 'rgba(34, 197, 94, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <UserRound size={24} style={{ color: '#22c55e' }} />
-          </div>
-          <div>
-            <div style={{ fontSize: '1.5rem', fontWeight: '800', color: '#0f172a', lineHeight: '1' }}>{donorCount}</div>
-            <div style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: '500', marginTop: '0.25rem' }}>Bağışçı / Kullanıcı</div>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Table Card */}
-      <div className="glass" style={{ background: '#ffffff', borderRadius: '32px', border: '1px solid rgba(0,0,0,0.03)', boxShadow: '0 10px 40px rgba(0,0,0,0.02)', overflow: 'hidden' }}>
-
-        {/* Header */}
-        <div style={{ padding: '2rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <div style={{ width: '48px', height: '48px', borderRadius: '16px', background: '#e11d48', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Users size={24} style={{ color: '#ffffff' }} />
-          </div>
-          <div>
-            <h2 style={{ fontSize: '1.25rem', fontWeight: '800', color: '#0f172a', margin: 0 }}>Kayıtlı Kullanıcılar</h2>
-            <p style={{ color: '#64748b', fontSize: '0.85rem', margin: '0.25rem 0 0 0' }}>{totalUsers} kullanıcı gösteriliyor</p>
-          </div>
-        </div>
-
-        {/* Filters */}
-        <div style={{ padding: '0 2rem 1.5rem 2rem', display: 'flex', gap: '1rem' }}>
-          <div style={{ flex: 1, position: 'relative' }}>
-            <Search size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
-            <input type="text" placeholder="İsim, e-posta, TC No veya telefon ile ara..." style={{ width: '100%', padding: '0.875rem 1rem 0.875rem 2.75rem', borderRadius: '12px', border: '1px solid #e2e8f0', outline: 'none', fontSize: '0.9rem', color: '#0f172a' }} />
-          </div>
-          <select style={{ padding: '0.875rem 1rem', borderRadius: '12px', border: '1px solid #e2e8f0', outline: 'none', fontSize: '0.9rem', color: '#0f172a', background: '#ffffff', minWidth: '160px', cursor: 'pointer' }}>
-            <option>Tüm Kan Grupları</option>
-          </select>
-          <select style={{ padding: '0.875rem 1rem', borderRadius: '12px', border: '1px solid #e2e8f0', outline: 'none', fontSize: '0.9rem', color: '#0f172a', background: '#ffffff', minWidth: '140px', cursor: 'pointer' }}>
-            <option>Tüm Roller</option>
-          </select>
-        </div>
-
-        {/* Table Header */}
-        <div style={{ display: 'grid', gridTemplateColumns: '2fr 3fr 1fr 1fr 1fr 1.5fr 1fr', padding: '1rem 2rem', background: '#f8fafc', borderTop: '1px solid #f1f5f9', borderBottom: '1px solid #f1f5f9', fontSize: '0.75rem', fontWeight: '700', color: '#64748b', letterSpacing: '0.05em' }}>
-          <div>KULLANICI</div>
-          <div>İLETİŞİM</div>
-          <div>KAN GRUBU</div>
-          <div>İLÇE</div>
-          <div>CİNSİYET</div>
-          <div>ROL</div>
-          <div>İŞLEMLER</div>
-        </div>
-
-        {/* Table Body */}
-        <div>
-          {usersList.map((u, idx) => (
-            <div key={u.id} style={{ display: 'grid', gridTemplateColumns: '2fr 3fr 1fr 1fr 1fr 1.5fr 1fr', padding: '1.5rem 2rem', alignItems: 'center', borderBottom: idx !== usersList.length - 1 ? '1px solid #f1f5f9' : 'none', transition: 'background 0.2s' }} onMouseOver={e => e.currentTarget.style.background = '#f8fafc'} onMouseOut={e => e.currentTarget.style.background = 'transparent'}>
-              {/* Kullanıcı */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem', fontWeight: '700', color: '#475569' }}>
-                  {u.name.charAt(0)}
-                </div>
-                <div style={{ fontWeight: '700', color: '#0f172a', fontSize: '0.95rem' }}>{u.name}</div>
-              </div>
-
-              {/* İletişim */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#64748b', fontSize: '0.85rem' }}>
-                  <Mail size={14} /> {u.email}
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#64748b', fontSize: '0.85rem' }}>
-                  <Phone size={14} /> {u.phone}
-                </div>
-                <div style={{ fontSize: '0.8rem', color: '#94a3b8' }}>TC: {u.tc}</div>
-              </div>
-
-              {/* Kan Grubu */}
-              <div>
-                <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '0.4rem 0.8rem', background: 'rgba(225, 29, 72, 0.1)', color: '#e11d48', borderRadius: '8px', fontWeight: '800', fontSize: '0.9rem' }}>
-                  {u.bloodType}
-                </span>
-              </div>
-
-              {/* İlçe */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#475569', fontSize: '0.9rem' }}>
-                <MapPin size={14} style={{ color: '#94a3b8' }} /> {u.district}
-              </div>
-
-              {/* Cinsiyet */}
-              <div style={{ color: '#475569', fontSize: '0.9rem' }}>{u.gender}</div>
-
-              {/* Rol */}
-              <div>
-                {u.role === 'Yönetici' ? (
-                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', padding: '0.4rem 1rem', background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', borderRadius: '20px', fontSize: '0.85rem', fontWeight: '700' }}>
-                    <Shield size={14} /> Yönetici
-                  </span>
-                ) : (
-                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', padding: '0.4rem 1rem', background: 'rgba(59, 130, 246, 0.1)', color: '#3b82f6', borderRadius: '20px', fontSize: '0.85rem', fontWeight: '700' }}>
-                    <User size={14} /> Kullanıcı
-                  </span>
-                )}
-              </div>
-              {/* İşlemler */}
-              <div style={{ display: 'flex', gap: '0.5rem' }}>
-                <button onClick={() => setEditModal(u)} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', padding: '0.4rem 0.75rem', background: 'rgba(59,130,246,0.08)', color: '#3b82f6', border: 'none', borderRadius: '8px', fontSize: '0.8rem', fontWeight: '700', cursor: 'pointer' }}>
-                  Düzenle
-                </button>
-                {u.role !== 'Yönetici' && (
-                  <button onClick={() => handleDelete(u.id)} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', padding: '0.4rem 0.75rem', background: 'rgba(239,68,68,0.08)', color: '#ef4444', border: 'none', borderRadius: '8px', fontSize: '0.8rem', fontWeight: '700', cursor: 'pointer' }}>
-                    Sil
-                  </button>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Düzenleme Modalı */}
-      {editModal && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }} onClick={() => setEditModal(null)}>
-          <div style={{ background: '#ffffff', borderRadius: '24px', padding: '2.5rem', width: '100%', maxWidth: '580px', boxShadow: '0 25px 60px rgba(0,0,0,0.15)', maxHeight: '90vh', overflowY: 'auto' }} onClick={e => e.stopPropagation()}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2rem' }}>
-              <h3 style={{ fontSize: '1.25rem', fontWeight: '800', color: '#0f172a', margin: 0 }}>Kullanıcı Düzenle</h3>
-              <button onClick={() => setEditModal(null)} style={{ background: '#f1f5f9', border: 'none', borderRadius: '8px', width: '36px', height: '36px', cursor: 'pointer', fontSize: '1.1rem' }}>✕</button>
-            </div>
-            <form onSubmit={handleEditSave} style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-                <div>
-                  <label style={{ fontSize: '0.8rem', fontWeight: '700', color: '#475569', display: 'block', marginBottom: '0.4rem' }}>Ad Soyad</label>
-                  <input name="name" defaultValue={editModal.name} required style={{ background: '#f8fafc', border: '1px solid #e2e8f0', padding: '0.75rem', borderRadius: '10px', width: '100%' }} />
-                </div>
-                <div>
-                  <label style={{ fontSize: '0.8rem', fontWeight: '700', color: '#475569', display: 'block', marginBottom: '0.4rem' }}>T.C. Kimlik No</label>
-                  <input name="tc" defaultValue={editModal.tc} style={{ background: '#f8fafc', border: '1px solid #e2e8f0', padding: '0.75rem', borderRadius: '10px', width: '100%' }} />
-                </div>
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-                <div>
-                  <label style={{ fontSize: '0.8rem', fontWeight: '700', color: '#475569', display: 'block', marginBottom: '0.4rem' }}>E-posta</label>
-                  <input name="email" type="email" defaultValue={editModal.email} required style={{ background: '#f8fafc', border: '1px solid #e2e8f0', padding: '0.75rem', borderRadius: '10px', width: '100%' }} />
-                </div>
-                <div>
-                  <label style={{ fontSize: '0.8rem', fontWeight: '700', color: '#475569', display: 'block', marginBottom: '0.4rem' }}>Telefon</label>
-                  <input name="phone" defaultValue={editModal.phone} style={{ background: '#f8fafc', border: '1px solid #e2e8f0', padding: '0.75rem', borderRadius: '10px', width: '100%' }} />
-                </div>
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-                <div>
-                  <label style={{ fontSize: '0.8rem', fontWeight: '700', color: '#475569', display: 'block', marginBottom: '0.4rem' }}>Kan Grubu</label>
-                  <select name="bloodType" defaultValue={editModal.bloodType} style={{ background: '#f8fafc', border: '1px solid #e2e8f0', padding: '0.75rem', borderRadius: '10px', width: '100%' }}>
-                    {['0+', '0-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-'].map(b => <option key={b}>{b}</option>)}
-                  </select>
-                </div>
-                <div>
-                  <label style={{ fontSize: '0.8rem', fontWeight: '700', color: '#475569', display: 'block', marginBottom: '0.4rem' }}>Cinsiyet</label>
-                  <select name="gender" defaultValue={editModal.gender} style={{ background: '#f8fafc', border: '1px solid #e2e8f0', padding: '0.75rem', borderRadius: '10px', width: '100%' }}>
-                    <option>Erkek</option><option>Kadın</option><option>Belirtmek İstemiyorum</option>
-                  </select>
-                </div>
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-                <div>
-                  <label style={{ fontSize: '0.8rem', fontWeight: '700', color: '#475569', display: 'block', marginBottom: '0.4rem' }}>İlçe</label>
-                  <select name="district" defaultValue={editModal.district} style={{ background: '#f8fafc', border: '1px solid #e2e8f0', padding: '0.75rem', borderRadius: '10px', width: '100%' }}>
-                    {['Adalar', 'Arnavutköy', 'Ataşehir', 'Avcılar', 'Bağcılar', 'Bahçelievler', 'Bakırköy', 'Başakşehir', 'Bayrampaşa', 'Beşiktaş', 'Beykoz', 'Beylikdüzü', 'Beyoğlu', 'Büyükçekmece', 'Çatalca', 'Çekmeköy', 'Esenler', 'Esenyurt', 'Eyüpsultan', 'Fatih', 'Gaziosmanpaşa', 'Güngören', 'Kadıköy', 'Kağıthane', 'Kartal', 'Küçükçekmece', 'Maltepe', 'Pendik', 'Sancaktepe', 'Sarıyer', 'Silivri', 'Sultanbeyli', 'Sultangazi', 'Şile', 'Şişli', 'Tuzla', 'Ümraniye', 'Üsküdar', 'Zeytinburnu'].map(i => <option key={i}>{i}</option>)}
-                  </select>
-                </div>
-                <div>
-                  <label style={{ fontSize: '0.8rem', fontWeight: '700', color: '#475569', display: 'block', marginBottom: '0.4rem' }}>Rol</label>
-                  <select name="role" defaultValue={editModal.role} style={{ background: '#f8fafc', border: '1px solid #e2e8f0', padding: '0.75rem', borderRadius: '10px', width: '100%' }}>
-                    <option>Kullanıcı</option><option>Yönetici</option>
-                  </select>
-                </div>
-              </div>
-              <div style={{ display: 'flex', gap: '1rem', justifyContent: 'flex-end', marginTop: '0.5rem' }}>
-                <button type="button" onClick={() => setEditModal(null)} style={{ padding: '0.75rem 1.5rem', borderRadius: '10px', border: '1px solid #e2e8f0', background: '#f8fafc', color: '#475569', fontWeight: '700', cursor: 'pointer' }}>İptal</button>
-                <button type="submit" style={{ padding: '0.75rem 1.5rem', borderRadius: '10px', border: 'none', background: '#e11d48', color: 'white', fontWeight: '700', cursor: 'pointer' }}>Kaydet</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-    </div>
-  )
-}
 
 const Dashboard = ({ user, usersList, setUsersList }) => {
   const [alerts, setAlerts] = useState(() => {
     try { return JSON.parse(localStorage.getItem('stockAlerts') || '[]'); } catch { return []; }
   });
+  const [activeAdminTab, setActiveAdminTab] = useState('overview');
 
   const currentUserData = usersList.find(u => u.email === user?.email) || user;
 
@@ -1727,8 +1523,60 @@ const Dashboard = ({ user, usersList, setUsersList }) => {
 
   return (
     <div className="animate-in">
-      {user.role === 'Admin' ? (
-        <UserManagement usersList={usersList} setUsersList={setUsersList} />
+      {user.role === 'Admin' || user.role === 'Yönetici' ? (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+          
+          {/* Admin Navigation Tabs */}
+          <div style={{ display: 'flex', gap: '0.4rem', background: '#ffffff', padding: '0.75rem', borderRadius: '24px', flexWrap: 'wrap', justifyContent: 'center', border: '1px solid rgba(0,0,0,0.03)', boxShadow: '0 10px 40px rgba(0,0,0,0.02)', overflowX: 'auto' }}>
+            <button 
+              onClick={() => setActiveAdminTab('overview')} 
+              style={{ padding: '0.75rem 1rem', borderRadius: '16px', border: 'none', background: activeAdminTab === 'overview' ? '#e11d48' : 'transparent', color: activeAdminTab === 'overview' ? '#ffffff' : '#475569', fontWeight: '700', fontSize: '0.85rem', cursor: 'pointer', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '0.4rem', whiteSpace: 'nowrap' }}>
+              <LayoutDashboard size={18} /> Sistem Özeti
+            </button>
+            <button 
+              onClick={() => setActiveAdminTab('users')} 
+              style={{ padding: '0.75rem 1rem', borderRadius: '16px', border: 'none', background: activeAdminTab === 'users' ? '#e11d48' : 'transparent', color: activeAdminTab === 'users' ? '#ffffff' : '#475569', fontWeight: '700', fontSize: '0.85rem', cursor: 'pointer', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '0.4rem', whiteSpace: 'nowrap' }}>
+              <Users size={18} /> Kullanıcı Yönetimi
+            </button>
+            <button 
+              onClick={() => setActiveAdminTab('logs')} 
+              style={{ padding: '0.75rem 1rem', borderRadius: '16px', border: 'none', background: activeAdminTab === 'logs' ? '#e11d48' : 'transparent', color: activeAdminTab === 'logs' ? '#ffffff' : '#475569', fontWeight: '700', fontSize: '0.85rem', cursor: 'pointer', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '0.4rem', whiteSpace: 'nowrap' }}>
+              <Activity size={18} /> Sistem Logları
+            </button>
+            <button 
+              onClick={() => setActiveAdminTab('approvals')} 
+              style={{ padding: '0.75rem 1rem', borderRadius: '16px', border: 'none', background: activeAdminTab === 'approvals' ? '#e11d48' : 'transparent', color: activeAdminTab === 'approvals' ? '#ffffff' : '#475569', fontWeight: '700', fontSize: '0.85rem', cursor: 'pointer', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '0.4rem', whiteSpace: 'nowrap' }}>
+              <CheckCircle size={18} /> Onay Merkezi
+            </button>
+            <button 
+              onClick={() => setActiveAdminTab('logistics')} 
+              style={{ padding: '0.75rem 1rem', borderRadius: '16px', border: 'none', background: activeAdminTab === 'logistics' ? '#e11d48' : 'transparent', color: activeAdminTab === 'logistics' ? '#ffffff' : '#475569', fontWeight: '700', fontSize: '0.85rem', cursor: 'pointer', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '0.4rem', whiteSpace: 'nowrap' }}>
+              <Truck size={18} /> Lojistik
+            </button>
+            <button 
+              onClick={() => setActiveAdminTab('security')} 
+              style={{ padding: '0.75rem 1rem', borderRadius: '16px', border: 'none', background: activeAdminTab === 'security' ? '#e11d48' : 'transparent', color: activeAdminTab === 'security' ? '#ffffff' : '#475569', fontWeight: '700', fontSize: '0.85rem', cursor: 'pointer', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '0.4rem', whiteSpace: 'nowrap' }}>
+              <Shield size={18} /> Güvenlik Paneli
+            </button>
+            <button 
+              onClick={() => setActiveAdminTab('livetracking')} 
+              style={{ padding: '0.75rem 1rem', borderRadius: '16px', border: 'none', background: activeAdminTab === 'livetracking' ? '#e11d48' : 'transparent', color: activeAdminTab === 'livetracking' ? '#ffffff' : '#475569', fontWeight: '700', fontSize: '0.85rem', cursor: 'pointer', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '0.4rem', whiteSpace: 'nowrap' }}>
+              <MapPin size={18} /> Canlı Takip & Harita
+            </button>
+          </div>
+
+          {/* Render Active Tab */}
+          <div className="animate-in">
+            {activeAdminTab === 'overview' && <AdminDashboardOverview />}
+            {activeAdminTab === 'users' && <UserManagement usersList={usersList} setUsersList={setUsersList} />}
+            {activeAdminTab === 'logs' && <AuditLogs />}
+            {activeAdminTab === 'approvals' && <RequestApprovals />}
+            {activeAdminTab === 'logistics' && <Logistics />}
+            {activeAdminTab === 'security' && <SecurityPanel />}
+            {activeAdminTab === 'livetracking' && <LiveTracking />}
+          </div>
+
+        </div>
       ) : (
         <>
           {/* Header Card */}
@@ -1877,7 +1725,7 @@ const BloodRequestCreate = ({ user }) => {
         </div>
         <div>
           <h3 style={{ fontSize: '1.4rem', fontWeight: '800', color: '#0f172a', margin: 0 }}>Acil Kan Talebi Oluştur</h3>
-          <p style={{ color: '#64748b', fontSize: '0.9rem', margin: '0.2rem 0 0 0' }}>İhtiyaç anında diğer bağışçılardan yardım isteyin</p>
+          <p style={{ color: '#64748b', fontSize: '0.85rem', margin: '0.2rem 0 0 0' }}>İhtiyaç anında diğer bağışçılardan yardım isteyin</p>
         </div>
       </div>
 
@@ -1951,7 +1799,7 @@ const StockHeatmap = ({ stockData, onDistrictSelect }) => {
     <div className="glass" style={{ background: '#ffffff', borderRadius: '24px', padding: '1.5rem', boxShadow: '0 4px 24px rgba(0,0,0,0.04)', border: '1px solid #f1f5f9' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '1rem' }}>
         <div>
-          <h2 style={{ fontSize: '1.3rem', fontWeight: '800', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '0.5rem', margin: 0 }}>
+          <h2 style={{ fontSize: '1.3rem', fontWeight: '800', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '0.4rem', margin: 0 }}>
             <MapPin size={24} style={{ color: '#e11d48' }} />
             İstanbul Kan İhtiyaç Isı Haritası
           </h2>
@@ -2023,7 +1871,7 @@ const BloodStockFilter = ({ stockData }) => {
     <div className="glass" style={{ background: '#ffffff', borderRadius: '24px', padding: '1.5rem', boxShadow: '0 4px 24px rgba(0,0,0,0.04)', border: '1px solid #f1f5f9' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
         <div>
-          <h3 style={{ fontSize: '1.15rem', fontWeight: '800', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '0.5rem', margin: 0 }}>
+          <h3 style={{ fontSize: '1.15rem', fontWeight: '800', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '0.4rem', margin: 0 }}>
             <Filter size={20} style={{ color: '#2563eb' }} />
             Kan Grubu Bazlı Filtre
           </h3>
@@ -2040,11 +1888,11 @@ const BloodStockFilter = ({ stockData }) => {
           <h4 style={{ fontSize: '0.85rem', fontWeight: '800', color: '#16a34a', textTransform: 'uppercase', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
             <TrendingUp size={16} /> En Fazla Stok
           </h4>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
             {topDistricts.length > 0 ? topDistricts.map((d, i) => (
               <div key={d.ilce} style={{ display: 'flex', justifyContent: 'space-between', background: '#ffffff', padding: '0.75rem 1rem', borderRadius: '12px', border: '1px solid #dcfce7' }}>
-                <span style={{ fontWeight: '700', color: '#0f172a', fontSize: '0.9rem' }}>{i + 1}. {d.ilce}</span>
-                <span style={{ fontWeight: '800', color: '#16a34a', fontSize: '0.9rem' }}>{d.count} Ünite</span>
+                <span style={{ fontWeight: '700', color: '#0f172a', fontSize: '0.85rem' }}>{i + 1}. {d.ilce}</span>
+                <span style={{ fontWeight: '800', color: '#16a34a', fontSize: '0.85rem' }}>{d.count} Ünite</span>
               </div>
             )) : <div style={{ fontSize: '0.85rem', color: '#16a34a', fontStyle: 'italic' }}>Kayıtlı stok yok</div>}
           </div>
@@ -2054,11 +1902,11 @@ const BloodStockFilter = ({ stockData }) => {
           <h4 style={{ fontSize: '0.85rem', fontWeight: '800', color: '#e11d48', textTransform: 'uppercase', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
             <TrendingDown size={16} /> En Az Stok (Acil)
           </h4>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
             {bottomDistricts.map((d, i) => (
               <div key={d.ilce} style={{ display: 'flex', justifyContent: 'space-between', background: '#ffffff', padding: '0.75rem 1rem', borderRadius: '12px', border: '1px solid #ffe4e6' }}>
-                <span style={{ fontWeight: '700', color: '#0f172a', fontSize: '0.9rem' }}>{i + 1}. {d.ilce}</span>
-                <span style={{ fontWeight: '800', color: '#e11d48', fontSize: '0.9rem' }}>{d.count} Ünite</span>
+                <span style={{ fontWeight: '700', color: '#0f172a', fontSize: '0.85rem' }}>{i + 1}. {d.ilce}</span>
+                <span style={{ fontWeight: '800', color: '#e11d48', fontSize: '0.85rem' }}>{d.count} Ünite</span>
               </div>
             ))}
           </div>
@@ -2217,7 +2065,7 @@ const LogisticsDashboard = () => {
               </div>
               <h1 style={{ fontSize: '1.75rem', fontWeight: '900', margin: 0 }}>Lojistik Merkezi</h1>
             </div>
-            <p style={{ margin: 0, opacity: 0.8, fontSize: '0.9rem' }}>Hastaneler arası kan transferi planlama ve onay sistemi</p>
+            <p style={{ margin: 0, opacity: 0.8, fontSize: '0.85rem' }}>Hastaneler arası kan transferi planlama ve onay sistemi</p>
             <div style={{ display: 'flex', gap: '1.5rem', marginTop: '1rem', flexWrap: 'wrap' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.82rem', opacity: 0.85 }}>
                 <AlertTriangle size={14} /> Kritik Eşik: &lt;{CRITICAL_THRESHOLD} Ünite
@@ -2230,7 +2078,7 @@ const LogisticsDashboard = () => {
               </div>
             </div>
           </div>
-          <button onClick={handleRefresh} style={{ background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.25)', borderRadius: '12px', color: 'white', padding: '0.75rem 1.25rem', fontWeight: '700', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.88rem', transition: 'background 0.2s' }}
+          <button onClick={handleRefresh} style={{ background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.25)', borderRadius: '12px', color: 'white', padding: '0.75rem 1.25rem', fontWeight: '700', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.88rem', transition: 'background 0.2s' }}
             onMouseOver={e => e.currentTarget.style.background = 'rgba(255,255,255,0.25)'}
             onMouseOut={e => e.currentTarget.style.background = 'rgba(255,255,255,0.15)'}>
             <RefreshCw size={16} /> Yenile
@@ -2256,7 +2104,7 @@ const LogisticsDashboard = () => {
 
       {/* Transfer suggestions */}
       <div style={{ background: '#ffffff', borderRadius: '24px', padding: '1.75rem', boxShadow: '0 4px 24px rgba(0,0,0,0.04)', border: '1px solid #f1f5f9' }}>
-        <h2 style={{ fontSize: '1.2rem', fontWeight: '800', color: '#0f172a', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+        <h2 style={{ fontSize: '1.2rem', fontWeight: '800', color: '#0f172a', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
           <AlertTriangle size={20} style={{ color: '#f59e0b' }} /> Otomatik Transfer Önerileri
         </h2>
 
@@ -2301,7 +2149,7 @@ const LogisticsDashboard = () => {
                 </div>
 
                 {/* Aksiyonlar */}
-                <div style={{ display: 'flex', gap: '0.5rem', flexShrink: 0 }}>
+                <div style={{ display: 'flex', gap: '0.4rem', flexShrink: 0 }}>
                   <button onClick={() => handleDismiss(s.id)} style={{ background: 'transparent', border: '1px solid #e2e8f0', borderRadius: '10px', padding: '0.6rem 1rem', fontWeight: '700', fontSize: '0.82rem', cursor: 'pointer', color: '#64748b', transition: 'all 0.2s' }}
                     onMouseOver={e => { e.currentTarget.style.background = '#f1f5f9'; }}
                     onMouseOut={e => { e.currentTarget.style.background = 'transparent'; }}>
@@ -2322,12 +2170,12 @@ const LogisticsDashboard = () => {
       {/* Completed Transfers Log */}
       {completedTransfers.length > 0 && (
         <div style={{ background: '#ffffff', borderRadius: '24px', padding: '1.75rem', boxShadow: '0 4px 24px rgba(0,0,0,0.04)', border: '1px solid #f1f5f9' }}>
-          <h2 style={{ fontSize: '1.2rem', fontWeight: '800', color: '#0f172a', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <h2 style={{ fontSize: '1.2rem', fontWeight: '800', color: '#0f172a', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
             <CheckCircle size={20} style={{ color: '#16a34a' }} /> Tamamlanan Transferler
           </h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
             {completedTransfers.map((t, i) => (
-              <div key={t.id || i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#f8fafc', borderRadius: '12px', padding: '0.85rem 1.25rem', border: '1px solid #e2e8f0', flexWrap: 'wrap', gap: '0.5rem' }}>
+              <div key={t.id || i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#f8fafc', borderRadius: '12px', padding: '0.85rem 1.25rem', border: '1px solid #e2e8f0', flexWrap: 'wrap', gap: '0.4rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                   <span style={{ background: '#e11d48', color: 'white', borderRadius: '8px', padding: '0.2rem 0.6rem', fontWeight: '900', fontSize: '0.85rem' }}>{t.kg}</span>
                   <span style={{ fontWeight: '700', fontSize: '0.88rem', color: '#0f172a' }}>{t.sender} → {t.receiver}</span>
@@ -2486,7 +2334,7 @@ const AdminDashboard = ({ user, usersList, setUsersList }) => {
   };
 
   const labelStyle = { fontSize: '0.8rem', fontWeight: '700', color: '#475569', display: 'block', marginBottom: '0.4rem' };
-  const inputStyle = { background: '#f8fafc', border: '1px solid #e2e8f0', padding: '0.75rem 1rem', borderRadius: '10px', width: '100%', fontSize: '0.9rem', outline: 'none', color: '#0f172a' };
+  const inputStyle = { background: '#f8fafc', border: '1px solid #e2e8f0', padding: '0.75rem 1rem', borderRadius: '10px', width: '100%', fontSize: '0.85rem', outline: 'none', color: '#0f172a' };
 
   return (
     <div className="animate-in" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', paddingBottom: '4rem' }}>
@@ -2499,7 +2347,7 @@ const AdminDashboard = ({ user, usersList, setUsersList }) => {
           </div>
           <div>
             <h2 style={{ fontSize: '1.5rem', fontWeight: '800', color: '#0f172a', margin: 0 }}>{getHastane(selectedIlce)}</h2>
-            <p style={{ fontSize: '0.9rem', color: '#64748b', margin: '0.2rem 0 0 0' }}>{selectedIlce} Bölge Stok Yönetimi</p>
+            <p style={{ fontSize: '0.85rem', color: '#64748b', margin: '0.2rem 0 0 0' }}>{selectedIlce} Bölge Stok Yönetimi</p>
           </div>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
@@ -2512,7 +2360,7 @@ const AdminDashboard = ({ user, usersList, setUsersList }) => {
 
       {/* ── 1. GÜNCEL KAN STOKLARI (Tam Genişlik) ── */}
       <div style={{ background: '#ffffff', borderRadius: '24px', padding: '2rem', boxShadow: '0 4px 24px rgba(0,0,0,0.04)', border: '1px solid #f1f5f9' }}>
-        <h3 style={{ fontSize: '1.15rem', fontWeight: '800', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem', margin: 0 }}>
+        <h3 style={{ fontSize: '1.15rem', fontWeight: '800', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '1.5rem', margin: 0 }}>
           <Droplets size={20} style={{ color: '#e11d48' }} />
           Güncel Kan Stokları
         </h3>
@@ -2596,7 +2444,7 @@ const AdminDashboard = ({ user, usersList, setUsersList }) => {
         <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '1.5rem' }}>
           <button
             onClick={saveStock}
-            style={{ background: '#e11d48', color: 'white', border: 'none', borderRadius: '12px', padding: '0.75rem 2rem', fontSize: '0.9rem', fontWeight: '800', cursor: 'pointer', boxShadow: '0 4px 14px rgba(225,29,72,0.2)' }}
+            style={{ background: '#e11d48', color: 'white', border: 'none', borderRadius: '12px', padding: '0.75rem 2rem', fontSize: '0.85rem', fontWeight: '800', cursor: 'pointer', boxShadow: '0 4px 14px rgba(225,29,72,0.2)' }}
           >
             Değişiklikleri Kaydet
           </button>
@@ -2623,7 +2471,7 @@ const AdminDashboard = ({ user, usersList, setUsersList }) => {
 
           {/* Yeni Form - Kan Bağışı */}
           <div style={{ background: '#ffffff', borderRadius: '24px', padding: '2rem', boxShadow: '0 4px 24px rgba(0,0,0,0.04)', border: '1px solid #f1f5f9' }}>
-            <h3 style={{ fontSize: '1.15rem', fontWeight: '800', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem', margin: 0 }}>
+            <h3 style={{ fontSize: '1.15rem', fontWeight: '800', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '1.5rem', margin: 0 }}>
               <UserRound size={20} style={{ color: '#2563eb' }} />
               Yeni Form - Kan Bağışı
             </h3>
@@ -2650,7 +2498,7 @@ const AdminDashboard = ({ user, usersList, setUsersList }) => {
 
           {/* Stok Azaldı Bildirimi */}
           <div style={{ background: '#fff1f2', borderRadius: '24px', padding: '2rem', border: '1px solid #ffe4e6' }}>
-            <h3 style={{ fontSize: '1.15rem', fontWeight: '800', color: '#be123c', display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem', margin: 0 }}>
+            <h3 style={{ fontSize: '1.15rem', fontWeight: '800', color: '#be123c', display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.5rem', margin: 0 }}>
               <Activity size={20} style={{ color: '#be123c' }} />
               Stok Azaldı Bildirimi
             </h3>
@@ -2686,145 +2534,6 @@ const AdminDashboard = ({ user, usersList, setUsersList }) => {
         </div>
       </div>
 
-    </div>
-  )
-}
-
-const Profile = ({ user, setUser, usersList, setUsersList }) => {
-  const [loading, setLoading] = useState(false);
-
-  if (!user) return (
-    <div className="animate-in" style={{ textAlign: 'center', padding: '10rem 0' }}>
-      <p style={{ color: '#64748b', fontSize: '1.1rem' }}>Devam etmek için giriş yapmalısınız.</p>
-      <Link to="/login" className="btn btn-primary" style={{ marginTop: '1rem' }}>Giriş Yap</Link>
-    </div>
-  )
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setLoading(true);
-
-    // API simülasyonu
-    setTimeout(() => {
-      const formData = new FormData(e.target);
-      const updatedUser = {
-        ...user,
-        fullName: formData.get('fullName'),
-        tc: formData.get('tcKimlik'),
-        phone: formData.get('phone'),
-        gender: formData.get('gender'),
-        bloodType: formData.get('bloodType'),
-        title: formData.get('title'),
-        email: formData.get('email'),
-        district: formData.get('district')
-      };
-
-      setUser(updatedUser);
-
-      if (usersList && setUsersList) {
-        setUsersList(prev => prev.map(u => u.email === user.email ? {
-          ...u,
-          name: updatedUser.fullName,
-          tc: updatedUser.tc,
-          phone: updatedUser.phone,
-          gender: updatedUser.gender,
-          bloodType: updatedUser.bloodType,
-          email: updatedUser.email,
-          district: updatedUser.district
-        } : u));
-      }
-
-      // Oturumdan bağımsız kalıcı profil kaydı - logout'tan etkilenmez
-      localStorage.setItem(`profile_${updatedUser.email}`, JSON.stringify(updatedUser));
-      localStorage.setItem('user', JSON.stringify(updatedUser));
-      toast.success('Profil bilgileriniz başarıyla güncellendi.');
-      setLoading(false);
-    }, 600);
-  };
-
-  return (
-    <div className="animate-in" style={{ maxWidth: '800px', margin: '0 auto' }}>
-      <div className="card glass" style={{ background: '#ffffff', borderRadius: '32px', boxShadow: '0 10px 40px rgba(0,0,0,0.04)', padding: '3rem', border: '1px solid rgba(0,0,0,0.03)' }}>
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', marginBottom: '2.5rem' }}>
-          <div style={{ background: '#fff1f2', width: '64px', height: '64px', borderRadius: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Settings size={32} style={{ color: '#e11d48' }} />
-          </div>
-          <div>
-            <h2 style={{ fontSize: '1.85rem', fontWeight: '800', color: '#0f172a', marginBottom: '0.25rem' }}>Profil Bilgileri</h2>
-            <p style={{ color: '#64748b', fontSize: '1rem' }}>Bağış ve başvuru süreçleri için bilgilerinizi eksiksiz doldurun.</p>
-          </div>
-        </div>
-
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
-            <div>
-              <label style={{ fontSize: '0.85rem', fontWeight: '700', color: '#1e293b', display: 'block', marginBottom: '0.5rem' }}>Ad Soyad</label>
-              <input type="text" name="fullName" defaultValue={user.fullName} required style={{ background: '#ffffff', border: '1px solid #e2e8f0', padding: '0.875rem 1rem', borderRadius: '12px', width: '100%' }} />
-            </div>
-            <div>
-              <label style={{ fontSize: '0.85rem', fontWeight: '700', color: '#1e293b', display: 'block', marginBottom: '0.5rem' }}>T.C. Kimlik Numarası</label>
-              <input type="text" name="tcKimlik" defaultValue={user.tc || ''} style={{ background: '#ffffff', border: '1px solid #e2e8f0', padding: '0.875rem 1rem', borderRadius: '12px', width: '100%' }} />
-            </div>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
-            <div>
-              <label style={{ fontSize: '0.85rem', fontWeight: '700', color: '#1e293b', display: 'block', marginBottom: '0.5rem' }}>Telefon Numarası</label>
-              <input type="text" name="phone" defaultValue={user.phone || ''} style={{ background: '#ffffff', border: '1px solid #e2e8f0', padding: '0.875rem 1rem', borderRadius: '12px', width: '100%' }} />
-            </div>
-            <div>
-              <label style={{ fontSize: '0.85rem', fontWeight: '700', color: '#1e293b', display: 'block', marginBottom: '0.5rem' }}>Cinsiyet</label>
-              <select name="gender" defaultValue={user.gender || 'Erkek'} style={{ background: '#ffffff', border: '1px solid #e2e8f0', padding: '0.875rem 1rem', borderRadius: '12px', width: '100%' }}>
-                <option>Erkek</option>
-                <option>Kadın</option>
-                <option>Belirtmek İstemiyorum</option>
-              </select>
-            </div>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
-            <div>
-              <label style={{ fontSize: '0.85rem', fontWeight: '700', color: '#1e293b', display: 'block', marginBottom: '0.5rem' }}>Kan Grubu</label>
-              <select name="bloodType" defaultValue={user.bloodType || ''} style={{ background: '#ffffff', border: '1px solid #e2e8f0', padding: '0.875rem 1rem', borderRadius: '12px', width: '100%' }}>
-                <option>0+</option>
-                <option>0-</option>
-                <option>A+</option>
-                <option>A-</option>
-                <option>B+</option>
-                <option>B-</option>
-                <option>AB+</option>
-                <option>AB-</option>
-              </select>
-            </div>
-            <div>
-              <label style={{ fontSize: '0.85rem', fontWeight: '700', color: '#1e293b', display: 'block', marginBottom: '0.5rem' }}>Görev / Unvan</label>
-              <input type="text" name="title" defaultValue={user.title || (user.role === 'Admin' ? 'Yönetici' : '')} placeholder="Örn: Hemşire, Doktor, Laborant" style={{ background: '#ffffff', border: '1px solid #e2e8f0', padding: '0.875rem 1rem', borderRadius: '12px', width: '100%' }} />
-            </div>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
-            <div>
-              <label style={{ fontSize: '0.85rem', fontWeight: '700', color: '#1e293b', display: 'block', marginBottom: '0.5rem' }}>E-posta Adresi</label>
-              <input type="email" name="email" defaultValue={user.email || ''} required style={{ background: '#ffffff', border: '1px solid #e2e8f0', padding: '0.875rem 1rem', borderRadius: '12px', width: '100%' }} />
-            </div>
-            <div>
-              <label style={{ fontSize: '0.85rem', fontWeight: '700', color: '#1e293b', display: 'block', marginBottom: '0.5rem' }}>İlçe</label>
-              <select name="district" defaultValue={user.district || ''} style={{ background: '#ffffff', border: '1px solid #e2e8f0', padding: '0.875rem 1rem', borderRadius: '12px', width: '100%' }}>
-                {['Adalar', 'Arnavutköy', 'Ataşehir', 'Avcılar', 'Bağcılar', 'Bahçelievler', 'Bakırköy', 'Başakşehir', 'Bayrampaşa', 'Beşiktaş', 'Beykoz', 'Beylikdüzü', 'Beyoğlu', 'Büyükçekmece', 'Çatalca', 'Çekmeköy', 'Esenler', 'Esenyurt', 'Eyüpsultan', 'Fatih', 'Gaziosmanpaşa', 'Güngören', 'Kadıköy', 'Kağıthane', 'Kartal', 'Küçükçekmece', 'Maltepe', 'Pendik', 'Sancaktepe', 'Sarıyer', 'Silivri', 'Sultanbeyli', 'Sultangazi', 'Şile', 'Şişli', 'Tuzla', 'Ümraniye', 'Üsküdar', 'Zeytinburnu'].map(ilce => (
-                  <option key={ilce} value={ilce}>{ilce}</option>
-                ))}
-              </select>
-            </div>
-          </div>
-
-          <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '1rem' }}>
-            <button type="submit" disabled={loading} className="btn btn-primary" style={{ padding: '0.875rem 2rem', fontSize: '1rem', borderRadius: '12px', fontWeight: '700', background: '#e11d48', color: 'white', border: 'none', cursor: 'pointer', opacity: loading ? 0.7 : 1 }}>
-              {loading ? 'Kaydediliyor...' : 'Değişiklikleri Kaydet'}
-            </button>
-          </div>
-        </form>
-      </div>
     </div>
   )
 }

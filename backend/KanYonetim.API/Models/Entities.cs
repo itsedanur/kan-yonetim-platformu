@@ -18,6 +18,51 @@ namespace KanYonetim.API.Models
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public bool IsEmailVerified { get; set; } = false;
         public string? EmailVerificationCode { get; set; }
+
+        // --- NEW PROFILE FIELDS ---
+        public DateTime? DateOfBirth { get; set; }
+        public double? Weight { get; set; }
+        public string? Title { get; set; } // Görev/Unvan
+        
+        // Health / Donation Eligibility
+        public bool HasChronicDisease { get; set; } = false;
+        public bool UsesMedication { get; set; } = false;
+        public bool RecentAlcoholUse { get; set; } = false;
+        public bool RecentSurgery { get; set; } = false;
+
+        // Emergency Contact
+        public string? EmergencyContactName { get; set; }
+        public string? EmergencyContactRelation { get; set; }
+        public string? EmergencyContactPhone { get; set; }
+
+        // Location Detail
+        public string? City { get; set; } = "İstanbul";
+        public string? Neighborhood { get; set; }
+        public string? NearestHospital { get; set; }
+
+        // Settings / Privacy / Notifications
+        public string ProfileVisibility { get; set; } = "Public"; // Public, HospitalOnly, Private
+        public bool AllowPhoneShare { get; set; } = true;
+        public bool EmailNotifications { get; set; } = true;
+        public bool SmsNotifications { get; set; } = true;
+        public bool LocationBasedNotifications { get; set; } = true;
+        
+        // Security / Progress
+        public bool TwoFactorEnabled { get; set; } = false;
+        public bool IsPhoneVerified { get; set; } = false;
+        public int ProfileCompletionRate { get; set; } = 20;
+
+        public ICollection<ProfileActivityLog> ProfileActivityLogs { get; set; } = new List<ProfileActivityLog>();
+    }
+
+    public class ProfileActivityLog
+    {
+        public int Id { get; set; }
+        public int UserId { get; set; }
+        public User? User { get; set; }
+        public string ActionType { get; set; } = string.Empty; // e.g. "ProfileUpdate", "EmailVerified", "BloodTypeChanged"
+        public string Description { get; set; } = string.Empty;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 
 
@@ -84,5 +129,66 @@ namespace KanYonetim.API.Models
         public DonationRequest? DonationRequest { get; set; }
         public string Status { get; set; } = "Pending"; // Pending, Approved, Rejected
         public DateTime ApplicationDate { get; set; } = DateTime.UtcNow;
+    }
+
+    public class AuditLog
+    {
+        public int Id { get; set; }
+        public int? UserId { get; set; }
+        public User? User { get; set; }
+        public string ActionType { get; set; } = string.Empty;
+        public string EntityName { get; set; } = string.Empty;
+        public string EntityId { get; set; } = string.Empty;
+        public string IpAddress { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    }
+
+    public class Notification
+    {
+        public int Id { get; set; }
+        public int UserId { get; set; }
+        public User? User { get; set; }
+        public string Title { get; set; } = string.Empty;
+        public string Message { get; set; } = string.Empty;
+        public string Type { get; set; } = "Info"; // Info, Warning, Error
+        public bool IsRead { get; set; } = false;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    }
+
+    public class RequestApproval
+    {
+        public int Id { get; set; }
+        public int DonationRequestId { get; set; }
+        public DonationRequest? DonationRequest { get; set; }
+        public int AdminId { get; set; }
+        public User? Admin { get; set; }
+        public string Status { get; set; } = "Pending"; // Pending, Approved, Rejected, Spam
+        public string Notes { get; set; } = string.Empty;
+        public DateTime DecidedAt { get; set; } = DateTime.UtcNow;
+    }
+
+    public class LogisticsTransfer
+    {
+        public int Id { get; set; }
+        public int DonationRequestId { get; set; }
+        public DonationRequest? DonationRequest { get; set; }
+        public int? CourierId { get; set; }
+        public User? Courier { get; set; }
+        public int HospitalId { get; set; }
+        public Hospital? Hospital { get; set; }
+        public string Status { get; set; } = "Pending"; // Pending, InTransit, Delivered, Cancelled
+        public DateTime? EstimatedDelivery { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    }
+
+    public class UserActivityLog
+    {
+        public int Id { get; set; }
+        public string Email { get; set; } = string.Empty;
+        public bool IsSuccess { get; set; }
+        public string FailureReason { get; set; } = string.Empty;
+        public string IpAddress { get; set; } = string.Empty;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }
