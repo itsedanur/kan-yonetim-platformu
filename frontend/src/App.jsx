@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom'
 import { Toaster, toast } from 'react-hot-toast'
-import { Droplets, Heart, LayoutDashboard, LogOut, User, Menu, X, PlusCircle, Activity, MapPin, Calendar, ArrowRight, Settings, Users, Shield, UserRound, Search, Mail, Phone, Filter, TrendingUp, TrendingDown, Truck, CheckCircle, AlertTriangle, RefreshCw, Bell, Trash2 } from 'lucide-react'
+import { Droplets, Heart, LayoutDashboard, LogOut, User, Menu, X, PlusCircle, Activity, MapPin, Calendar, ArrowRight, Settings, Users, Shield, UserRound, Search, Mail, Phone, Filter, TrendingUp, TrendingDown, Truck, CheckCircle, AlertTriangle, RefreshCw, Bell, Trash2, Eye, EyeOff } from 'lucide-react'
 import axios from 'axios'
 import AdminDashboardOverview from './pages/admin/AdminDashboardOverview';
 import UserManagement from './pages/admin/UserManagement';
@@ -10,7 +10,6 @@ import RequestApprovals from './pages/admin/RequestApprovals';
 import Logistics from './pages/admin/Logistics';
 import SecurityPanel from './pages/admin/SecurityPanel';
 import LiveTracking from './pages/admin/LiveTracking';
-import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google'
 import ReCAPTCHA from "react-google-recaptcha"
 import Profile from './pages/Profile';
 import Home from './pages/Home';
@@ -996,6 +995,7 @@ const Login = ({ setUser, usersList }) => {
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [pass, setPass] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   const [recaptchaToken, setRecaptchaToken] = useState(null)
 
   const handle = async (e) => {
@@ -1068,51 +1068,41 @@ const Login = ({ setUser, usersList }) => {
   }
 
   return (
-    <GoogleOAuthProvider clientId="931378834309-iov051tobecchi4rmo0qcuknogtbqscb.apps.googleusercontent.com">
-      <div className="animate-in" style={{ maxWidth: '440px', margin: '2rem auto' }}>
-        <div className="card glass p-10">
-          <h2 style={{ textAlign: 'center', marginBottom: '0.5rem', fontSize: '2rem', fontWeight: '800', color: '#0f172a' }}>Giriş Yap</h2>
-          <p style={{ textAlign: 'center', color: '#64748b', marginBottom: '2.5rem', fontSize: '0.85rem' }}>Hesabınıza erişmek için bilgilerinizi girin</p>
+    <div className="animate-in" style={{ maxWidth: '440px', margin: '2rem auto' }}>
+      <div className="card glass p-10">
+        <h2 style={{ textAlign: 'center', marginBottom: '0.5rem', fontSize: '2rem', fontWeight: '800', color: '#0f172a' }}>Giriş Yap</h2>
+        <p style={{ textAlign: 'center', color: '#64748b', marginBottom: '2.5rem', fontSize: '0.85rem' }}>Hesabınıza erişmek için bilgilerinizi girin</p>
 
-          <form onSubmit={handle} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-            <div>
-              <label style={{ fontSize: '0.85rem', fontWeight: '500', color: '#475569', display: 'block', marginBottom: '0.75rem' }}>E-Posta Adresi</label>
-              <input type="email" placeholder="ornek@eposta.com" value={email} onChange={e => setEmail(e.target.value)} required />
+        <form onSubmit={handle} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+          <div>
+            <label style={{ fontSize: '0.85rem', fontWeight: '500', color: '#475569', display: 'block', marginBottom: '0.75rem' }}>E-Posta Adresi</label>
+            <input type="email" placeholder="ornek@eposta.com" value={email} onChange={e => setEmail(e.target.value)} required />
+          </div>
+          <div>
+            <label style={{ fontSize: '0.85rem', fontWeight: '500', color: '#475569', display: 'block', marginBottom: '0.75rem' }}>Şifre</label>
+            <div style={{ position: 'relative' }}>
+              <input type={showPassword ? "text" : "password"} placeholder="••••••••" value={pass} onChange={e => setPass(e.target.value)} required style={{ width: '100%', paddingRight: '2.5rem' }} />
+              <button type="button" onClick={() => setShowPassword(!showPassword)} style={{ position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)', background: 'transparent', border: 'none', cursor: 'pointer', color: '#94a3b8', padding: 0, display: 'flex', alignItems: 'center' }}>
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
             </div>
-            <div>
-              <label style={{ fontSize: '0.85rem', fontWeight: '500', color: '#475569', display: 'block', marginBottom: '0.75rem' }}>Şifre</label>
-              <input type="password" placeholder="••••••••" value={pass} onChange={e => setPass(e.target.value)} required />
-            </div>
-
-            <div style={{ marginTop: '0.5rem', display: 'flex', justifyContent: 'center' }}>
-              <ReCAPTCHA
-                sitekey="6Lf7OvwsAAAAANynKid02T41fXq7HV5IU_gpzsV8"
-                onChange={(token) => setRecaptchaToken(token)}
-              />
-            </div>
-
-            <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '0.5rem', padding: '1rem' }}>Giriş Yap</button>
-          </form>
-
-          <div style={{ display: 'flex', alignItems: 'center', margin: '1.5rem 0' }}>
-            <div style={{ flex: 1, height: '1px', background: '#e2e8f0' }}></div>
-            <div style={{ padding: '0 1rem', color: '#94a3b8', fontSize: '0.85rem', fontWeight: '500' }}>VEYA</div>
-            <div style={{ flex: 1, height: '1px', background: '#e2e8f0' }}></div>
           </div>
 
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <GoogleLogin
-              onSuccess={handleGoogleSuccess}
-              onError={() => toast.error('Google girişi başarısız oldu.')}
+          <div style={{ marginTop: '0.5rem', display: 'flex', justifyContent: 'center' }}>
+            <ReCAPTCHA
+              sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+              onChange={(token) => setRecaptchaToken(token)}
             />
           </div>
 
-          <div style={{ textAlign: 'center', marginTop: '2rem', fontSize: '0.85rem', color: '#64748b' }}>
-            Hesabınız yok mu? <Link to="/register" style={{ color: '#e11d48', fontWeight: '600', textDecoration: 'none' }}>Kaydolun</Link>
-          </div>
+          <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '0.5rem', padding: '1rem' }}>Giriş Yap</button>
+        </form>
+
+        <div style={{ textAlign: 'center', marginTop: '2rem', fontSize: '0.85rem', color: '#64748b' }}>
+          Hesabınız yok mu? <Link to="/register" style={{ color: '#e11d48', fontWeight: '600', textDecoration: 'none' }}>Kaydolun</Link>
         </div>
       </div>
-    </GoogleOAuthProvider>
+    </div>
   )
 }
 
