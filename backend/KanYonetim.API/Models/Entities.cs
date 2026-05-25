@@ -16,7 +16,10 @@ namespace KanYonetim.API.Models
         public string Role { get; set; } = "Donor"; // Donor, Hospital, Admin
         public DateTime? LastDonationDate { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public bool IsEmailVerified { get; set; } = false;
+        public string? EmailVerificationCode { get; set; }
     }
+
 
     public class BloodType
     {

@@ -3,6 +3,8 @@ import { Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom'
 import { Toaster, toast } from 'react-hot-toast'
 import { Droplets, Heart, LayoutDashboard, LogOut, User, Menu, X, PlusCircle, Activity, MapPin, Calendar, ArrowRight, Settings, Users, Shield, UserRound, Search, Mail, Phone, Filter, TrendingUp, TrendingDown, Truck, CheckCircle, AlertTriangle, RefreshCw, Bell, Trash2 } from 'lucide-react'
 import axios from 'axios'
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google'
+import ReCAPTCHA from "react-google-recaptcha"
 
 // API Base URL
 axios.defaults.baseURL = 'http://localhost:5090/api';
@@ -160,6 +162,7 @@ const App = () => {
           <Route path="/logistics" element={user?.role === 'Admin' ? <LogisticsDashboard /> : <Home />} />
           <Route path="/blood-requests" element={user ? <KanTalepleri user={user} /> : <Home />} />
           <Route path="/my-requests" element={user ? <MyRequests user={user} /> : <Home />} />
+          <Route path="/verify-email" element={<VerifyEmail />} />
         </Routes>
       </main>
 
@@ -1018,6 +1021,13 @@ const Login = ({ setUser, usersList }) => {
       });
 
       const data = response.data;
+
+      if (data.requiresEmailVerification) {
+        toast.error('Lütfen önce e-postanızı doğrulayın.');
+        navigate('/verify-email', { state: { email } });
+        return;
+      }
+
       const loggedUser = {
         fullName: data.fullName,
         email: data.email,
@@ -1046,38 +1056,108 @@ const Login = ({ setUser, usersList }) => {
     }
   }
 
+  const handleGoogleSuccess = async (credentialResponse) => {
+    try {
+      const res = await axios.post('/Auth/google-login', { token: credentialResponse.credential });
+      const data = res.data;
+      const loggedUser = {
+        fullName: data.fullName,
+        email: data.email,
+        tc: data.tc || '',
+        phone: data.phone || '',
+        gender: data.gender || '',
+        bloodType: data.bloodType || '',
+        district: data.district || '',
+        role: data.role,
+        userId: data.userId,
+        token: data.token
+      };
+      axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
+      setUser(loggedUser);
+      toast.success(data.role === 'Admin' ? 'Yönetici girişi başarılı!' : 'Google ile başarıyla giriş yaptınız!');
+      navigate('/dashboard')
+    } catch(err) {
+      toast.error('Google ile giriş yapılırken bir hata oluştu.');
+    }
+  }
+
   return (
-    <div className="animate-in" style={{ maxWidth: '440px', margin: '2rem auto' }}>
-      <div className="card glass p-10">
-        <h2 style={{ textAlign: 'center', marginBottom: '0.5rem', fontSize: '2rem', fontWeight: '800', color: '#0f172a' }}>Giriş Yap</h2>
-        <p style={{ textAlign: 'center', color: '#64748b', marginBottom: '2.5rem', fontSize: '0.9rem' }}>Hesabınıza erişmek için bilgilerinizi girin</p>
+    <GoogleOAuthProvider clientId="931378834309-iov051tobecchi4rmo0qcuknogtbqscb.apps.googleusercontent.com">
+      <div className="animate-in" style={{ maxWidth: '440px', margin: '2rem auto' }}>
+        <div className="card glass p-10">
+          <h2 style={{ textAlign: 'center', marginBottom: '0.5rem', fontSize: '2rem', fontWeight: '800', color: '#0f172a' }}>Giriş Yap</h2>
+          <p style={{ textAlign: 'center', color: '#64748b', marginBottom: '2.5rem', fontSize: '0.9rem' }}>Hesabınıza erişmek için bilgilerinizi girin</p>
 
-        <form onSubmit={handle} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-          <div>
-            <label style={{ fontSize: '0.85rem', fontWeight: '500', color: '#475569', display: 'block', marginBottom: '0.75rem' }}>E-Posta Adresi</label>
-            <input type="email" placeholder="ornek@eposta.com" value={email} onChange={e => setEmail(e.target.value)} required />
-          </div>
-          <div>
-            <label style={{ fontSize: '0.85rem', fontWeight: '500', color: '#475569', display: 'block', marginBottom: '0.75rem' }}>Şifre</label>
-            <input type="password" placeholder="••••••••" value={pass} onChange={e => setPass(e.target.value)} required />
-          </div>
-          <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '1rem', padding: '1rem' }}>Giriş Yap</button>
-        </form>
+          <form onSubmit={handle} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            <div>
+              <label style={{ fontSize: '0.85rem', fontWeight: '500', color: '#475569', display: 'block', marginBottom: '0.75rem' }}>E-Posta Adresi</label>
+              <input type="email" placeholder="ornek@eposta.com" value={email} onChange={e => setEmail(e.target.value)} required />
+            </div>
+            <div>
+              <label style={{ fontSize: '0.85rem', fontWeight: '500', color: '#475569', display: 'block', marginBottom: '0.75rem' }}>Şifre</label>
+              <input type="password" placeholder="••••••••" value={pass} onChange={e => setPass(e.target.value)} required />
+            </div>
+            <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '0.5rem', padding: '1rem' }}>Giriş Yap</button>
+          </form>
 
-        <div style={{ textAlign: 'center', marginTop: '2rem', fontSize: '0.9rem', color: '#64748b' }}>
-          Hesabınız yok mu? <Link to="/register" style={{ color: '#e11d48', fontWeight: '600', textDecoration: 'none' }}>Kaydolun</Link>
+          <div style={{ display: 'flex', alignItems: 'center', margin: '1.5rem 0' }}>
+            <div style={{ flex: 1, height: '1px', background: '#e2e8f0' }}></div>
+            <div style={{ padding: '0 1rem', color: '#94a3b8', fontSize: '0.85rem', fontWeight: '500' }}>VEYA</div>
+            <div style={{ flex: 1, height: '1px', background: '#e2e8f0' }}></div>
+          </div>
+
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <GoogleLogin
+              onSuccess={handleGoogleSuccess}
+              onError={() => toast.error('Google girişi başarısız oldu.')}
+            />
+          </div>
+
+          <div style={{ textAlign: 'center', marginTop: '2rem', fontSize: '0.9rem', color: '#64748b' }}>
+            Hesabınız yok mu? <Link to="/register" style={{ color: '#e11d48', fontWeight: '600', textDecoration: 'none' }}>Kaydolun</Link>
+          </div>
         </div>
       </div>
-    </div>
+    </GoogleOAuthProvider>
   )
 }
 
 const Register = ({ setUser, usersList, setUsersList }) => {
   const navigate = useNavigate()
+  const [recaptchaToken, setRecaptchaToken] = useState(null)
+  const [showKvkk, setShowKvkk] = useState(false)
+  const [kvkkRead, setKvkkRead] = useState(false)
 
   const handle = async (e) => {
     e.preventDefault()
+
+    if (!recaptchaToken) {
+      toast.error('Lütfen robot olmadığınızı doğrulayın.');
+      return;
+    }
+
     const formData = new FormData(e.target);
+
+    // KVKK Check
+    if (!formData.get('kvkk')) {
+      toast.error('Kayıt olmak için KVKK metnini onaylamanız gerekmektedir.');
+      return;
+    }
+
+    const password = formData.get('password');
+    const passwordConfirm = formData.get('passwordConfirm');
+
+    if (password !== passwordConfirm) {
+      toast.error('Şifreler eşleşmiyor. Lütfen kontrol edip tekrar deneyin.');
+      return;
+    }
+
+    // Password Complexity Regex: at least one uppercase, one lowercase, one punctuation/special, min 8 length
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
+    if (!passwordRegex.test(password)) {
+      toast.error('Şifreniz en az 8 karakter uzunluğunda olmalı, en az bir büyük harf, bir küçük harf ve bir noktalama işareti/özel karakter içermelidir.');
+      return;
+    }
 
     const bloodTypeMap = { "A+": 1, "A-": 2, "B+": 3, "B-": 4, "AB+": 5, "AB-": 6, "0+": 7, "0-": 8 };
     const districtMap = { "Adalar": 1, "Arnavutköy": 2, "Ataşehir": 3, "Avcılar": 4, "Bağcılar": 5, "Bahçelievler": 6, "Bakırköy": 7, "Başakşehir": 8, "Bayrampaşa": 9, "Beşiktaş": 10, "Beykoz": 11, "Beylikdüzü": 12, "Beyoğlu": 13, "Büyükçekmece": 14, "Çatalca": 15, "Çekmeköy": 16, "Esenler": 17, "Esenyurt": 18, "Eyüpsultan": 19, "Fatih": 20, "Gaziosmanpaşa": 21, "Güngören": 22, "Kadıköy": 23, "Kağıthane": 24, "Kartal": 25, "Küçükçekmece": 26, "Maltepe": 27, "Pendik": 28, "Sancaktepe": 29, "Sarıyer": 30, "Silivri": 31, "Sultanbeyli": 32, "Sultangazi": 33, "Şile": 34, "Şişli": 35, "Tuzla": 36, "Ümraniye": 37, "Üsküdar": 38, "Zeytinburnu": 39 };
@@ -1099,6 +1179,13 @@ const Register = ({ setUser, usersList, setUsersList }) => {
       const response = await axios.post('/Auth/register', registerData);
       
       const data = response.data;
+
+      if (data.requiresEmailVerification) {
+        toast.success('Kayıt başarılı! Lütfen e-postanıza gelen 6 haneli kodu girin.');
+        navigate('/verify-email', { state: { email: registerData.email } });
+        return;
+      }
+
       const loggedUser = {
         fullName: data.fullName,
         email: data.email,
@@ -1177,14 +1264,21 @@ const Register = ({ setUser, usersList, setUsersList }) => {
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1.5rem' }}>
             <div>
               <label style={{ fontSize: '0.85rem', fontWeight: '700', color: '#1e293b', display: 'block', marginBottom: '0.5rem' }}>E-posta Adresi</label>
               <input type="email" name="email" placeholder="ornek@eposta.com" required style={{ background: '#ffffff', border: '1px solid #e2e8f0', padding: '0.875rem 1rem', borderRadius: '12px', width: '100%' }} />
             </div>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
             <div>
               <label style={{ fontSize: '0.85rem', fontWeight: '700', color: '#1e293b', display: 'block', marginBottom: '0.5rem' }}>Şifre</label>
               <input type="password" name="password" placeholder="••••••••" required style={{ background: '#ffffff', border: '1px solid #e2e8f0', padding: '0.875rem 1rem', borderRadius: '12px', width: '100%' }} />
+            </div>
+            <div>
+              <label style={{ fontSize: '0.85rem', fontWeight: '700', color: '#1e293b', display: 'block', marginBottom: '0.5rem' }}>Şifre Tekrar</label>
+              <input type="password" name="passwordConfirm" placeholder="••••••••" required style={{ background: '#ffffff', border: '1px solid #e2e8f0', padding: '0.875rem 1rem', borderRadius: '12px', width: '100%' }} />
             </div>
           </div>
 
@@ -1198,7 +1292,32 @@ const Register = ({ setUser, usersList, setUsersList }) => {
             </select>
           </div>
 
-          <div style={{ marginTop: '1rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginTop: '0.5rem' }}>
+            <input 
+              type="checkbox" 
+              name="kvkk" 
+              id="kvkk" 
+              style={{ width: '1.1rem', height: '1.1rem', accentColor: '#e11d48' }} 
+              onClick={(e) => {
+                if (!kvkkRead) {
+                  e.preventDefault();
+                  toast.error('Lütfen önce yanındaki bağlantıya tıklayarak KVKK Aydınlatma Metnini okuyun.');
+                }
+              }}
+            />
+            <label htmlFor="kvkk" style={{ fontSize: '0.85rem', color: '#475569', cursor: 'pointer' }}>
+              <a href="#" onClick={(e) => { e.preventDefault(); setShowKvkk(true); }} style={{ color: '#e11d48', textDecoration: 'none', fontWeight: '600' }}>KVKK Aydınlatma Metnini</a> okudum, kişisel verilerimin işlenmesini onaylıyorum.
+            </label>
+          </div>
+
+          <div style={{ marginTop: '0.5rem', display: 'flex', justifyContent: 'center' }}>
+            <ReCAPTCHA
+              sitekey="6Lf7OvwsAAAAANynKid02T41fXq7HV5IU_gpzsV8"
+              onChange={(token) => setRecaptchaToken(token)}
+            />
+          </div>
+
+          <div style={{ marginTop: '0.5rem' }}>
             <button type="submit" className="btn btn-primary" style={{ width: '100%', padding: '1rem', borderRadius: '12px', fontSize: '1rem', fontWeight: '700' }}>Kaydı Tamamla</button>
           </div>
         </form>
@@ -1207,9 +1326,99 @@ const Register = ({ setUser, usersList, setUsersList }) => {
           Zaten üye misiniz? <Link to="/login" style={{ color: '#e11d48', fontWeight: '600', textDecoration: 'none' }}>Giriş Yapın</Link>
         </div>
       </div>
+
+      {/* KVKK Modal */}
+      {showKvkk && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 9999,
+          display: 'flex', alignItems: 'center', justifyContent: 'center'
+        }}>
+          <div style={{
+            background: '#fff', padding: '2rem', borderRadius: '16px',
+            maxWidth: '500px', width: '90%', maxHeight: '80vh', overflowY: 'auto',
+            boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)'
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: '700', color: '#0f172a', margin: 0 }}>KVKK Aydınlatma Metni</h3>
+              <button onClick={() => setShowKvkk(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#64748b' }}>
+                <X size={24} />
+              </button>
+            </div>
+            
+            <div style={{ fontSize: '0.9rem', color: '#475569', lineHeight: '1.6', marginBottom: '1.5rem', borderTop: '1px solid #e2e8f0', paddingTop: '1rem' }}>
+              <p>Bu aydınlatma metni, 6698 sayılı Kişisel Verilerin Korunması Kanunu ("KVKK") uyarınca, kişisel verilerinizin işlenmesine ilişkin usul ve esasları belirlemek amacıyla hazırlanmıştır.</p>
+              <br />
+              <h4 style={{ fontWeight: '600', color: '#1e293b' }}>1. Veri Sorumlusunun Kimliği</h4>
+              <p>Hayat Ağı Kan Yönetim Sistemi olarak kişisel verilerinizi veri sorumlusu sıfatıyla işlemekteyiz.</p>
+              <br />
+              <h4 style={{ fontWeight: '600', color: '#1e293b' }}>2. İşlenen Kişisel Verileriniz ve İşlenme Amaçları</h4>
+              <p>Toplanan kişisel verileriniz (Ad, Soyad, TC Kimlik No, İletişim bilgileri, Kan grubu vb.), sadece kan bağışı süreçlerini güvenli ve sağlıklı bir şekilde yönetmek, acil kan ihtiyaçlarında size hızlıca ulaşabilmek ve yasal bildirim yükümlülüklerimizi yerine getirmek amacıyla işlenmektedir.</p>
+              <br />
+              <h4 style={{ fontWeight: '600', color: '#1e293b' }}>3. Kişisel Verilerinizin Aktarımı</h4>
+              <p>Verileriniz, yüksek güvenlikli sunucularda saklanmakta olup, kanuni zorunluluklar ve yetkili kamu kurumlarının yasal talepleri haricinde hiçbir şekilde üçüncü kişi veya kurumlarla paylaşılmamaktadır.</p>
+            </div>
+            <button 
+              onClick={() => {
+                setKvkkRead(true);
+                setShowKvkk(false);
+                const kvkkCheckbox = document.getElementById('kvkk');
+                if (kvkkCheckbox) kvkkCheckbox.checked = true;
+              }}
+              className="btn btn-primary" 
+              style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', fontWeight: '600' }}
+            >
+              Okudum, Onaylıyorum
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
+
+const VerifyEmail = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [email, setEmail] = useState(location.state?.email || '');
+  const [code, setCode] = useState('');
+
+  const handleVerify = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post('/Auth/verify-email', { email, code });
+      toast.success('E-posta başarıyla doğrulandı! Şimdi giriş yapabilirsiniz.');
+      navigate('/login');
+    } catch (error) {
+      if (error.response && error.response.data) {
+        toast.error(error.response.data);
+      } else {
+        toast.error('Doğrulama sırasında bir hata oluştu.');
+      }
+    }
+  };
+
+  return (
+    <div className="animate-in" style={{ maxWidth: '440px', margin: '4rem auto' }}>
+      <div className="card glass p-10">
+        <h2 style={{ textAlign: 'center', marginBottom: '0.5rem', fontSize: '1.8rem', fontWeight: '800', color: '#0f172a' }}>Mail Doğrulama</h2>
+        <p style={{ textAlign: 'center', color: '#64748b', marginBottom: '2rem', fontSize: '0.9rem' }}>Lütfen e-posta adresinize gönderilen 6 haneli doğrulama kodunu girin.</p>
+
+        <form onSubmit={handleVerify} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+          <div>
+            <label style={{ fontSize: '0.85rem', fontWeight: '500', color: '#475569', display: 'block', marginBottom: '0.75rem' }}>E-Posta Adresi</label>
+            <input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
+          </div>
+          <div>
+            <label style={{ fontSize: '0.85rem', fontWeight: '500', color: '#475569', display: 'block', marginBottom: '0.75rem' }}>Doğrulama Kodu</label>
+            <input type="text" placeholder="Örn: 123456" maxLength="6" value={code} onChange={e => setCode(e.target.value)} required style={{ textAlign: 'center', fontSize: '1.5rem', letterSpacing: '0.5rem' }} />
+          </div>
+          <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '0.5rem', padding: '1rem' }}>Doğrula ve Devam Et</button>
+        </form>
+      </div>
+    </div>
+  );
+};
 
 const UserManagement = ({ usersList, setUsersList }) => {
   const totalUsers = usersList.length;

@@ -49,6 +49,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IDonationEligibilityService, DonationEligibilityService>();
 builder.Services.AddScoped<IDistanceService, DistanceService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 // CORS
 builder.Services.AddCors(opt =>

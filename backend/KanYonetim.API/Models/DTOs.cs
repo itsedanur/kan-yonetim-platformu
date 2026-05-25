@@ -19,6 +19,17 @@ namespace KanYonetim.API.Models.DTOs
         public string Password { get; set; } = string.Empty;
     }
 
+    public class GoogleLoginDto
+    {
+        public string Token { get; set; } = string.Empty;
+    }
+
+    public class VerifyEmailDto
+    {
+        public string Email { get; set; } = string.Empty;
+        public string Code { get; set; } = string.Empty;
+    }
+
     public class AuthResponseDto
     {
         public string Token { get; set; } = string.Empty;
@@ -31,6 +42,7 @@ namespace KanYonetim.API.Models.DTOs
         public string BloodType { get; set; } = string.Empty;
         public string District { get; set; } = string.Empty;
         public int UserId { get; set; }
+        public bool RequiresEmailVerification { get; set; } = false;
     }
 
     // Blood Stock DTOs
