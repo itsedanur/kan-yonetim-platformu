@@ -13,6 +13,7 @@ import LiveTracking from './pages/admin/LiveTracking';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google'
 import ReCAPTCHA from "react-google-recaptcha"
 import Profile from './pages/Profile';
+import Home from './pages/Home';
 
 // API Base URL
 axios.defaults.baseURL = 'http://localhost:5090/api';
@@ -990,60 +991,6 @@ const KanTalepleri = ({ user }) => {
     </div>
   );
 };
-
-const Home = () => (
-  <div className="animate-in" style={{ textAlign: 'center', padding: '4rem 0' }}>
-    <div className="flex justify-center mb-8">
-      <div className="blood-drop" style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '120px',
-        height: '120px',
-        borderRadius: '40px',
-        backgroundColor: 'rgba(225, 29, 72, 0.05)',
-        transform: 'rotate(45deg)',
-        border: '1px solid rgba(225, 29, 72, 0.1)'
-      }}>
-        <Heart size={56} style={{ color: '#e11d48', transform: 'rotate(-45deg)' }} />
-      </div>
-    </div>
-
-    <h1 style={{ fontSize: '4.5rem', fontWeight: '800', marginBottom: '1.5rem', lineHeight: '1.1', letterSpacing: '-0.02em', color: '#0f172a' }}>
-      Hayat Kurtarmak <br />
-      <span className="gradient-text">Sizin Elinizde</span>
-    </h1>
-
-    <p style={{ color: '#64748b', fontSize: '1.25rem', maxWidth: '650px', margin: '0 auto 3.5rem', lineHeight: '1.7' }}>
-      Acil kan ihtiyaçlarını anlık takip edin, size en yakın bağış noktasına ulaşarak binlerce kişiye umut olun.
-    </p>
-
-    <div className="animate-in animate-delay-2" style={{ opacity: 0, display: 'flex', gap: '2rem', justifyContent: 'center' }}>
-      <Link to="/register" className="btn btn-primary" style={{ padding: '1rem 3rem', fontSize: '1.1rem' }}>
-        Bağışçı Olun <ArrowRight size={20} style={{ marginLeft: '8px' }} />
-      </Link>
-      <Link to="/login" className="btn btn-primary" style={{ padding: '1rem 3rem', fontSize: '1.1rem' }}>
-        Giriş Yap <ArrowRight size={20} style={{ marginLeft: '8px' }} />
-      </Link>
-    </div>
-
-    <div className="grid grid-cols-3 gap-8 mt-24 animate-in animate-delay-3" style={{ opacity: 0, display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', maxWidth: '900px', margin: '8rem auto 0' }}>
-      {[
-        { icon: <Activity className="text-rose-500" />, label: 'Anlık Takip', desc: 'Canlı kan ihtiyaçlarını görün' },
-        { icon: <MapPin className="text-rose-500" />, label: 'Konum Bazlı', desc: 'Size en yakın noktayı bulun' },
-        { icon: <Calendar className="text-rose-500" />, label: 'Bağış Kaydı', desc: 'Geçmiş bağışlarınızı yönetin' }
-      ].map((item, i) => (
-        <div key={i} className="card flex flex-col items-center text-center p-8" style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.04)' }}>
-          <div className="mb-4 p-3 rounded-2xl bg-rose-50 text-red-500">
-            {item.icon}
-          </div>
-          <h3 className="font-bold text-lg mb-2" style={{ color: '#0f172a' }}>{item.label}</h3>
-          <p className="text-slate-500 text-sm">{item.desc}</p>
-        </div>
-      ))}
-    </div>
-  </div>
-)
 
 const Login = ({ setUser, usersList }) => {
   const navigate = useNavigate()
