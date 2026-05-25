@@ -90,14 +90,7 @@ namespace KanYonetim.API.Controllers
             if (!BCrypt.Net.BCrypt.Verify(loginDto.Password, user.PasswordHash))
                 return Unauthorized("Geçersiz e-posta veya şifre.");
 
-            if (!user.IsEmailVerified)
-            {
-                return new AuthResponseDto
-                {
-                    Email = user.Email,
-                    RequiresEmailVerification = true
-                };
-            }
+
 
             return new AuthResponseDto
             {

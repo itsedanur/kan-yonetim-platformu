@@ -1010,9 +1010,15 @@ const Login = ({ setUser, usersList }) => {
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [pass, setPass] = useState('')
+  const [recaptchaToken, setRecaptchaToken] = useState(null)
 
   const handle = async (e) => {
     e.preventDefault()
+
+    if (!recaptchaToken) {
+      toast.error('Lütfen robot olmadığınızı doğrulayın.');
+      return;
+    }
 
     try {
       const response = await axios.post('/Auth/login', {
@@ -1021,12 +1027,6 @@ const Login = ({ setUser, usersList }) => {
       });
 
       const data = response.data;
-
-      if (data.requiresEmailVerification) {
-        toast.error('Lütfen önce e-postanızı doğrulayın.');
-        navigate('/verify-email', { state: { email } });
-        return;
-      }
 
       const loggedUser = {
         fullName: data.fullName,
@@ -1097,6 +1097,14 @@ const Login = ({ setUser, usersList }) => {
               <label style={{ fontSize: '0.85rem', fontWeight: '500', color: '#475569', display: 'block', marginBottom: '0.75rem' }}>Şifre</label>
               <input type="password" placeholder="••••••••" value={pass} onChange={e => setPass(e.target.value)} required />
             </div>
+
+            <div style={{ marginTop: '0.5rem', display: 'flex', justifyContent: 'center' }}>
+              <ReCAPTCHA
+                sitekey="6Lf7OvwsAAAAANynKid02T41fXq7HV5IU_gpzsV8"
+                onChange={(token) => setRecaptchaToken(token)}
+              />
+            </div>
+
             <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '0.5rem', padding: '1rem' }}>Giriş Yap</button>
           </form>
 
