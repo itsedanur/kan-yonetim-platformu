@@ -6,6 +6,8 @@ namespace KanYonetim.API.Models.DTOs
         public string FullName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
+        public string Tc { get; set; } = string.Empty;
+        public string Phone { get; set; } = string.Empty;
         public string Gender { get; set; } = string.Empty;
         public int BloodTypeId { get; set; }
         public int DistrictId { get; set; }
@@ -21,7 +23,13 @@ namespace KanYonetim.API.Models.DTOs
     {
         public string Token { get; set; } = string.Empty;
         public string FullName { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string Tc { get; set; } = string.Empty;
+        public string Phone { get; set; } = string.Empty;
+        public string Gender { get; set; } = string.Empty;
         public string Role { get; set; } = string.Empty;
+        public string BloodType { get; set; } = string.Empty;
+        public string District { get; set; } = string.Empty;
         public int UserId { get; set; }
     }
 
@@ -80,6 +88,8 @@ namespace KanYonetim.API.Models.DTOs
         public int Id { get; set; }
         public string FullName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
+        public string Tc { get; set; } = string.Empty;
+        public string Phone { get; set; } = string.Empty;
         public string Role { get; set; } = string.Empty;
         public string BloodTypeName { get; set; } = string.Empty;
         public string DistrictName { get; set; } = string.Empty;

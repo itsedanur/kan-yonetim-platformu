@@ -6,6 +6,8 @@ namespace KanYonetim.API.Models
         public string FullName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string PasswordHash { get; set; } = string.Empty;
+        public string Tc { get; set; } = string.Empty;
+        public string Phone { get; set; } = string.Empty;
         public string Gender { get; set; } = string.Empty; // Erkek, Kadın
         public int BloodTypeId { get; set; }
         public BloodType? BloodType { get; set; }

@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react'
 import { Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom'
 import { Toaster, toast } from 'react-hot-toast'
 import { Droplets, Heart, LayoutDashboard, LogOut, User, Menu, X, PlusCircle, Activity, MapPin, Calendar, ArrowRight, Settings, Users, Shield, UserRound, Search, Mail, Phone, Filter, TrendingUp, TrendingDown, Truck, CheckCircle, AlertTriangle, RefreshCw, Bell, Trash2 } from 'lucide-react'
+import axios from 'axios'
+
+// API Base URL
+axios.defaults.baseURL = 'http://localhost:5090/api';
 
 // Main Application
 const initialUsers = [
@@ -36,8 +40,33 @@ const App = () => {
   const location = useLocation()
 
   useEffect(() => {
-    if (user) localStorage.setItem('user', JSON.stringify(user))
-    else localStorage.removeItem('user')
+    if (user) {
+      localStorage.setItem('user', JSON.stringify(user))
+      if (user.token) {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${user.token}`;
+      }
+      if (user.role === 'Admin') {
+        axios.get('/Admin/users')
+          .then(res => {
+            const mappedUsers = res.data.map(u => ({
+              id: u.id,
+              name: u.fullName,
+              email: u.email,
+              tc: u.tc,
+              phone: u.phone,
+              gender: u.gender || '',
+              role: u.role === 'Admin' ? 'Yönetici' : 'Kullanıcı',
+              bloodType: u.bloodTypeName,
+              district: u.districtName
+            }));
+            setUsersList(mappedUsers);
+          })
+          .catch(err => console.error("Error fetching users:", err));
+      }
+    } else {
+      localStorage.removeItem('user')
+      delete axios.defaults.headers.common['Authorization'];
+    }
   }, [user])
 
   useEffect(() => {
@@ -979,69 +1008,41 @@ const Login = ({ setUser, usersList }) => {
   const [email, setEmail] = useState('')
   const [pass, setPass] = useState('')
 
-  const handle = (e) => {
+  const handle = async (e) => {
     e.preventDefault()
 
-    // Oturumdan bağımsız kalıcı profil verisini al (logout'tan etkilenmez)
-    let savedProfile = {};
     try {
-      const profileKey = `profile_${email}`;
-      const raw = localStorage.getItem(profileKey);
-      if (raw) savedProfile = JSON.parse(raw);
-    } catch { }
-
-    // Admin Kontrolü
-    if (email === 'eren.34_2001@hotmail.com' && pass === 'E1234.') {
-      // Eğer daha önce kaydedilmiş profil varsa üzerine merge et, yoksa varsayılan kullan
-      const baseAdmin = {
-        fullName: savedProfile.fullName || 'Eren (Yönetici)',
-        tc: savedProfile.tc || '',
-        phone: savedProfile.phone || '',
-        gender: savedProfile.gender || 'Erkek',
-        bloodType: savedProfile.bloodType || '0+',
-        title: savedProfile.title || 'Yönetici',
-        district: savedProfile.district || 'Şişli',
-        ...savedProfile,
+      const response = await axios.post('/Auth/login', {
         email,
-        role: 'Admin'
+        password: pass
+      });
+
+      const data = response.data;
+      const loggedUser = {
+        fullName: data.fullName,
+        email: data.email,
+        tc: data.tc,
+        phone: data.phone,
+        gender: data.gender,
+        bloodType: data.bloodType,
+        district: data.district,
+        role: data.role,
+        userId: data.userId,
+        token: data.token
       };
-      setUser(baseAdmin);
-      toast.success('Yönetici girişi başarılı!');
+
+      // Axios varsayılan header'ı ayarla
+      axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
+
+      setUser(loggedUser);
+      toast.success(data.role === 'Admin' ? 'Yönetici girişi başarılı!' : 'Hoş geldiniz! Sayfanıza yönlendiriliyorsunuz.');
       navigate('/dashboard')
-    } else {
-      const baseUser = {
-        fullName: savedProfile.fullName || 'Misafir Kullanıcı',
-        tc: savedProfile.tc || '',
-        phone: savedProfile.phone || '',
-        gender: savedProfile.gender || '',
-        bloodType: savedProfile.bloodType || '',
-        title: savedProfile.title || '',
-        district: savedProfile.district || '',
-        ...savedProfile,
-        email,
-        role: 'Donor'
-      };
-
-      // Kayıtlı kullanıcı var mı kontrol et
-      const isActiveUser = usersList && usersList.some(u => u.email === email);
-      if (!isActiveUser) {
-        toast.error('Bu e-posta adresiyle kayıtlı aktif bir hesap bulunamadı (hesabınız yöneticiler tarafından silinmiş olabilir). Lütfen kayıt olun.');
-        return;
-      }
-
-      if (!savedProfile.email) {
-        toast.error('Bu e-posta adresiyle kayıtlı bir hesap bulunamadı. Lütfen önce kayıt olun.');
-        return;
-      }
-      // Şifre doğrulaması
-      if (savedProfile.password && savedProfile.password !== pass) {
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
         toast.error('E-posta veya şifre hatalı. Lütfen tekrar deneyin.');
-        return;
+      } else {
+        toast.error('Giriş yapılırken bir hata oluştu.');
       }
-
-      setUser(baseUser);
-      toast.success('Hoş geldiniz! Sayfanıza yönlendiriliyorsunuz.');
-      navigate('/dashboard')
     }
   }
 
@@ -1074,44 +1075,57 @@ const Login = ({ setUser, usersList }) => {
 const Register = ({ setUser, usersList, setUsersList }) => {
   const navigate = useNavigate()
 
-  const handle = (e) => {
+  const handle = async (e) => {
     e.preventDefault()
     const formData = new FormData(e.target);
 
-    const newUser = {
-      id: Date.now(),
-      name: formData.get('fullName'),
+    const bloodTypeMap = { "A+": 1, "A-": 2, "B+": 3, "B-": 4, "AB+": 5, "AB-": 6, "0+": 7, "0-": 8 };
+    const districtMap = { "Adalar": 1, "Arnavutköy": 2, "Ataşehir": 3, "Avcılar": 4, "Bağcılar": 5, "Bahçelievler": 6, "Bakırköy": 7, "Başakşehir": 8, "Bayrampaşa": 9, "Beşiktaş": 10, "Beykoz": 11, "Beylikdüzü": 12, "Beyoğlu": 13, "Büyükçekmece": 14, "Çatalca": 15, "Çekmeköy": 16, "Esenler": 17, "Esenyurt": 18, "Eyüpsultan": 19, "Fatih": 20, "Gaziosmanpaşa": 21, "Güngören": 22, "Kadıköy": 23, "Kağıthane": 24, "Kartal": 25, "Küçükçekmece": 26, "Maltepe": 27, "Pendik": 28, "Sancaktepe": 29, "Sarıyer": 30, "Silivri": 31, "Sultanbeyli": 32, "Sultangazi": 33, "Şile": 34, "Şişli": 35, "Tuzla": 36, "Ümraniye": 37, "Üsküdar": 38, "Zeytinburnu": 39 };
+
+    const role = formData.get('title') || 'Donor';
+
+    const registerData = {
+      fullName: formData.get('fullName'),
+      email: formData.get('email'),
+      password: formData.get('password'),
       tc: formData.get('tcKimlik'),
       phone: formData.get('phone'),
       gender: formData.get('gender'),
-      bloodType: formData.get('bloodType'),
-      role: formData.get('title') || 'Kullanıcı',
-      email: formData.get('email'),
-      district: formData.get('district')
+      bloodTypeId: bloodTypeMap[formData.get('bloodType')] || 1,
+      districtId: districtMap[formData.get('district')] || 1
     };
 
-    setUsersList([...usersList, newUser]);
+    try {
+      const response = await axios.post('/Auth/register', registerData);
+      
+      const data = response.data;
+      const loggedUser = {
+        fullName: data.fullName,
+        email: data.email,
+        tc: data.tc,
+        phone: data.phone,
+        gender: data.gender,
+        bloodType: formData.get('bloodType'), // Response'ta boş string olabilir, formdan alalım
+        district: formData.get('district'),
+        role: data.role,
+        userId: data.userId,
+        token: data.token
+      };
 
-    const profileData = {
-      fullName: newUser.name,
-      email: newUser.email,
-      role: 'Donor',
-      tc: newUser.tc,
-      phone: newUser.phone,
-      gender: newUser.gender,
-      bloodType: newUser.bloodType,
-      title: newUser.role,
-      district: newUser.district,
-      password: formData.get('password')  // Giriş doğrulaması için sakla
-    };
+      // Axios varsayılan header'ı ayarla
+      axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
 
-    // Giriş çıkış yapıldığında bile profil korunsun diye kalıcı key'e yaz
-    localStorage.setItem(`profile_${newUser.email}`, JSON.stringify(profileData));
-    localStorage.setItem('user', JSON.stringify(profileData));
+      setUser(loggedUser);
+      toast.success('Kaydınız başarıyla tamamlandı!');
+      navigate('/dashboard')
 
-    setUser(profileData);
-    toast.success('Kaydınız başarıyla tamamlandı!');
-    navigate('/dashboard')
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        toast.error(error.response.data || 'Kayıt başarısız, bilgilerinizi kontrol edin.');
+      } else {
+        toast.error('Kayıt olurken bir hata oluştu.');
+      }
+    }
   }
 
   return (
@@ -1203,10 +1217,15 @@ const UserManagement = ({ usersList, setUsersList }) => {
   const donorCount = usersList.filter(u => u.role !== 'Yönetici').length;
   const [editModal, setEditModal] = useState(null); // null veya düzenlenen user objesi
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     if (window.confirm('Bu kullanıcıyı silmek istediğinizden emin misiniz?')) {
-      setUsersList(prev => prev.filter(u => u.id !== id));
-      toast.success('Kullanıcı başarıyla silindi.');
+      try {
+        await axios.delete(`/Admin/users/${id}`);
+        setUsersList(prev => prev.filter(u => u.id !== id));
+        toast.success('Kullanıcı başarıyla silindi.');
+      } catch (error) {
+        toast.error('Kullanıcı silinirken bir hata oluştu.');
+      }
     }
   };
 

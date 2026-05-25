@@ -29,6 +29,8 @@ namespace KanYonetim.API.Controllers
                     Id = u.Id,
                     FullName = u.FullName,
                     Email = u.Email,
+                    Tc = u.Tc,
+                    Phone = u.Phone,
                     Role = u.Role,
                     BloodTypeName = u.BloodType != null ? u.BloodType.Name : "",
                     DistrictName = u.District != null ? u.District.Name : "",

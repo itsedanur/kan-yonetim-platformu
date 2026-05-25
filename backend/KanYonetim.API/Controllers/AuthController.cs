@@ -31,6 +31,8 @@ namespace KanYonetim.API.Controllers
                 FullName = registerDto.FullName,
                 Email = registerDto.Email.ToLower(),
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(registerDto.Password),
+                Tc = registerDto.Tc,
+                Phone = registerDto.Phone,
                 Gender = registerDto.Gender,
                 BloodTypeId = registerDto.BloodTypeId,
                 DistrictId = registerDto.DistrictId,
@@ -44,7 +46,13 @@ namespace KanYonetim.API.Controllers
             {
                 UserId = user.Id,
                 FullName = user.FullName,
+                Email = user.Email,
+                Tc = user.Tc,
+                Phone = user.Phone,
+                Gender = user.Gender,
                 Role = user.Role,
+                BloodType = "", // Can't easily get name without DB query, frontend knows it
+                District = "",
                 Token = _tokenService.CreateToken(user)
             };
         }
@@ -54,6 +62,7 @@ namespace KanYonetim.API.Controllers
         {
             var user = await _context.Users
                 .Include(u => u.BloodType)
+                .Include(u => u.District)
                 .FirstOrDefaultAsync(x => x.Email == loginDto.Email.ToLower());
 
             if (user == null) return Unauthorized("Geçersiz e-posta veya şifre.");
@@ -65,7 +74,13 @@ namespace KanYonetim.API.Controllers
             {
                 UserId = user.Id,
                 FullName = user.FullName,
+                Email = user.Email,
+                Tc = user.Tc,
+                Phone = user.Phone,
+                Gender = user.Gender,
                 Role = user.Role,
+                BloodType = user.BloodType?.Name ?? "",
+                District = user.District?.Name ?? "",
                 Token = _tokenService.CreateToken(user)
             };
         }
