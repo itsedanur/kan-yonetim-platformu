@@ -20,6 +20,8 @@ namespace KanYonetim.API.Data
         public DbSet<LogisticsTransfer> LogisticsTransfers => Set<LogisticsTransfer>();
         public DbSet<UserActivityLog> UserActivityLogs => Set<UserActivityLog>();
         public DbSet<ProfileActivityLog> ProfileActivityLogs => Set<ProfileActivityLog>();
+        public DbSet<SupportTicket> SupportTickets => Set<SupportTicket>();
+        public DbSet<SupportMessage> SupportMessages => Set<SupportMessage>();
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

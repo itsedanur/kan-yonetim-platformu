@@ -15,6 +15,8 @@ import Profile from './pages/Profile';
 import Home from './pages/Home';
 import UserLayout from './components/UserLayout';
 import UserDashboard from './pages/user/UserDashboard';
+import Support from './pages/user/Support';
+import AdminSupport from './pages/admin/AdminSupport';
 
 // API Base URL
 axios.defaults.baseURL = 'http://localhost:5090/api';
@@ -117,7 +119,7 @@ const App = () => {
   }, [usersList])
 
   const showSidebar = user && user.role !== 'Admin' && user.role !== 'Yönetici' && 
-    (location.pathname === '/dashboard' || location.pathname === '/profile' || location.pathname === '/blood-requests' || location.pathname === '/my-requests');
+    (location.pathname === '/dashboard' || location.pathname === '/profile' || location.pathname === '/blood-requests' || location.pathname === '/my-requests' || location.pathname === '/support');
 
   return (
     <div className="min-h-screen flex flex-col" style={showSidebar ? { height: '100vh', overflow: 'hidden' } : {}}>
@@ -155,6 +157,7 @@ const App = () => {
                       <Link to="/" style={{ textDecoration: 'none', fontWeight: '600', color: location.pathname === '/' ? '#e11d48' : '#64748b', fontSize: '0.85rem', transition: 'color 0.2s' }}>Ana Sayfa</Link>
                       <Link to="/logistics" style={{ textDecoration: 'none', fontWeight: '600', color: location.pathname === '/logistics' ? '#e11d48' : '#64748b', fontSize: '0.85rem', transition: 'color 0.2s' }}>Lojistik</Link>
                       <Link to="/dashboard" style={{ textDecoration: 'none', fontWeight: '600', color: location.pathname === '/dashboard' ? '#e11d48' : '#64748b', fontSize: '0.85rem', transition: 'color 0.2s' }}>Yönetim Paneli</Link>
+                      <Link to="/support" style={{ textDecoration: 'none', fontWeight: '600', color: location.pathname === '/support' ? '#e11d48' : '#64748b', fontSize: '0.85rem', transition: 'color 0.2s' }}>Destek Talepleri</Link>
                     </>
                   ) : (
                     <>
@@ -203,6 +206,7 @@ const App = () => {
             <Route path="/profile" element={<Profile user={user} setUser={setUser} usersList={usersList} setUsersList={setUsersList} />} />
             <Route path="/blood-requests" element={user ? <KanTalepleri user={user} /> : <Home />} />
             <Route path="/my-requests" element={user ? <MyRequests user={user} /> : <Home />} />
+            <Route path="/support" element={user ? <Support /> : <Home />} />
           </Routes>
         </UserLayout>
       ) : (
@@ -217,6 +221,7 @@ const App = () => {
             <Route path="/blood-requests" element={user ? <KanTalepleri user={user} /> : <Home />} />
             <Route path="/my-requests" element={user ? <MyRequests user={user} /> : <Home />} />
             <Route path="/verify-email" element={<VerifyEmail />} />
+            <Route path="/support" element={user?.role === 'Admin' ? <AdminSupport /> : <Home />} />
           </Routes>
         </main>
       )}

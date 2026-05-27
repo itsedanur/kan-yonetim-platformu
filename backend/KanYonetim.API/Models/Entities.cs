@@ -191,4 +191,27 @@ namespace KanYonetim.API.Models
         public string IpAddress { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
+
+    public class SupportTicket
+    {
+        public int Id { get; set; }
+        public int UserId { get; set; }
+        public User? User { get; set; }
+        public string Subject { get; set; } = string.Empty;
+        public string Status { get; set; } = "Open"; // Open, Answered, Resolved, Closed
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+        public ICollection<SupportMessage> Messages { get; set; } = new List<SupportMessage>();
+    }
+
+    public class SupportMessage
+    {
+        public int Id { get; set; }
+        public int SupportTicketId { get; set; }
+        public SupportTicket? SupportTicket { get; set; }
+        public int SenderId { get; set; }
+        public User? Sender { get; set; }
+        public string MessageText { get; set; } = string.Empty;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    }
 }

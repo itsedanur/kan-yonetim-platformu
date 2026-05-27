@@ -16,7 +16,8 @@ import {
   PhoneCall, 
   AlertTriangle,
   X,
-  Menu
+  Menu,
+  HelpCircle
 } from 'lucide-react';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
@@ -106,12 +107,9 @@ const UserLayout = ({ children, user, setUser }) => {
       onClick: () => setShowHistoryModal(true), 
       icon: <History size={20} /> 
     },
-    { 
-      name: 'Favorilerim', 
-      onClick: () => setShowFavoritesModal(true), 
-      icon: <Star size={20} /> 
-    },
-    { name: 'Profilim', path: '/profile', icon: <User size={20} /> }
+    { name: 'Favorilerim', onClick: () => setShowFavoritesModal(true), icon: <Star size={20} /> },
+    { name: 'Profilim', path: '/profile', icon: <User size={20} /> },
+    { name: 'Destek Talepleri', path: '/support', icon: <HelpCircle size={20} /> }
   ];
 
   return (
