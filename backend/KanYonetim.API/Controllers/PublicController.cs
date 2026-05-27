@@ -53,19 +53,6 @@ namespace KanYonetim.API.Controllers
                 .Take(5)
                 .ToListAsync()).Cast<dynamic>().ToList();
 
-            // Ensure we return some default chart data if db is empty
-            if (bloodGroupStats.Count == 0)
-            {
-                bloodGroupStats = new List<dynamic>
-                {
-                    new { Name = "O Rh(-)", Value = 5 },
-                    new { Name = "A+", Value = 3 },
-                    new { Name = "B+", Value = 2 },
-                    new { Name = "AB+", Value = 1 },
-                    new { Name = "Diğer", Value = 1 }
-                };
-            }
-
             return Ok(new
             {
                 activeRequestsCount,
@@ -95,16 +82,6 @@ namespace KanYonetim.API.Controllers
                     CreatedAt = r.CreatedAt
                 })
                 .ToListAsync()).Cast<dynamic>().ToList();
-
-            // If empty, return some dummy data just so UI doesn't look completely empty for testing
-            if (urgentRequests.Count == 0)
-            {
-                 urgentRequests = new List<dynamic>
-                 {
-                     new { BloodType = "O Rh(-)", Hospital = "Test Hastanesi", Urgency = "Acil", Distance = "2.4 km", CreatedAt = DateTime.UtcNow },
-                     new { BloodType = "A+", Hospital = "Örnek Hastane", Urgency = "Orta", Distance = "4.1 km", CreatedAt = DateTime.UtcNow.AddMinutes(-30) }
-                 };
-            }
 
             return Ok(urgentRequests);
         }

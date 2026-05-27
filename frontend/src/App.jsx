@@ -13,6 +13,8 @@ import LiveTracking from './pages/admin/LiveTracking';
 import ReCAPTCHA from "react-google-recaptcha"
 import Profile from './pages/Profile';
 import Home from './pages/Home';
+import UserLayout from './components/UserLayout';
+import UserDashboard from './pages/user/UserDashboard';
 
 // API Base URL
 axios.defaults.baseURL = 'http://localhost:5090/api';
@@ -114,8 +116,11 @@ const App = () => {
     localStorage.setItem('usersList', JSON.stringify(usersList))
   }, [usersList])
 
+  const showSidebar = user && user.role !== 'Admin' && user.role !== 'Yönetici' && 
+    (location.pathname === '/dashboard' || location.pathname === '/profile' || location.pathname === '/blood-requests' || location.pathname === '/my-requests');
+
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col" style={showSidebar ? { height: '100vh', overflow: 'hidden' } : {}}>
       <Toaster
         position="top-right"
         toastOptions={{
@@ -128,99 +133,112 @@ const App = () => {
         }}
       />
 
-      {/* Navigation */}
-      <nav className="glass sticky top-0 z-50">
-        <div className="container" style={{ height: '72px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          {/* Sol: Logo ve İsim */}
-          <Link to="/" className="flex items-center no-underline hover:opacity-90 transition-opacity" style={{ gap: '0.875rem', textDecoration: 'none' }}>
-            <div className="bg-red-600 w-11 h-11 rounded-2xl flex items-center justify-center shadow-md">
-              <Heart size={22} className="text-white fill-white" />
-            </div>
-            <span style={{ fontSize: '1.5rem', fontWeight: '800', color: '#0f172a', letterSpacing: '-0.02em' }}>Hayat Ağı</span>
-          </Link>
-
-          {/* Sağ: Menü ve Profil Alanı */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
-
-            {/* Menü Linkleri */}
-            {user && (
-              <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-                {user.role === 'Admin' ? (
-                  <>
-                    <Link to="/" style={{ textDecoration: 'none', fontWeight: '600', color: location.pathname === '/' ? '#e11d48' : '#64748b', fontSize: '0.85rem', transition: 'color 0.2s' }}>Ana Sayfa</Link>
-                    <Link to="/logistics" style={{ textDecoration: 'none', fontWeight: '600', color: location.pathname === '/logistics' ? '#e11d48' : '#64748b', fontSize: '0.85rem', transition: 'color 0.2s' }}>Lojistik</Link>
-                    <Link to="/dashboard" style={{ textDecoration: 'none', fontWeight: '600', color: location.pathname === '/dashboard' ? '#e11d48' : '#64748b', fontSize: '0.85rem', transition: 'color 0.2s' }}>Yönetim Paneli</Link>
-                  </>
-                ) : (
-                  <>
-                    <Link to="/dashboard" style={{ textDecoration: 'none', fontWeight: '600', color: location.pathname === '/dashboard' || location.pathname === '/' ? '#e11d48' : '#64748b', fontSize: '0.85rem', transition: 'color 0.2s' }}>Ana Sayfa</Link>
-                    <NavBloodRequestsLink pathname={location.pathname} />
-                    <NavMyRequestsLink pathname={location.pathname} user={user} />
-                  </>
-                )}
-                <Link to="/profile" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', textDecoration: 'none', fontWeight: '600', color: location.pathname === '/profile' ? '#e11d48' : '#64748b', fontSize: '0.85rem', transition: 'color 0.2s' }}>
-                  <User size={16} /> Profilim
-                </Link>
+      {!showSidebar && (
+        <nav className="glass sticky top-0 z-50">
+          <div className="container" style={{ height: '72px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            {/* Sol: Logo ve İsim */}
+            <Link to="/" className="flex items-center no-underline hover:opacity-90 transition-opacity" style={{ gap: '0.875rem', textDecoration: 'none' }}>
+              <div className="bg-red-600 w-11 h-11 rounded-2xl flex items-center justify-center shadow-md">
+                <Heart size={22} className="text-white fill-white" />
               </div>
-            )}
+              <span style={{ fontSize: '1.5rem', fontWeight: '800', color: '#0f172a', letterSpacing: '-0.02em' }}>Hayat Ağı</span>
+            </Link>
 
-            {user ? (
-              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', borderLeft: '1px solid #e2e8f0', paddingLeft: '2rem' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-                  <span style={{ fontSize: '0.85rem', fontWeight: '700', color: '#1e293b', lineHeight: '1.2' }}>{user.fullName}</span>
-                  <span style={{ fontSize: '0.7rem', color: '#94a3b8', fontWeight: '500' }}>{user.role === 'Admin' ? 'Yönetici' : 'Bağışçı'}</span>
+            {/* Sağ: Menü ve Profil Alanı */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
+
+              {/* Menü Linkleri */}
+              {user && (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+                  {user.role === 'Admin' ? (
+                    <>
+                      <Link to="/" style={{ textDecoration: 'none', fontWeight: '600', color: location.pathname === '/' ? '#e11d48' : '#64748b', fontSize: '0.85rem', transition: 'color 0.2s' }}>Ana Sayfa</Link>
+                      <Link to="/logistics" style={{ textDecoration: 'none', fontWeight: '600', color: location.pathname === '/logistics' ? '#e11d48' : '#64748b', fontSize: '0.85rem', transition: 'color 0.2s' }}>Lojistik</Link>
+                      <Link to="/dashboard" style={{ textDecoration: 'none', fontWeight: '600', color: location.pathname === '/dashboard' ? '#e11d48' : '#64748b', fontSize: '0.85rem', transition: 'color 0.2s' }}>Yönetim Paneli</Link>
+                    </>
+                  ) : (
+                    <>
+                      <Link to="/dashboard" style={{ textDecoration: 'none', fontWeight: '600', color: location.pathname === '/dashboard' || location.pathname === '/' ? '#e11d48' : '#64748b', fontSize: '0.85rem', transition: 'color 0.2s' }}>Ana Sayfa</Link>
+                      <NavBloodRequestsLink pathname={location.pathname} />
+                      <NavMyRequestsLink pathname={location.pathname} user={user} />
+                    </>
+                  )}
+                  <Link to="/profile" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', textDecoration: 'none', fontWeight: '600', color: location.pathname === '/profile' ? '#e11d48' : '#64748b', fontSize: '0.85rem', transition: 'color 0.2s' }}>
+                    <User size={16} /> Profilim
+                  </Link>
                 </div>
-                <button
-                  onClick={() => { setUser(null); navigate('/'); toast.success('Güvenli çıkış yapıldı'); }}
-                  style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#94a3b8', transition: 'color 0.2s', padding: '0.25rem' }}
-                  onMouseOver={e => e.currentTarget.style.color = '#ef4444'}
-                  onMouseOut={e => e.currentTarget.style.color = '#94a3b8'}
-                  title="Çıkış Yap"
-                >
-                  <LogOut size={20} />
-                </button>
-              </div>
-            ) : (
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <Link to="/login" style={{ textDecoration: 'none', color: '#0f172a', fontWeight: '600', fontSize: '0.85rem', marginRight: '1rem' }}>Giriş Yap</Link>
-                <Link to="/register" className="btn btn-primary" style={{ padding: '0.6rem 1.5rem', fontSize: '0.85rem' }}>Hemen Katıl</Link>
-              </div>
-            )}
-          </div>
-        </div>
-      </nav>
+              )}
 
-      {/* Content */}
-      <main className="flex-grow container" style={{ padding: '3rem 0' }}>
-        <Routes>
-          <Route path="/" element={user?.role === 'Admin' ? <AdminDashboard user={user} usersList={usersList} setUsersList={setUsersList} /> : <Home />} />
-          <Route path="/login" element={<Login setUser={setUser} usersList={usersList} />} />
-          <Route path="/register" element={<Register setUser={setUser} usersList={usersList} setUsersList={setUsersList} />} />
-          <Route path="/dashboard" element={<Dashboard user={user} usersList={usersList} setUsersList={setUsersList} />} />
-          <Route path="/profile" element={<Profile user={user} setUser={setUser} usersList={usersList} setUsersList={setUsersList} />} />
-          <Route path="/logistics" element={user?.role === 'Admin' ? <LogisticsDashboard /> : <Home />} />
-          <Route path="/blood-requests" element={user ? <KanTalepleri user={user} /> : <Home />} />
-          <Route path="/my-requests" element={user ? <MyRequests user={user} /> : <Home />} />
-          <Route path="/verify-email" element={<VerifyEmail />} />
-        </Routes>
-      </main>
-
-      <footer className="glass" style={{ borderTop: 'none', borderLeft: 'none', borderRight: 'none', borderRadius: 0, padding: '3rem 0', marginTop: 'auto' }}>
-        <div className="container" style={{ textAlign: 'center' }}>
-          <div className="flex justify-center mb-6">
-            <div className="flex items-center gap-2 opacity-70">
-              <Heart size={20} className="text-red-500 fill-red-500" />
-              <span className="font-bold text-lg text-slate-900">Hayat Ağı</span>
+              {user ? (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', borderLeft: '1px solid #e2e8f0', paddingLeft: '2rem' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+                    <span style={{ fontSize: '0.85rem', fontWeight: '700', color: '#1e293b', lineHeight: '1.2' }}>{user.fullName}</span>
+                    <span style={{ fontSize: '0.7rem', color: '#94a3b8', fontWeight: '500' }}>{user.role === 'Admin' ? 'Yönetici' : 'Bağışçı'}</span>
+                  </div>
+                  <button
+                    onClick={() => { setUser(null); navigate('/'); toast.success('Güvenli çıkış yapıldı'); }}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#94a3b8', transition: 'color 0.2s', padding: '0.25rem' }}
+                    onMouseOver={e => e.currentTarget.style.color = '#ef4444'}
+                    onMouseOut={e => e.currentTarget.style.color = '#94a3b8'}
+                    title="Çıkış Yap"
+                  >
+                    <LogOut size={20} />
+                  </button>
+                </div>
+              ) : (
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <Link to="/login" style={{ textDecoration: 'none', color: '#0f172a', fontWeight: '600', fontSize: '0.85rem', marginRight: '1rem' }}>Giriş Yap</Link>
+                  <Link to="/register" className="btn btn-primary" style={{ padding: '0.6rem 1.5rem', fontSize: '0.85rem' }}>Hemen Katıl</Link>
+                </div>
+              )}
             </div>
           </div>
-          <p style={{ color: '#475569', fontSize: '0.875rem', marginBottom: '1rem' }}>
-            Topluma umut olun, bir hayat kurtarın. Modern kan yönetim platformu.
-          </p>
-          <div style={{ color: '#94a3b8', fontSize: '0.75rem' }}>
-            &copy; {new Date().getFullYear()} Hayat Ağı Yönetim Sistemi. Tüm hakları saklıdır.
+        </nav>
+      )}
+
+      {showSidebar ? (
+        <UserLayout user={user} setUser={setUser}>
+          <Routes>
+            <Route path="/dashboard" element={<Dashboard user={user} usersList={usersList} setUsersList={setUsersList} />} />
+            <Route path="/profile" element={<Profile user={user} setUser={setUser} usersList={usersList} setUsersList={setUsersList} />} />
+            <Route path="/blood-requests" element={user ? <KanTalepleri user={user} /> : <Home />} />
+            <Route path="/my-requests" element={user ? <MyRequests user={user} /> : <Home />} />
+          </Routes>
+        </UserLayout>
+      ) : (
+        <main className="flex-grow container" style={{ padding: '3rem 0' }}>
+          <Routes>
+            <Route path="/" element={user?.role === 'Admin' ? <AdminDashboard user={user} usersList={usersList} setUsersList={setUsersList} /> : <Home />} />
+            <Route path="/login" element={<Login setUser={setUser} usersList={usersList} />} />
+            <Route path="/register" element={<Register setUser={setUser} usersList={usersList} setUsersList={setUsersList} />} />
+            <Route path="/dashboard" element={<Dashboard user={user} usersList={usersList} setUsersList={setUsersList} />} />
+            <Route path="/profile" element={<Profile user={user} setUser={setUser} usersList={usersList} setUsersList={setUsersList} />} />
+            <Route path="/logistics" element={user?.role === 'Admin' ? <LogisticsDashboard /> : <Home />} />
+            <Route path="/blood-requests" element={user ? <KanTalepleri user={user} /> : <Home />} />
+            <Route path="/my-requests" element={user ? <MyRequests user={user} /> : <Home />} />
+            <Route path="/verify-email" element={<VerifyEmail />} />
+          </Routes>
+        </main>
+      )}
+
+      {!showSidebar && (
+        <footer className="glass" style={{ borderTop: 'none', borderLeft: 'none', borderRight: 'none', borderRadius: 0, padding: '3rem 0', marginTop: 'auto' }}>
+          <div className="container" style={{ textAlign: 'center' }}>
+            <div className="flex justify-center mb-6">
+              <div className="flex items-center gap-2 opacity-70">
+                <Heart size={20} className="text-red-500 fill-red-500" />
+                <span className="font-bold text-lg text-slate-900">Hayat Ağı</span>
+              </div>
+            </div>
+            <p style={{ color: '#475569', fontSize: '0.875rem', marginBottom: '1rem' }}>
+              Topluma umut olun, bir hayat kurtarın. Modern kan yönetim platformu.
+            </p>
+            <div style={{ color: '#94a3b8', fontSize: '0.75rem' }}>
+              &copy; {new Date().getFullYear()} Hayat Ağı Yönetim Sistemi. Tüm hakları saklıdır.
+            </div>
           </div>
-        </div>
-      </footer>
+        </footer>
+      )}
     </div>
   )
 }
@@ -1515,72 +1533,7 @@ const Dashboard = ({ user, usersList, setUsersList }) => {
 
         </div>
       ) : (
-        <>
-          {/* Header Card */}
-          <div className="glass relative overflow-hidden" style={{ border: '1px solid rgba(0,0,0,0.03)', boxShadow: '0 20px 50px rgba(0,0,0,0.04)', padding: '3rem', borderRadius: '48px', marginBottom: '3rem', background: '#ffffff' }}>
-            <div style={{ position: 'absolute', top: '-150px', right: '-150px', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(225,29,72,0.06) 0%, transparent 70%)', borderRadius: '50%' }}></div>
-
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', marginBottom: '3rem', position: 'relative', zIndex: 10 }}>
-              <div style={{ background: 'linear-gradient(135deg, #f43f5e 0%, #e11d48 100%)', padding: '1.25rem', borderRadius: '24px', color: 'white', boxShadow: '0 10px 25px rgba(225,29,72,0.3)' }}>
-                <User size={40} />
-              </div>
-              <div>
-                <h2 style={{ fontSize: '2.5rem', fontWeight: '800', marginBottom: '0.25rem', letterSpacing: '-0.02em', color: '#0f172a' }}>Merhaba, {user.fullName}</h2>
-                <p style={{ color: '#64748b', fontSize: '1.1rem' }}>Topluma katkı sağladığınız için teşekkürler.</p>
-              </div>
-            </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.5rem', position: 'relative', zIndex: 10 }}>
-              <div className="card" style={{ background: nextDateBg, border: 'none', padding: '1.75rem', borderRadius: '24px', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                <span style={{ color: nextDateColor, fontSize: '0.95rem', fontWeight: '700' }}>Bir Sonraki Bağış</span>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: '#0f172a', fontWeight: '800', fontSize: '1.15rem' }}>
-                  <Calendar size={24} style={{ color: nextDateColor }} />
-                  {nextDateText}
-                </div>
-              </div>
-              <div className="card" style={{ background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)', border: 'none', padding: '1.75rem', borderRadius: '24px', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                <span style={{ color: '#16a34a', fontSize: '0.95rem', fontWeight: '700' }}>Toplam Bağış</span>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: '#0f172a', fontWeight: '800', fontSize: '1.5rem' }}>
-                  <Heart size={24} style={{ color: '#16a34a' }} />
-                  {donationCount} Hayat
-                </div>
-              </div>
-              <div className="card" style={{ background: 'linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%)', border: 'none', padding: '1.75rem', borderRadius: '24px', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                <span style={{ color: '#2563eb', fontSize: '0.95rem', fontWeight: '700' }}>Kan Grubunuz</span>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: '#0f172a', fontWeight: '800', fontSize: '1.5rem' }}>
-                  <Droplets size={24} style={{ color: '#2563eb' }} />
-                  {user?.bloodType ? user.bloodType.replace('+', ' Rh(+)').replace('-', ' Rh(-)') : 'Belirtilmedi'}
-                </div>
-              </div>
-              <div className="card" style={{ background: 'linear-gradient(135deg, #fef3c7 0%, #fffbeb 100%)', border: 'none', padding: '1.75rem', borderRadius: '24px', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                <span style={{ color: '#d97706', fontSize: '0.95rem', fontWeight: '700' }}>Son Bağış İşlemi</span>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem', color: '#0f172a' }}>
-                  {lastDonationDetails ? (
-                    <>
-                      <div style={{ fontWeight: '800', fontSize: '1.1rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                        <Calendar size={18} style={{ color: '#d97706' }} />
-                        {lastDonationDetails.date}
-                      </div>
-                      <div style={{ fontSize: '0.85rem', color: '#b45309', fontWeight: '700', marginTop: '0.3rem', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-                        <MapPin size={14} style={{ color: '#b45309' }} />
-                        {lastDonationDetails.hastane}
-                      </div>
-                    </>
-                  ) : (
-                    <div style={{ fontWeight: '800', fontSize: '1.1rem', color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                      <Activity size={18} style={{ color: '#94a3b8' }} />
-                      Kayıt Bulunmuyor
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <BloodRequestCreate user={user} />
-
-
-        </>
+        <UserDashboard user={user} />
       )}
     </div>
   )

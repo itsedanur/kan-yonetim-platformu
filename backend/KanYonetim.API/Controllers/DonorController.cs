@@ -90,5 +90,44 @@ namespace KanYonetim.API.Controllers
                 user.LastDonationDate
             });
         }
+
+        [HttpGet("monthly-stats")]
+        public async Task<ActionResult> GetMonthlyStats()
+        {
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var today = DateTime.UtcNow;
+            var startDate = new DateTime(today.Year, today.Month, 1).AddMonths(-5);
+
+            var applications = await _context.DonationApplications
+                .Where(a => a.DonorId == userId && a.ApplicationDate >= startDate)
+                .Select(a => a.ApplicationDate)
+                .ToListAsync();
+
+            var requests = await _context.DonationRequests
+                .Where(r => r.CreatedAt >= startDate)
+                .Select(r => r.CreatedAt)
+                .ToListAsync();
+
+            var monthlyStats = new List<object>();
+            var turkishMonths = new[] { "Oca", "Şub", "Mar", "Nis", "May", "Haz", "Tem", "Ağu", "Eyl", "Eki", "Kas", "Ara" };
+
+            for (int i = 0; i < 6; i++)
+            {
+                var monthDate = startDate.AddMonths(i);
+                var monthName = turkishMonths[monthDate.Month - 1];
+
+                var appCount = applications.Count(a => a.Year == monthDate.Year && a.Month == monthDate.Month);
+                var reqCount = requests.Count(r => r.Year == monthDate.Year && r.Month == monthDate.Month);
+
+                monthlyStats.Add(new
+                {
+                    Name = monthName,
+                    Bagis = appCount,
+                    Talep = reqCount
+                });
+            }
+
+            return Ok(monthlyStats);
+        }
     }
 }
