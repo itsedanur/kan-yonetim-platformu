@@ -3,25 +3,43 @@
 İstanbul genelinde kan bağışı süreçlerini merkezileştirmeyi amaçlayan dijital platform.
 
 ## Teknolojiler
-- **Backend:** C# - ASP.NET Core Web API
+- **Backend:** C# - ASP.NET Core Web API (.NET 9.0)
 - **Frontend:** React (Vite)
-- **Veritabanı:** SQLite + EF Core
+- **Veritabanı:** PostgreSQL (Docker ile containerize edilmiş) + EF Core
 - **Kimlik Doğrulama:** JWT (JSON Web Token)
 
-## Proje Yapısı
-- `/backend`: Web API projesi, modeller ve servisler.
-- `/frontend`: React arayüzü, modern glassmorphic tasarım.
+## Gereksinimler
+Projenin çalışması için bilgisayarınızda şu araçların kurulu olması gerekir:
+1. **Docker Desktop** (Veritabanı için)
+2. **.NET 9.0 SDK** (Backend için)
+3. **Node.js** ve **npm** (Frontend için)
 
 ## Nasıl Çalıştırılır?
 
-### 1. Backend'i Başlatın
+### 1. Veritabanını Başlatın (Docker)
+Docker Desktop uygulamasını açın ve projenin ana dizininde şu komutu çalıştırarak PostgreSQL veritabanını başlatın:
+```bash
+docker compose up -d
+```
+Bu komut, PostgreSQL veritabanını `localhost:5455` portunda ve pgAdmin panelini `localhost:5050` portunda ayağa kaldırır.
+
+### 2. Uygulamayı Başlatın (Kolay Yöntem)
+Projenin ana dizininde aşağıdaki tek komutu çalıştırarak hem frontend hem backend bağımlılıklarını kurup projeyi başlatabilirsiniz:
+```bash
+npm run dev
+```
+
+### 3. Manuel Başlatma (Alternatif)
+Eğer frontend ve backend'i ayrı ayrı başlatmak isterseniz:
+
+**Backend'i Başlatın:**
 ```bash
 cd backend/KanYonetim.API
 dotnet run
 ```
-API otomatik olarak `http://localhost:5090` adresinde çalışacaktır. İlk çalışmada veritabanı (SQLite) otomatik oluşturulur ve İstanbul ilçeleri seed data olarak eklenir.
+API otomatik olarak `http://localhost:5090` adresinde çalışacaktır. İlk çalışmada veritabanı (PostgreSQL) şeması otomatik oluşturulur ve İstanbul ilçeleri seed verisi olarak eklenir.
 
-### 2. Frontend'i Başlatın
+**Frontend'i Başlatın:**
 ```bash
 cd frontend
 npm install

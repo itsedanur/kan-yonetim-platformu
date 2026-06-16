@@ -21,6 +21,65 @@ import AdminSupport from './pages/admin/AdminSupport';
 // API Base URL
 axios.defaults.baseURL = 'http://localhost:5090/api';
 
+const getInitialStockData = () => {
+  try {
+    const data = localStorage.getItem('stockData');
+    if (data) {
+      const parsed = JSON.parse(data);
+      if (parsed && Object.keys(parsed).length > 0) {
+        return parsed;
+      }
+    }
+  } catch (e) {}
+
+  const seed = {
+    'Adalar': { '0+': 2, '0-': 1, 'A+': 3, 'A-': 0, 'B+': 1, 'B-': 0, 'AB+': 1, 'AB-': 0 },
+    'Arnavutköy': { '0+': 4, '0-': 2, 'A+': 3, 'A-': 1, 'B+': 5, 'B-': 0, 'AB+': 2, 'AB-': 0 },
+    'Ataşehir': { '0+': 15, '0-': 6, 'A+': 22, 'A-': 5, 'B+': 12, 'B-': 3, 'AB+': 8, 'AB-': 2 },
+    'Avcılar': { '0+': 8, '0-': 3, 'A+': 12, 'A-': 2, 'B+': 7, 'B-': 1, 'AB+': 4, 'AB-': 0 },
+    'Bağcılar': { '0+': 25, '0-': 10, 'A+': 32, 'A-': 8, 'B+': 18, 'B-': 4, 'AB+': 11, 'AB-': 3 },
+    'Bahçelievler': { '0+': 18, '0-': 7, 'A+': 24, 'A-': 6, 'B+': 14, 'B-': 3, 'AB+': 9, 'AB-': 2 },
+    'Bakırköy': { '0+': 30, '0-': 12, 'A+': 40, 'A-': 10, 'B+': 25, 'B-': 5, 'AB+': 15, 'AB-': 4 },
+    'Başakşehir': { '0+': 12, '0-': 4, 'A+': 18, 'A-': 3, 'B+': 10, 'B-': 2, 'AB+': 6, 'AB-': 1 },
+    'Bayrampaşa': { '0+': 9, '0-': 2, 'A+': 14, 'A-': 3, 'B+': 8, 'B-': 1, 'AB+': 5, 'AB-': 0 },
+    'Beşiktaş': { '0+': 45, '0-': 18, 'A+': 52, 'A-': 15, 'B+': 35, 'B-': 8, 'AB+': 22, 'AB-': 6 },
+    'Beykoz': { '0+': 5, '0-': 2, 'A+': 8, 'A-': 1, 'B+': 4, 'B-': 0, 'AB+': 2, 'AB-': 0 },
+    'Beylikdüzü': { '0+': 14, '0-': 5, 'A+': 19, 'A-': 4, 'B+': 11, 'B-': 2, 'AB+': 7, 'AB-': 1 },
+    'Beyoğlu': { '0+': 22, '0-': 8, 'A+': 28, 'A-': 7, 'B+': 16, 'B-': 4, 'AB+': 10, 'AB-': 3 },
+    'Büyükçekmece': { '0+': 6, '0-': 2, 'A+': 9, 'A-': 1, 'B+': 5, 'B-': 0, 'AB+': 3, 'AB-': 0 },
+    'Çatalca': { '0+': 2, '0-': 0, 'A+': 4, 'A-': 0, 'B+': 2, 'B-': 0, 'AB+': 1, 'AB-': 0 },
+    'Çekmeköy': { '0+': 7, '0-': 2, 'A+': 11, 'A-': 2, 'B+': 6, 'B-': 1, 'AB+': 3, 'AB-': 0 },
+    'Esenler': { '0+': 13, '0-': 4, 'A+': 17, 'A-': 3, 'B+': 9, 'B-': 2, 'AB+': 5, 'AB-': 1 },
+    'Esenyurt': { '0+': 20, '0-': 8, 'A+': 26, 'A-': 6, 'B+': 15, 'B-': 3, 'AB+': 9, 'AB-': 2 },
+    'Eyüpsultan': { '0+': 11, '0-': 3, 'A+': 16, 'A-': 4, 'B+': 9, 'B-': 2, 'AB+': 6, 'AB-': 1 },
+    'Fatih': { '0+': 40, '0-': 15, 'A+': 48, 'A-': 12, 'B+': 30, 'B-': 7, 'AB+': 18, 'AB-': 5 },
+    'Gaziosmanpaşa': { '0+': 10, '0-': 3, 'A+': 15, 'A-': 3, 'B+': 8, 'B-': 2, 'AB+': 5, 'AB-': 1 },
+    'Güngören': { '0+': 8, '0-': 2, 'A+': 13, 'A-': 2, 'B+': 7, 'B-': 1, 'AB+': 4, 'AB-': 0 },
+    'Kadıköy': { '0+': 50, '0-': 20, 'A+': 60, 'A-': 18, 'B+': 40, 'B-': 10, 'AB+': 25, 'AB-': 8 },
+    'Kağıthane': { '0+': 12, '0-': 4, 'A+': 17, 'A-': 4, 'B+': 10, 'B-': 2, 'AB+': 6, 'AB-': 1 },
+    'Kartal': { '0+': 28, '0-': 11, 'A+': 35, 'A-': 9, 'B+': 22, 'B-': 5, 'AB+': 13, 'AB-': 4 },
+    'Küçükçekmece': { '0+': 16, '0-': 6, 'A+': 22, 'A-': 5, 'B+': 13, 'B-': 3, 'AB+': 8, 'AB-': 2 },
+    'Maltepe': { '0+': 24, '0-': 9, 'A+': 30, 'A-': 8, 'B+': 19, 'B-': 4, 'AB+': 11, 'AB-': 3 },
+    'Pendik': { '0+': 32, '0-': 13, 'A+': 42, 'A-': 11, 'B+': 26, 'B-': 6, 'AB+': 16, 'AB-': 4 },
+    'Sancaktepe': { '0+': 9, '0-': 3, 'A+': 13, 'A-': 2, 'B+': 8, 'B-': 1, 'AB+': 5, 'AB-': 0 },
+    'Sarıyer': { '0+': 18, '0-': 7, 'A+': 23, 'A-': 6, 'B+': 14, 'B-': 3, 'AB+': 9, 'AB-': 2 },
+    'Silivri': { '0+': 4, '0-': 1, 'A+': 6, 'A-': 1, 'B+': 3, 'B-': 0, 'AB+': 2, 'AB-': 0 },
+    'Sultanbeyli': { '0+': 8, '0-': 2, 'A+': 11, 'A-': 2, 'B+': 6, 'B-': 1, 'AB+': 4, 'AB-': 0 },
+    'Sultangazi': { '0+': 11, '0-': 4, 'A+': 15, 'A-': 3, 'B+': 9, 'B-': 2, 'AB+': 5, 'AB-': 1 },
+    'Şile': { '0+': 1, '0-': 0, 'A+': 2, 'A-': 0, 'B+': 1, 'B-': 0, 'AB+': 0, 'AB-': 0 },
+    'Şişli': { '0+': 42, '0-': 16, 'A+': 50, 'A-': 14, 'B+': 32, 'B-': 8, 'AB+': 20, 'AB-': 5 },
+    'Tuzla': { '0+': 12, '0-': 4, 'A+': 16, 'A-': 4, 'B+': 10, 'B-': 2, 'AB+': 6, 'AB-': 1 },
+    'Ümraniye': { '0+': 30, '0-': 12, 'A+': 38, 'A-': 10, 'B+': 24, 'B-': 5, 'AB+': 15, 'AB-': 4 },
+    'Üsküdar': { '0+': 38, '0-': 15, 'A+': 46, 'A-': 12, 'B+': 29, 'B-': 7, 'AB+': 17, 'AB-': 4 },
+    'Zeytinburnu': { '0+': 14, '0-': 5, 'A+': 19, 'A-': 4, 'B+': 11, 'B-': 2, 'AB+': 7, 'AB-': 1 }
+  };
+
+  try {
+    localStorage.setItem('stockData', JSON.stringify(seed));
+  } catch (e) {}
+  return seed;
+};
+
 // Axios Interceptor for Authentication Token
 axios.interceptors.request.use((config) => {
   const userStr = localStorage.getItem('user');
@@ -1871,7 +1930,7 @@ const LogisticsDashboard = () => {
   const TRANSFER_AMOUNT = 5;
 
   const [stockData, setStockData] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('stockData') || '{}'); } catch { return {}; }
+    return getInitialStockData();
   });
   const [completedTransfers, setCompletedTransfers] = useState(() => {
     try { return JSON.parse(localStorage.getItem('completedTransfers') || '[]'); } catch { return []; }
@@ -1939,7 +1998,7 @@ const LogisticsDashboard = () => {
 
   const handleRefresh = () => {
     try {
-      const fresh = JSON.parse(localStorage.getItem('stockData') || '{}');
+      const fresh = getInitialStockData();
       setStockData(fresh);
       setDismissedSuggestions([]);
       toast.success('Stok verileri yenilendi!');
@@ -2095,7 +2154,7 @@ const AdminDashboard = ({ user, usersList, setUsersList }) => {
     try { return JSON.parse(localStorage.getItem('donationList') || '[]'); } catch { return []; }
   });
   const [stockData, setStockData] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('stockData') || '{}'); } catch { return {}; }
+    return getInitialStockData();
   });
 
   const [donorName, setDonorName] = useState('');
