@@ -155,6 +155,115 @@ namespace KanYonetim.API.Data
                     context.SaveChanges();
                 }
             }
+
+            // Seed Support Tickets
+            if (context.SupportTickets.Count() < 5)
+            {
+                var donors = context.Users.Where(u => u.Role == "Donor").ToList();
+                var admin = context.Users.FirstOrDefault(u => u.Role == "Admin");
+                
+                if (donors.Any() && admin != null)
+                {
+                    var random = new Random(99);
+                    var ticketTemplates = new List<(string Subject, string Status, List<(string Text, bool IsAdmin)> Messages)>
+                    {
+                        (
+                            "Bağış Randevumu Nasıl İptal Ederim?",
+                            "Resolved",
+                            new List<(string Text, bool IsAdmin)>
+                            {
+                                ("Merhaba, yarın Fatih bölgesinde bağış yapacaktım ama işim çıktı. Randevumu nasıl iptal edebilirim?", false),
+                                ("Merhaba Ahmet Bey, randevunuzu profil sayfanızdaki 'Aktif Randevularım' kısmından veya bu panel üzerinden iptal edebilirsiniz. Sağlıklı günler dileriz.", true),
+                                ("Teşekkürler, iptal ettim.", false)
+                            }
+                        ),
+                        (
+                            "Mobil Bağış Noktaları Nerelerde?",
+                            "Answered",
+                            new List<(string Text, bool IsAdmin)>
+                            {
+                                ("Kadıköy bölgesindeki mobil Kızılay tırlarının bu haftaki programını öğrenebilir miyim?", false),
+                                ("Merhaba, bu hafta Kadıköy İskele Meydanı'nda 10:00 - 19:00 saatleri arasında iki adet bağış tırımız hizmet vermektedir.", true)
+                            }
+                        ),
+                        (
+                            "Kan Bağışı Sonrası Halsizlik",
+                            "Resolved",
+                            new List<(string Text, bool IsAdmin)>
+                            {
+                                ("Dün akşam kan bağışı yaptım, bugün hafif bir baş dönmesi ve halsizlik var. Normal midir?", false),
+                                ("Merhaba Zeynep Hanım, bağış sonrası ilk 24-48 saat hafif halsizlik normaldir. Lütfen bol sıvı tükettiğinizden emin olun ve aşırı fiziksel aktiviteden kaçının. Şikayetleriniz artarsa en yakın sağlık kuruluşuna başvurmanızı öneririz.", true),
+                                ("Tamamdır, dinleniyorum. Çok teşekkürler.", false)
+                            }
+                        ),
+                        (
+                            "Sistem Giriş Problemi",
+                            "Open",
+                            new List<(string Text, bool IsAdmin)>
+                            {
+                                ("Google ile giriş yapmaya çalışırken hata alıyorum. Giriş sayfası sürekli yenileniyor.", false)
+                            }
+                        ),
+                        (
+                            "Kan Grubu Değişikliği Hakkında",
+                            "Answered",
+                            new List<(string Text, bool IsAdmin)>
+                            {
+                                ("Profilimdeki kan grubunu yanlış seçmişim, değiştirmek istiyorum ama alan kilitli görünüyor.", false),
+                                ("Merhaba, kan grubu güvenliğiniz için kilitli bir alandır. Doğru kan grubunuzu gösteren bir belge veya rapor ile en yakın merkezimize başvurursanız güncellemeyi sizin için yapabiliriz.", true)
+                            }
+                        ),
+                        (
+                            "Plazma Bağışı Yapabilir miyim?",
+                            "Resolved",
+                            new List<(string Text, bool IsAdmin)>
+                            {
+                                ("Merhabalar, normal kan bağışı dışında plazma bağışı da kabul ediyor musunuz?", false),
+                                ("Merhaba, plazma bağışları sadece belirli merkezlerimizde (örneğin Çapa ve Haydarpaşa) yapılabilmektedir. Önceden randevu almanız gerekmektedir.", true)
+                            }
+                        ),
+                        (
+                            "Yaş Sınırı Nedir?",
+                            "Closed",
+                            new List<(string Text, bool IsAdmin)>
+                            {
+                                ("17 yaşındayım, veli izin belgesiyle kan bağışı yapabilir miyim?", false),
+                                ("Merhaba, yasal mevzuat gereği kan bağışı için alt yaş sınırı 18'dir. Veli izni olsa dahi 18 yaş altı kişilerden bağış kabul edilememektedir.", true)
+                            }
+                        )
+                    };
+
+                    foreach (var template in ticketTemplates)
+                    {
+                        var donor = donors[random.Next(donors.Count)];
+                        var ticket = new SupportTicket
+                        {
+                            UserId = donor.Id,
+                            Subject = template.Subject,
+                            Status = template.Status,
+                            CreatedAt = DateTime.UtcNow.AddDays(-random.Next(1, 10)),
+                            UpdatedAt = DateTime.UtcNow
+                        };
+                        context.SupportTickets.Add(ticket);
+                        context.SaveChanges();
+
+                        var messageTime = ticket.CreatedAt;
+                        foreach (var msgTemplate in template.Messages)
+                        {
+                            messageTime = messageTime.AddHours(random.Next(1, 5));
+                            var msg = new SupportMessage
+                            {
+                                SupportTicketId = ticket.Id,
+                                SenderId = msgTemplate.IsAdmin ? admin.Id : donor.Id,
+                                MessageText = msgTemplate.Text,
+                                CreatedAt = messageTime
+                            };
+                            context.SupportMessages.Add(msg);
+                        }
+                        context.SaveChanges();
+                    }
+                }
+            }
         }
 
         private static string ReplaceTurkishChars(string input)
