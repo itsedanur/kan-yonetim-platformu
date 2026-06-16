@@ -69,8 +69,8 @@ const UserManagement = ({ usersList, setUsersList }) => {
     <div className="animate-in" style={{ padding: '0 0 4rem 0' }}>
       {/* Top Stats Cards */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1.5rem', marginBottom: '2rem' }}>
-        <div className="card glass" style={{ background: '#ffffff', borderRadius: '24px', padding: '1.5rem', display: 'flex', alignItems: 'center', gap: '1.5rem', border: '1px solid rgba(0,0,0,0.03)', boxShadow: '0 10px 40px rgba(0,0,0,0.02)' }}>
-          <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: 'rgba(59, 130, 246, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div className="card glass" style={{ background: '#ffffff', borderRadius: '10px', padding: '1.5rem', display: 'flex', alignItems: 'center', gap: '1.5rem', border: '1px solid rgba(0,0,0,0.03)', boxShadow: '0 10px 40px rgba(0,0,0,0.02)' }}>
+          <div style={{ width: '56px', height: '56px', borderRadius: '8px', background: 'rgba(59, 130, 246, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Users size={28} style={{ color: '#3b82f6' }} />
           </div>
           <div>
@@ -79,8 +79,8 @@ const UserManagement = ({ usersList, setUsersList }) => {
           </div>
         </div>
 
-        <div className="card glass" style={{ background: '#ffffff', borderRadius: '24px', padding: '1.5rem', display: 'flex', alignItems: 'center', gap: '1.5rem', border: '1px solid rgba(0,0,0,0.03)', boxShadow: '0 10px 40px rgba(0,0,0,0.02)' }}>
-          <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: 'rgba(239, 68, 68, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div className="card glass" style={{ background: '#ffffff', borderRadius: '10px', padding: '1.5rem', display: 'flex', alignItems: 'center', gap: '1.5rem', border: '1px solid rgba(0,0,0,0.03)', boxShadow: '0 10px 40px rgba(0,0,0,0.02)' }}>
+          <div style={{ width: '56px', height: '56px', borderRadius: '8px', background: 'rgba(239, 68, 68, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Shield size={28} style={{ color: '#ef4444' }} />
           </div>
           <div>
@@ -89,8 +89,8 @@ const UserManagement = ({ usersList, setUsersList }) => {
           </div>
         </div>
 
-        <div className="card glass" style={{ background: '#ffffff', borderRadius: '24px', padding: '1.5rem', display: 'flex', alignItems: 'center', gap: '1.5rem', border: '1px solid rgba(0,0,0,0.03)', boxShadow: '0 10px 40px rgba(0,0,0,0.02)' }}>
-          <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: 'rgba(34, 197, 94, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div className="card glass" style={{ background: '#ffffff', borderRadius: '10px', padding: '1.5rem', display: 'flex', alignItems: 'center', gap: '1.5rem', border: '1px solid rgba(0,0,0,0.03)', boxShadow: '0 10px 40px rgba(0,0,0,0.02)' }}>
+          <div style={{ width: '56px', height: '56px', borderRadius: '8px', background: 'rgba(34, 197, 94, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <UserRound size={28} style={{ color: '#22c55e' }} />
           </div>
           <div>
@@ -101,13 +101,13 @@ const UserManagement = ({ usersList, setUsersList }) => {
       </div>
 
       {/* Main Table Card */}
-      <div className="card glass" style={{ background: '#ffffff', borderRadius: '32px', border: '1px solid rgba(0,0,0,0.03)', boxShadow: '0 20px 50px rgba(0,0,0,0.04)', overflow: 'hidden' }}>
+      <div className="card glass" style={{ background: '#ffffff', borderRadius: '12px', border: '1px solid rgba(0,0,0,0.03)', boxShadow: '0 20px 50px rgba(0,0,0,0.04)', overflow: 'hidden' }}>
         
         {/* Header & Filters */}
         <div style={{ padding: '2rem', borderBottom: '1px solid #f1f5f9' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1.5rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-              <div style={{ width: '48px', height: '48px', borderRadius: '16px', background: 'linear-gradient(135deg, #e11d48 0%, #be123c 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 10px 20px rgba(225,29,72,0.2)' }}>
+              <div style={{ width: '48px', height: '48px', borderRadius: '8px', background: 'linear-gradient(135deg, #991b1b 0%, #7f1d1d 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 10px 20px rgba(225,29,72,0.2)' }}>
                 <Users size={24} style={{ color: '#ffffff' }} />
               </div>
               <div>
@@ -191,7 +191,7 @@ const UserManagement = ({ usersList, setUsersList }) => {
 
                   {/* Kan Grubu */}
                   <td style={{ padding: '1.25rem 2rem' }}>
-                    <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '0.4rem 0.8rem', background: 'rgba(225, 29, 72, 0.1)', color: '#e11d48', borderRadius: '8px', fontWeight: '800', fontSize: '0.9rem' }}>
+                    <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '0.4rem 0.8rem', background: 'rgba(153, 27, 27, 0.08)', color: '#991b1b', borderRadius: '8px', fontWeight: '800', fontSize: '0.9rem' }}>
                       {u.bloodType || '-'}
                     </span>
                   </td>
@@ -206,11 +206,11 @@ const UserManagement = ({ usersList, setUsersList }) => {
                   {/* Rol */}
                   <td style={{ padding: '1.25rem 2rem' }}>
                     {u.role === 'Yönetici' ? (
-                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', padding: '0.4rem 1rem', background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', borderRadius: '20px', fontSize: '0.85rem', fontWeight: '700' }}>
+                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', padding: '0.4rem 1rem', background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', borderRadius: '8px', fontSize: '0.85rem', fontWeight: '700' }}>
                         <Shield size={14} /> Yönetici
                       </span>
                     ) : (
-                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', padding: '0.4rem 1rem', background: 'rgba(59, 130, 246, 0.1)', color: '#3b82f6', borderRadius: '20px', fontSize: '0.85rem', fontWeight: '700' }}>
+                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', padding: '0.4rem 1rem', background: 'rgba(59, 130, 246, 0.1)', color: '#3b82f6', borderRadius: '8px', fontSize: '0.85rem', fontWeight: '700' }}>
                         <User size={14} /> Kullanıcı
                       </span>
                     )}
@@ -267,7 +267,7 @@ const UserManagement = ({ usersList, setUsersList }) => {
       {/* Düzenleme Modalı */}
       {editModal && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(15,23,42,0.6)', backdropFilter: 'blur(4px)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem', animation: 'fadeIn 0.2s ease-out' }} onClick={() => setEditModal(null)}>
-          <div style={{ background: '#ffffff', borderRadius: '24px', padding: '2.5rem', width: '100%', maxWidth: '600px', boxShadow: '0 25px 60px rgba(0,0,0,0.2)', maxHeight: '90vh', overflowY: 'auto' }} onClick={e => e.stopPropagation()}>
+          <div style={{ background: '#ffffff', borderRadius: '10px', padding: '2.5rem', width: '100%', maxWidth: '600px', boxShadow: '0 25px 60px rgba(0,0,0,0.2)', maxHeight: '90vh', overflowY: 'auto' }} onClick={e => e.stopPropagation()}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                 <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: '#e0f2fe', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#0284c7' }}><Edit size={20}/></div>
@@ -336,20 +336,20 @@ const UserManagement = ({ usersList, setUsersList }) => {
       {/* Detay Modalı */}
       {detailModal && !editModal && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(15,23,42,0.6)', backdropFilter: 'blur(4px)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem', animation: 'fadeIn 0.2s ease-out' }} onClick={() => setDetailModal(null)}>
-          <div style={{ background: '#ffffff', borderRadius: '24px', padding: '3rem', width: '100%', maxWidth: '500px', boxShadow: '0 25px 60px rgba(0,0,0,0.2)', position: 'relative' }} onClick={e => e.stopPropagation()}>
+          <div style={{ background: '#ffffff', borderRadius: '10px', padding: '3rem', width: '100%', maxWidth: '500px', boxShadow: '0 25px 60px rgba(0,0,0,0.2)', position: 'relative' }} onClick={e => e.stopPropagation()}>
             <button onClick={() => setDetailModal(null)} style={{ position: 'absolute', top: '1.5rem', right: '1.5rem', background: '#f1f5f9', border: 'none', borderRadius: '12px', width: '40px', height: '40px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#64748b', transition: 'all 0.2s' }} onMouseOver={e => {e.currentTarget.style.background = '#e2e8f0'; e.currentTarget.style.color = '#0f172a'}} onMouseOut={e => {e.currentTarget.style.background = '#f1f5f9'; e.currentTarget.style.color = '#64748b'}}><XCircle size={20} /></button>
             
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', marginBottom: '2rem' }}>
-              <div style={{ width: '80px', height: '80px', borderRadius: '24px', background: detailModal.role === 'Yönetici' ? '#fee2e2' : '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2.5rem', fontWeight: '800', color: detailModal.role === 'Yönetici' ? '#ef4444' : '#475569', marginBottom: '1rem', boxShadow: '0 10px 25px rgba(0,0,0,0.05)' }}>
+              <div style={{ width: '80px', height: '80px', borderRadius: '10px', background: detailModal.role === 'Yönetici' ? '#fee2e2' : '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2.5rem', fontWeight: '800', color: detailModal.role === 'Yönetici' ? '#ef4444' : '#475569', marginBottom: '1rem', boxShadow: '0 10px 25px rgba(0,0,0,0.05)' }}>
                 {detailModal.name?.charAt(0) || 'U'}
               </div>
               <h3 style={{ fontSize: '1.5rem', fontWeight: '800', color: '#0f172a', margin: '0 0 0.5rem 0' }}>{detailModal.name}</h3>
-              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', padding: '0.4rem 1rem', background: detailModal.role === 'Yönetici' ? 'rgba(239, 68, 68, 0.1)' : 'rgba(59, 130, 246, 0.1)', color: detailModal.role === 'Yönetici' ? '#ef4444' : '#3b82f6', borderRadius: '20px', fontSize: '0.85rem', fontWeight: '700' }}>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', padding: '0.4rem 1rem', background: detailModal.role === 'Yönetici' ? 'rgba(239, 68, 68, 0.1)' : 'rgba(59, 130, 246, 0.1)', color: detailModal.role === 'Yönetici' ? '#ef4444' : '#3b82f6', borderRadius: '8px', fontSize: '0.85rem', fontWeight: '700' }}>
                 {detailModal.role === 'Yönetici' ? <Shield size={14} /> : <User size={14} />} {detailModal.role}
               </span>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', background: '#f8fafc', padding: '1.5rem', borderRadius: '16px', border: '1px solid #f1f5f9' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', background: '#f8fafc', padding: '1.5rem', borderRadius: '8px', border: '1px solid #f1f5f9' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <span style={{ color: '#64748b', fontSize: '0.9rem', fontWeight: '600' }}>E-posta</span>
                 <span style={{ color: '#0f172a', fontSize: '0.95rem', fontWeight: '500' }}>{detailModal.email}</span>
@@ -362,7 +362,7 @@ const UserManagement = ({ usersList, setUsersList }) => {
               <div style={{ height: '1px', background: '#e2e8f0' }}></div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <span style={{ color: '#64748b', fontSize: '0.9rem', fontWeight: '600' }}>Kan Grubu</span>
-                <span style={{ color: '#e11d48', fontSize: '1rem', fontWeight: '800' }}>{detailModal.bloodType || '-'}</span>
+                <span style={{ color: '#991b1b', fontSize: '1rem', fontWeight: '800' }}>{detailModal.bloodType || '-'}</span>
               </div>
               <div style={{ height: '1px', background: '#e2e8f0' }}></div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

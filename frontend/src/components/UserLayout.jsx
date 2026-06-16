@@ -138,7 +138,7 @@ const UserLayout = ({ children, user, setUser }) => {
             <Menu size={24} />
           </button>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <div style={{ backgroundColor: '#e11d48', width: '32px', height: '32px', borderRadius: '8px', display: 'flex', alignItems: 'center', justify: 'center' }}>
+            <div style={{ backgroundColor: '#991b1b', width: '32px', height: '32px', borderRadius: '8px', display: 'flex', alignItems: 'center', justify: 'center' }}>
               <Heart size={16} fill="white" color="white" style={{ display: 'block', margin: 'auto' }} />
             </div>
             <span style={{ fontWeight: '800', fontSize: '1.2rem', color: '#0f172a' }}>Hayat Ağı</span>
@@ -146,7 +146,7 @@ const UserLayout = ({ children, user, setUser }) => {
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          <div style={{ width: '32px', height: '32px', borderRadius: '50%', backgroundColor: '#ffe4e6', color: '#e11d48', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.8rem', fontWeight: '700' }}>
+          <div style={{ width: '32px', height: '32px', borderRadius: '50%', backgroundColor: '#ffe4e6', color: '#991b1b', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.8rem', fontWeight: '700' }}>
             {getInitials(user?.fullName)}
           </div>
         </div>
@@ -173,12 +173,12 @@ const UserLayout = ({ children, user, setUser }) => {
         
         {/* Sidebar Header Logo */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '1.5rem 1.5rem', borderBottom: '1px solid #f1f5f9' }}>
-          <div style={{ backgroundColor: '#e11d48', width: '36px', height: '36px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 10px rgba(225,29,72,0.2)' }}>
+          <div style={{ backgroundColor: '#991b1b', width: '36px', height: '36px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 10px rgba(225,29,72,0.2)' }}>
             <Heart size={18} fill="white" color="white" />
           </div>
           <div>
             <h1 style={{ fontSize: '1.25rem', fontWeight: '800', color: '#0f172a', margin: 0, letterSpacing: '-0.02em', lineHeight: 1.1 }}>Hayat Ağı</h1>
-            <span style={{ fontSize: '0.65rem', color: '#e11d48', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Kan Yönetimi</span>
+            <span style={{ fontSize: '0.65rem', color: '#991b1b', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Kan Yönetimi</span>
           </div>
           {mobileOpen && (
             <button onClick={() => setMobileOpen(false)} style={{ marginLeft: 'auto', background: 'none', border: 'none', cursor: 'pointer', color: '#64748b' }}>
@@ -194,21 +194,21 @@ const UserLayout = ({ children, user, setUser }) => {
             const content = (
               <>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                  <span style={{ color: isActive ? '#e11d48' : '#64748b', transition: 'color 0.2s', display: 'flex', alignItems: 'center' }}>
+                  <span style={{ color: isActive ? '#991b1b' : '#64748b', transition: 'color 0.2s', display: 'flex', alignItems: 'center' }}>
                     {item.icon}
                   </span>
-                  <span style={{ fontSize: '0.9rem', fontWeight: isActive ? '700' : '500', color: isActive ? '#e11d48' : '#334155' }}>
+                  <span style={{ fontSize: '0.9rem', fontWeight: isActive ? '700' : '500', color: isActive ? '#991b1b' : '#334155' }}>
                     {item.name}
                   </span>
                 </div>
                 {item.badge !== undefined && item.badge > 0 && (
                   <span style={{ 
-                    backgroundColor: '#e11d48', 
+                    backgroundColor: '#991b1b', 
                     color: 'white', 
                     fontSize: '0.7rem', 
                     fontWeight: '800', 
                     padding: '0.15rem 0.45rem', 
-                    borderRadius: '20px',
+                    borderRadius: '8px',
                     boxShadow: '0 2px 5px rgba(225,29,72,0.2)' 
                   }}>
                     {item.badge}
@@ -225,7 +225,7 @@ const UserLayout = ({ children, user, setUser }) => {
               borderRadius: '12px',
               textDecoration: 'none',
               cursor: 'pointer',
-              backgroundColor: isActive ? '#fff1f2' : 'transparent',
+              backgroundColor: isActive ? '#fef2f2' : 'transparent',
               transition: 'all 0.2s ease',
               border: 'none',
               textAlign: 'left',
@@ -252,24 +252,24 @@ const UserLayout = ({ children, user, setUser }) => {
         {/* Sidebar Footer Banners */}
         <div style={{ padding: '1rem', display: 'flex', flexDirection: 'column', gap: '1rem', borderTop: '1px solid #f1f5f9' }}>
           {/* Emergency Box */}
-          <div style={{ backgroundColor: '#fff1f2', borderRadius: '16px', padding: '1rem', border: '1px solid #ffe4e6' }}>
+          <div style={{ backgroundColor: '#fef2f2', borderRadius: '8px', padding: '1rem', border: '1px solid #ffe4e6' }}>
             <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'flex-start', marginBottom: '0.5rem' }}>
-              <AlertTriangle size={18} style={{ color: '#e11d48', flexShrink: 0 }} />
+              <AlertTriangle size={18} style={{ color: '#991b1b', flexShrink: 0 }} />
               <div>
                 <h4 style={{ fontSize: '0.8rem', fontWeight: '800', color: '#9f1239', margin: 0 }}>Acil Durumda mısınız?</h4>
-                <p style={{ fontSize: '0.7rem', color: '#e11d48', margin: '0.1rem 0 0 0', lineHeight: 1.3 }}>En yakın kan merkezine hemen ulaşın.</p>
+                <p style={{ fontSize: '0.7rem', color: '#991b1b', margin: '0.1rem 0 0 0', lineHeight: 1.3 }}>En yakın kan merkezine hemen ulaşın.</p>
               </div>
             </div>
             <button 
               onClick={() => { toast.success('Mevcut konumunuz algılanıyor...'); navigate('/blood-requests'); }}
-              style={{ width: '100%', border: 'none', backgroundColor: '#e11d48', color: 'white', fontSize: '0.75rem', fontWeight: '700', padding: '0.5rem', borderRadius: '8px', cursor: 'pointer', boxShadow: '0 2px 6px rgba(225,29,72,0.15)' }}
+              style={{ width: '100%', border: 'none', backgroundColor: '#991b1b', color: 'white', fontSize: '0.75rem', fontWeight: '700', padding: '0.5rem', borderRadius: '8px', cursor: 'pointer', boxShadow: '0 2px 6px rgba(225,29,72,0.15)' }}
             >
               Konumumu Aç
             </button>
           </div>
 
           {/* Slogan Banner */}
-          <div style={{ background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)', borderRadius: '16px', padding: '1rem', position: 'relative', overflow: 'hidden' }}>
+          <div style={{ background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)', borderRadius: '8px', padding: '1rem', position: 'relative', overflow: 'hidden' }}>
             <div style={{ position: 'absolute', right: '-15px', bottom: '-15px', opacity: 0.1, color: '#ffffff' }}>
               <Heart size={80} fill="white" />
             </div>
@@ -316,12 +316,12 @@ const UserLayout = ({ children, user, setUser }) => {
             <button 
               onClick={() => { toast.success('Yeni bir bildiriminiz bulunmuyor.'); }}
               style={{ position: 'relative', background: 'none', border: 'none', cursor: 'pointer', color: '#64748b', transition: 'color 0.2s', padding: '0.25rem' }}
-              onMouseOver={e => e.currentTarget.style.color = '#e11d48'}
+              onMouseOver={e => e.currentTarget.style.color = '#991b1b'}
               onMouseOut={e => e.currentTarget.style.color = '#64748b'}
             >
               <Bell size={20} />
               {activeRequestsCount > 0 && (
-                <span style={{ position: 'absolute', top: 0, right: 0, width: '8px', height: '8px', backgroundColor: '#e11d48', borderRadius: '50%' }} />
+                <span style={{ position: 'absolute', top: 0, right: 0, width: '8px', height: '8px', backgroundColor: '#991b1b', borderRadius: '50%' }} />
               )}
             </button>
 
@@ -329,7 +329,7 @@ const UserLayout = ({ children, user, setUser }) => {
             <button 
               onClick={() => navigate('/my-requests')}
               style={{ position: 'relative', background: 'none', border: 'none', cursor: 'pointer', color: '#64748b', transition: 'color 0.2s', padding: '0.25rem' }}
-              onMouseOver={e => e.currentTarget.style.color = '#e11d48'}
+              onMouseOver={e => e.currentTarget.style.color = '#991b1b'}
               onMouseOut={e => e.currentTarget.style.color = '#64748b'}
             >
               <Mail size={20} />
@@ -346,8 +346,8 @@ const UserLayout = ({ children, user, setUser }) => {
                   width: '40px', 
                   height: '40px', 
                   borderRadius: '12px', 
-                  backgroundColor: '#fff1f2', 
-                  color: '#e11d48', 
+                  backgroundColor: '#fef2f2', 
+                  color: '#991b1b', 
                   display: 'flex', 
                   alignItems: 'center', 
                   justifyContent: 'center', 
@@ -426,14 +426,14 @@ const UserLayout = ({ children, user, setUser }) => {
           display: 'flex', alignItems: 'center', justifyContent: 'center'
         }}>
           <div style={{
-            background: '#ffffff', padding: '2rem', borderRadius: '24px',
+            background: '#ffffff', padding: '2rem', borderRadius: '10px',
             maxWidth: '600px', width: '90%', maxHeight: '80vh', overflowY: 'auto',
             boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)', border: '1px solid #e2e8f0',
             display: 'flex', flexDirection: 'column'
           }} className="animate-in">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <History size={24} style={{ color: '#e11d48' }} />
+                <History size={24} style={{ color: '#991b1b' }} />
                 <h3 style={{ fontSize: '1.25rem', fontWeight: '800', color: '#0f172a', margin: 0 }}>Bağış Geçmişim</h3>
               </div>
               <button onClick={() => setShowHistoryModal(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#64748b' }}>
@@ -447,7 +447,7 @@ const UserLayout = ({ children, user, setUser }) => {
               ) : myApplications.length > 0 ? (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                   {myApplications.map((app) => (
-                    <div key={app.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem', border: '1px solid #f1f5f9', borderRadius: '16px', background: '#f8fafc' }}>
+                    <div key={app.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem', border: '1px solid #f1f5f9', borderRadius: '8px', background: '#f8fafc' }}>
                       <div>
                         <p style={{ fontWeight: '800', margin: 0, color: '#0f172a', fontSize: '0.95rem' }}>
                           {app.donationRequest?.bloodType?.name || 'Kan Bağışı'}
@@ -461,12 +461,12 @@ const UserLayout = ({ children, user, setUser }) => {
                       </div>
                       <div>
                         <span style={{
-                          backgroundColor: app.status === 'Approved' ? '#ecfdf5' : app.status === 'Pending' ? '#fef3c7' : '#fff1f2',
-                          color: app.status === 'Approved' ? '#10b981' : app.status === 'Pending' ? '#d97706' : '#e11d48',
+                          backgroundColor: app.status === 'Approved' ? '#ecfdf5' : app.status === 'Pending' ? '#fef3c7' : '#fef2f2',
+                          color: app.status === 'Approved' ? '#10b981' : app.status === 'Pending' ? '#d97706' : '#991b1b',
                           fontSize: '0.75rem',
                           fontWeight: '800',
                           padding: '0.25rem 0.75rem',
-                          borderRadius: '20px'
+                          borderRadius: '8px'
                         }}>
                           {app.status === 'Approved' ? 'Tamamlandı' : app.status === 'Pending' ? 'Bekliyor' : 'İptal'}
                         </span>
@@ -485,7 +485,7 @@ const UserLayout = ({ children, user, setUser }) => {
 
             <button 
               onClick={() => { setShowHistoryModal(false); navigate('/blood-requests'); }}
-              style={{ width: '100%', border: 'none', backgroundColor: '#e11d48', color: 'white', fontWeight: '800', padding: '0.875rem', borderRadius: '12px', marginTop: '1.5rem', cursor: 'pointer', boxShadow: '0 4px 12px rgba(225,29,72,0.2)' }}
+              style={{ width: '100%', border: 'none', backgroundColor: '#991b1b', color: 'white', fontWeight: '800', padding: '0.875rem', borderRadius: '12px', marginTop: '1.5rem', cursor: 'pointer', boxShadow: '0 4px 12px rgba(225,29,72,0.2)' }}
             >
               Bağış Taleplerini Gör
             </button>
@@ -501,14 +501,14 @@ const UserLayout = ({ children, user, setUser }) => {
           display: 'flex', alignItems: 'center', justifyContent: 'center'
         }}>
           <div style={{
-            background: '#ffffff', padding: '2rem', borderRadius: '24px',
+            background: '#ffffff', padding: '2rem', borderRadius: '10px',
             maxWidth: '500px', width: '90%', maxHeight: '60vh', overflowY: 'auto',
             boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)', border: '1px solid #e2e8f0',
             display: 'flex', flexDirection: 'column'
           }} className="animate-in">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <Star size={24} style={{ color: '#e11d48' }} fill="#e11d48" />
+                <Star size={24} style={{ color: '#991b1b' }} fill="#991b1b" />
                 <h3 style={{ fontSize: '1.25rem', fontWeight: '800', color: '#0f172a', margin: 0 }}>Favori Merkezlerim</h3>
               </div>
               <button onClick={() => setShowFavoritesModal(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#64748b' }}>
@@ -522,7 +522,7 @@ const UserLayout = ({ children, user, setUser }) => {
                 { name: 'Çekmeköy Kızılay Bağış Merkezi', district: 'Çekmeköy', phone: '0216 123 45 67' },
                 { name: 'Kadıköy Kızılay Kan Bağış Merkezi', district: 'Kadıköy', phone: '0216 987 65 43' }
               ].map((center, idx) => (
-                <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.875rem 1rem', border: '1px solid #f1f5f9', borderRadius: '16px', background: '#f8fafc' }}>
+                <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.875rem 1rem', border: '1px solid #f1f5f9', borderRadius: '8px', background: '#f8fafc' }}>
                   <div>
                     <h4 style={{ margin: 0, fontSize: '0.85rem', fontWeight: '800', color: '#0f172a' }}>{center.name}</h4>
                     <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: '500' }}>{center.district}</span>
@@ -553,7 +553,7 @@ const UserLayout = ({ children, user, setUser }) => {
           background-color: #fef2f2;
         }
         .sidebar-link:hover {
-          background-color: #fff1f2;
+          background-color: #fef2f2;
           transform: translateX(4px);
         }
         .sidebar-link {

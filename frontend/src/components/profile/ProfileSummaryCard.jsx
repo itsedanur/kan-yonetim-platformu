@@ -5,9 +5,9 @@ const ProfileSummaryCard = ({ user }) => {
   if (!user) return null;
 
   return (
-    <div className="card glass" style={{ background: '#ffffff', borderRadius: '24px', padding: '2rem', textAlign: 'center', border: '1px solid rgba(0,0,0,0.04)' }}>
-      <div style={{ width: '80px', height: '80px', background: '#fff1f2', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem', border: '4px solid #ffe4e6' }}>
-        <span style={{ fontSize: '2rem', fontWeight: '800', color: '#e11d48' }}>
+    <div className="card glass" style={{ background: '#ffffff', borderRadius: '10px', padding: '2rem', textAlign: 'center', border: '1px solid rgba(0,0,0,0.04)' }}>
+      <div style={{ width: '80px', height: '80px', background: '#fef2f2', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem', border: '4px solid #ffe4e6' }}>
+        <span style={{ fontSize: '2rem', fontWeight: '800', color: '#991b1b' }}>
           {user.fullName ? user.fullName.charAt(0).toUpperCase() : <UserIcon size={32} />}
         </span>
       </div>
@@ -21,7 +21,7 @@ const ProfileSummaryCard = ({ user }) => {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', textAlign: 'left' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', background: '#f8fafc', padding: '0.75rem 1rem', borderRadius: '12px' }}>
-          <Droplet size={18} color="#e11d48" />
+          <Droplet size={18} color="#991b1b" />
           <div>
             <span style={{ fontSize: '0.75rem', color: '#64748b', display: 'block', fontWeight: '700' }}>Kan Grubu</span>
             <span style={{ fontSize: '0.9rem', color: '#0f172a', fontWeight: '800' }}>{user.bloodType || 'Belirtilmedi'}</span>

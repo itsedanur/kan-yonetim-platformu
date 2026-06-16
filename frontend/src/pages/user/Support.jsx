@@ -131,7 +131,7 @@ const Support = () => {
   if (loading) {
     return (
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '60vh', flexDirection: 'column', gap: '1rem' }}>
-        <div style={{ width: '40px', height: '40px', borderRadius: '50%', border: '4px solid #f1f5f9', borderTopColor: '#e11d48', animation: 'spin 1s linear infinite' }} />
+        <div style={{ width: '40px', height: '40px', borderRadius: '50%', border: '4px solid #f1f5f9', borderTopColor: '#991b1b', animation: 'spin 1s linear infinite' }} />
         <span style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: '600' }}>Destek paneli yükleniyor...</span>
         <style dangerouslySetInnerHTML={{ __html: `@keyframes spin { to { transform: rotate(360deg); } }` }} />
       </div>
@@ -150,7 +150,7 @@ const Support = () => {
       {/* LEFT PANEL: TICKETS LIST */}
       <div style={{ 
         backgroundColor: '#ffffff', 
-        borderRadius: '24px', 
+        borderRadius: '10px', 
         border: '1px solid #e2e8f0', 
         padding: '1.25rem', 
         display: 'flex', 
@@ -164,7 +164,7 @@ const Support = () => {
           <button 
             onClick={() => { setIsCreating(true); setSelectedTicket(null); }}
             style={{ 
-              backgroundColor: '#e11d48', 
+              backgroundColor: '#991b1b', 
               color: 'white', 
               border: 'none', 
               borderRadius: '8px', 
@@ -197,8 +197,8 @@ const Support = () => {
                     padding: '0.85rem 1rem',
                     border: '1px solid',
                     borderColor: isActive ? 'rgba(225,29,72,0.2)' : '#f1f5f9',
-                    borderRadius: '16px',
-                    backgroundColor: isActive ? '#fff1f2' : '#ffffff',
+                    borderRadius: '8px',
+                    backgroundColor: isActive ? '#fef2f2' : '#ffffff',
                     cursor: 'pointer',
                     transition: 'all 0.2s',
                     textAlign: 'left',
@@ -213,7 +213,7 @@ const Support = () => {
                       fontSize: '0.65rem',
                       fontWeight: '800',
                       padding: '0.15rem 0.5rem',
-                      borderRadius: '20px',
+                      borderRadius: '8px',
                       backgroundColor: badge.bg,
                       color: badge.color,
                       border: `1px solid ${badge.border}`
@@ -241,7 +241,7 @@ const Support = () => {
       {/* RIGHT PANEL: CONTENT (FORM OR CHAT) */}
       <div style={{ 
         backgroundColor: '#ffffff', 
-        borderRadius: '24px', 
+        borderRadius: '10px', 
         border: '1px solid #e2e8f0', 
         padding: '1.5rem', 
         display: 'flex', 
@@ -322,7 +322,7 @@ const Support = () => {
                 disabled={sending}
                 style={{ 
                   flex: 2, 
-                  backgroundColor: '#e11d48', 
+                  backgroundColor: '#991b1b', 
                   color: 'white', 
                   border: 'none', 
                   padding: '0.75rem', 
@@ -361,7 +361,7 @@ const Support = () => {
                     fontSize: '0.65rem',
                     fontWeight: '800',
                     padding: '0.15rem 0.5rem',
-                    borderRadius: '20px',
+                    borderRadius: '8px',
                     backgroundColor: getStatusBadge(selectedTicket.status).bg,
                     color: getStatusBadge(selectedTicket.status).color,
                     border: `1px solid ${getStatusBadge(selectedTicket.status).border}`
@@ -420,10 +420,10 @@ const Support = () => {
                       </span>
                       <div style={{
                         padding: '0.75rem 1rem',
-                        borderRadius: '18px',
+                        borderRadius: '8px',
                         borderTopLeftRadius: isAdmin ? '4px' : '18px',
                         borderTopRightRadius: !isAdmin ? '4px' : '18px',
-                        backgroundColor: isAdmin ? '#f1f5f9' : '#e11d48',
+                        backgroundColor: isAdmin ? '#f1f5f9' : '#991b1b',
                         color: isAdmin ? '#334155' : '#ffffff',
                         fontSize: '0.85rem',
                         lineHeight: 1.4,
@@ -477,7 +477,7 @@ const Support = () => {
                   type="submit" 
                   disabled={sending}
                   style={{ 
-                    backgroundColor: '#e11d48', 
+                    backgroundColor: '#991b1b', 
                     color: 'white', 
                     border: 'none', 
                     borderRadius: '12px', 
@@ -510,14 +510,14 @@ const Support = () => {
             padding: '2rem'
           }}>
             <div style={{ 
-              backgroundColor: '#fff1f2', 
+              backgroundColor: '#fef2f2', 
               width: '64px', 
               height: '64px', 
-              borderRadius: '20px', 
+              borderRadius: '8px', 
               display: 'flex', 
               alignItems: 'center', 
               justifyContent: 'center',
-              color: '#e11d48',
+              color: '#991b1b',
               marginBottom: '1.5rem'
             }}>
               <HelpCircle size={32} />
@@ -531,7 +531,7 @@ const Support = () => {
             <button 
               onClick={() => setIsCreating(true)}
               style={{
-                backgroundColor: '#e11d48',
+                backgroundColor: '#991b1b',
                 color: 'white',
                 border: 'none',
                 borderRadius: '12px',

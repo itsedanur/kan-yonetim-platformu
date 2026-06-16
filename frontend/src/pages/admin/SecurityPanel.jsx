@@ -45,8 +45,8 @@ const SecurityPanel = () => {
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1.5rem', marginBottom: '2rem' }}>
-        <div className="card glass" style={{ background: '#ffffff', borderRadius: '24px', padding: '1.5rem', border: '1px solid rgba(0,0,0,0.03)', boxShadow: '0 10px 40px rgba(0,0,0,0.02)', display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-          <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: 'rgba(239, 68, 68, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div className="card glass" style={{ background: '#ffffff', borderRadius: '10px', padding: '1.5rem', border: '1px solid rgba(0,0,0,0.03)', boxShadow: '0 10px 40px rgba(0,0,0,0.02)', display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+          <div style={{ width: '56px', height: '56px', borderRadius: '8px', background: 'rgba(239, 68, 68, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Lock size={28} style={{ color: '#ef4444' }} />
           </div>
           <div>
@@ -55,8 +55,8 @@ const SecurityPanel = () => {
           </div>
         </div>
 
-        <div className="card glass" style={{ background: '#ffffff', borderRadius: '24px', padding: '1.5rem', border: '1px solid rgba(0,0,0,0.03)', boxShadow: '0 10px 40px rgba(0,0,0,0.02)', display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-          <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: 'rgba(245, 158, 11, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div className="card glass" style={{ background: '#ffffff', borderRadius: '10px', padding: '1.5rem', border: '1px solid rgba(0,0,0,0.03)', boxShadow: '0 10px 40px rgba(0,0,0,0.02)', display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+          <div style={{ width: '56px', height: '56px', borderRadius: '8px', background: 'rgba(245, 158, 11, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <ShieldAlert size={28} style={{ color: '#f59e0b' }} />
           </div>
           <div>
@@ -65,8 +65,8 @@ const SecurityPanel = () => {
           </div>
         </div>
 
-        <div className="card glass" style={{ background: '#ffffff', borderRadius: '24px', padding: '1.5rem', border: '1px solid rgba(0,0,0,0.03)', boxShadow: '0 10px 40px rgba(0,0,0,0.02)', display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-          <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: 'rgba(100, 116, 139, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div className="card glass" style={{ background: '#ffffff', borderRadius: '10px', padding: '1.5rem', border: '1px solid rgba(0,0,0,0.03)', boxShadow: '0 10px 40px rgba(0,0,0,0.02)', display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+          <div style={{ width: '56px', height: '56px', borderRadius: '8px', background: 'rgba(100, 116, 139, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <UserX size={28} style={{ color: '#64748b' }} />
           </div>
           <div>
@@ -76,7 +76,7 @@ const SecurityPanel = () => {
         </div>
       </div>
 
-      <div className="card glass" style={{ background: '#ffffff', borderRadius: '32px', border: '1px solid rgba(0,0,0,0.03)', boxShadow: '0 20px 50px rgba(0,0,0,0.04)', overflow: 'hidden' }}>
+      <div className="card glass" style={{ background: '#ffffff', borderRadius: '12px', border: '1px solid rgba(0,0,0,0.03)', boxShadow: '0 20px 50px rgba(0,0,0,0.04)', overflow: 'hidden' }}>
         <div style={{ overflowX: 'auto' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
             <thead>

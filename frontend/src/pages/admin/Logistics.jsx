@@ -33,10 +33,10 @@ const Logistics = () => {
 
   const getStatusBadge = (status) => {
     switch (status) {
-      case 'Pending': return <span style={{ padding: '0.4rem 1rem', background: '#fef3c7', color: '#d97706', borderRadius: '20px', fontSize: '0.85rem', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '0.4rem' }}><Clock size={14}/> Kurye Bekleniyor</span>;
-      case 'InTransit': return <span style={{ padding: '0.4rem 1rem', background: '#dbeafe', color: '#2563eb', borderRadius: '20px', fontSize: '0.85rem', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '0.4rem' }}><Truck size={14}/> Yolda</span>;
-      case 'Delivered': return <span style={{ padding: '0.4rem 1rem', background: '#d1fae5', color: '#059669', borderRadius: '20px', fontSize: '0.85rem', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '0.4rem' }}><CheckCircle size={14}/> Teslim Edildi</span>;
-      default: return <span style={{ padding: '0.4rem 1rem', background: '#fee2e2', color: '#dc2626', borderRadius: '20px', fontSize: '0.85rem', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '0.4rem' }}><AlertTriangle size={14}/> İptal</span>;
+      case 'Pending': return <span style={{ padding: '0.4rem 1rem', background: '#fef3c7', color: '#d97706', borderRadius: '8px', fontSize: '0.85rem', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '0.4rem' }}><Clock size={14}/> Kurye Bekleniyor</span>;
+      case 'InTransit': return <span style={{ padding: '0.4rem 1rem', background: '#dbeafe', color: '#2563eb', borderRadius: '8px', fontSize: '0.85rem', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '0.4rem' }}><Truck size={14}/> Yolda</span>;
+      case 'Delivered': return <span style={{ padding: '0.4rem 1rem', background: '#d1fae5', color: '#059669', borderRadius: '8px', fontSize: '0.85rem', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '0.4rem' }}><CheckCircle size={14}/> Teslim Edildi</span>;
+      default: return <span style={{ padding: '0.4rem 1rem', background: '#fee2e2', color: '#dc2626', borderRadius: '8px', fontSize: '0.85rem', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '0.4rem' }}><AlertTriangle size={14}/> İptal</span>;
     }
   };
 
@@ -53,21 +53,21 @@ const Logistics = () => {
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1.5rem', marginBottom: '2rem' }}>
-        <div className="card glass" style={{ background: '#ffffff', borderRadius: '24px', padding: '1.5rem', border: '1px solid rgba(0,0,0,0.03)', boxShadow: '0 10px 40px rgba(0,0,0,0.02)' }}>
+        <div className="card glass" style={{ background: '#ffffff', borderRadius: '10px', padding: '1.5rem', border: '1px solid rgba(0,0,0,0.03)', boxShadow: '0 10px 40px rgba(0,0,0,0.02)' }}>
           <div style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: '600', marginBottom: '0.5rem' }}>Aktif Transferler (Yolda)</div>
           <div style={{ fontSize: '2rem', fontWeight: '800', color: '#2563eb' }}>{transfers.filter(t => t.status === 'InTransit').length}</div>
         </div>
-        <div className="card glass" style={{ background: '#ffffff', borderRadius: '24px', padding: '1.5rem', border: '1px solid rgba(0,0,0,0.03)', boxShadow: '0 10px 40px rgba(0,0,0,0.02)' }}>
+        <div className="card glass" style={{ background: '#ffffff', borderRadius: '10px', padding: '1.5rem', border: '1px solid rgba(0,0,0,0.03)', boxShadow: '0 10px 40px rgba(0,0,0,0.02)' }}>
           <div style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: '600', marginBottom: '0.5rem' }}>Kurye Bekleyenler</div>
           <div style={{ fontSize: '2rem', fontWeight: '800', color: '#d97706' }}>{transfers.filter(t => t.status === 'Pending').length}</div>
         </div>
-        <div className="card glass" style={{ background: '#ffffff', borderRadius: '24px', padding: '1.5rem', border: '1px solid rgba(0,0,0,0.03)', boxShadow: '0 10px 40px rgba(0,0,0,0.02)' }}>
+        <div className="card glass" style={{ background: '#ffffff', borderRadius: '10px', padding: '1.5rem', border: '1px solid rgba(0,0,0,0.03)', boxShadow: '0 10px 40px rgba(0,0,0,0.02)' }}>
           <div style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: '600', marginBottom: '0.5rem' }}>Bugün Teslim Edilenler</div>
           <div style={{ fontSize: '2rem', fontWeight: '800', color: '#059669' }}>{transfers.filter(t => t.status === 'Delivered').length}</div>
         </div>
       </div>
 
-      <div className="card glass" style={{ background: '#ffffff', borderRadius: '32px', border: '1px solid rgba(0,0,0,0.03)', boxShadow: '0 20px 50px rgba(0,0,0,0.04)', overflow: 'hidden' }}>
+      <div className="card glass" style={{ background: '#ffffff', borderRadius: '12px', border: '1px solid rgba(0,0,0,0.03)', boxShadow: '0 20px 50px rgba(0,0,0,0.04)', overflow: 'hidden' }}>
         <div style={{ overflowX: 'auto' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
             <thead>

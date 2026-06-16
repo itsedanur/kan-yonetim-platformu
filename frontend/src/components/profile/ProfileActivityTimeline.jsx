@@ -5,7 +5,7 @@ const ProfileActivityTimeline = ({ activities }) => {
   if (!activities || activities.length === 0) return null;
 
   return (
-    <div className="card glass" style={{ background: '#ffffff', borderRadius: '24px', padding: '2rem', marginBottom: '1.5rem', border: '1px solid rgba(0,0,0,0.04)' }}>
+    <div className="card glass" style={{ background: '#ffffff', borderRadius: '10px', padding: '2rem', marginBottom: '1.5rem', border: '1px solid rgba(0,0,0,0.04)' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem', borderBottom: '1px solid #f1f5f9', paddingBottom: '1rem' }}>
         <History size={24} color="#64748b" />
         <h3 style={{ fontSize: '1.25rem', fontWeight: '800', color: '#0f172a', margin: 0 }}>Aktivite Geçmişi</h3>

@@ -43,7 +43,7 @@ const LiveTracking = () => {
 
   const getIcon = (type) => {
     switch (type) {
-      case 'critical': return <ShieldAlert size={18} color="#e11d48" />;
+      case 'critical': return <ShieldAlert size={18} color="#991b1b" />;
       case 'warning': return <Clock size={18} color="#f59e0b" />;
       case 'success': return <CheckCircle size={18} color="#10b981" />;
       default: return <Bell size={18} color="#3b82f6" />;
@@ -76,7 +76,7 @@ const LiveTracking = () => {
         </div>
 
         {/* Right Side: Notification Center */}
-        <div className="card glass" style={{ background: '#ffffff', borderRadius: '32px', border: '1px solid rgba(0,0,0,0.03)', boxShadow: '0 20px 50px rgba(0,0,0,0.04)', display: 'flex', flexDirection: 'column', height: '600px' }}>
+        <div className="card glass" style={{ background: '#ffffff', borderRadius: '12px', border: '1px solid rgba(0,0,0,0.03)', boxShadow: '0 20px 50px rgba(0,0,0,0.04)', display: 'flex', flexDirection: 'column', height: '600px' }}>
           <div style={{ padding: '1.5rem', borderBottom: '1px solid #f1f5f9', display: 'flex', alignItems: 'center', gap: '1rem' }}>
             <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'rgba(59,130,246,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
               <Bell size={20} style={{ color: '#3b82f6' }} />
@@ -90,7 +90,7 @@ const LiveTracking = () => {
           
           <div style={{ padding: '1.5rem', overflowY: 'auto', flex: 1, display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             {notifications.map(n => (
-              <div key={n.id} style={{ display: 'flex', gap: '1rem', padding: '1rem', background: '#f8fafc', borderRadius: '16px', border: '1px solid #f1f5f9' }}>
+              <div key={n.id} style={{ display: 'flex', gap: '1rem', padding: '1rem', background: '#f8fafc', borderRadius: '8px', border: '1px solid #f1f5f9' }}>
                 <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: getBg(n.type), display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                   {getIcon(n.type)}
                 </div>

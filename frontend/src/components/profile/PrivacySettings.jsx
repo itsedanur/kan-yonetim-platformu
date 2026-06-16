@@ -3,7 +3,7 @@ import { Shield, Bell } from 'lucide-react';
 
 const PrivacySettings = ({ user, handleCheckboxChange, handleInputChange }) => {
   return (
-    <div className="card glass" style={{ background: '#ffffff', borderRadius: '24px', padding: '2rem', marginBottom: '1.5rem', border: '1px solid rgba(0,0,0,0.04)' }}>
+    <div className="card glass" style={{ background: '#ffffff', borderRadius: '10px', padding: '2rem', marginBottom: '1.5rem', border: '1px solid rgba(0,0,0,0.04)' }}>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem' }}>
         
         {/* Gizlilik Ayarları */}

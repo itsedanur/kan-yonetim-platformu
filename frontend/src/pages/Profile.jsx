@@ -120,7 +120,7 @@ const Profile = ({ user: globalUser, setUser: setGlobalUser }) => {
 
   if (loading || !userProfile) return (
     <div style={{ display: 'flex', justifyContent: 'center', padding: '5rem 0' }}>
-      <Loader className="spin" size={32} color="#e11d48" />
+      <Loader className="spin" size={32} color="#991b1b" />
     </div>
   );
 
@@ -142,10 +142,10 @@ const Profile = ({ user: globalUser, setUser: setGlobalUser }) => {
               disabled={!isDirty || saving}
               style={{ 
                 width: '100%', 
-                background: isDirty ? '#e11d48' : '#cbd5e1', 
+                background: isDirty ? '#991b1b' : '#cbd5e1', 
                 color: 'white', 
                 border: 'none', 
-                borderRadius: '16px', 
+                borderRadius: '8px', 
                 padding: '1rem', 
                 fontSize: '1rem', 
                 fontWeight: '800', 

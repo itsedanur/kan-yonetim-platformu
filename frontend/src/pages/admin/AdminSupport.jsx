@@ -135,7 +135,7 @@ const AdminSupport = () => {
   if (loading) {
     return (
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '60vh', flexDirection: 'column', gap: '1rem' }}>
-        <div style={{ width: '40px', height: '40px', borderRadius: '50%', border: '4px solid #f1f5f9', borderTopColor: '#e11d48', animation: 'spin 1s linear infinite' }} />
+        <div style={{ width: '40px', height: '40px', borderRadius: '50%', border: '4px solid #f1f5f9', borderTopColor: '#991b1b', animation: 'spin 1s linear infinite' }} />
         <span style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: '600' }}>Destek yönetimi yükleniyor...</span>
         <style dangerouslySetInnerHTML={{ __html: `@keyframes spin { to { transform: rotate(360deg); } }` }} />
       </div>
@@ -154,7 +154,7 @@ const AdminSupport = () => {
       {/* LEFT PANEL: ALL TICKETS LIST */}
       <div style={{ 
         backgroundColor: '#ffffff', 
-        borderRadius: '24px', 
+        borderRadius: '10px', 
         border: '1px solid #e2e8f0', 
         padding: '1.25rem', 
         display: 'flex', 
@@ -193,7 +193,7 @@ const AdminSupport = () => {
                   fontWeight: '700',
                   border: 'none',
                   borderRadius: '6px',
-                  backgroundColor: filterStatus === status ? '#e11d48' : '#f1f5f9',
+                  backgroundColor: filterStatus === status ? '#991b1b' : '#f1f5f9',
                   color: filterStatus === status ? 'white' : '#475569',
                   cursor: 'pointer',
                   transition: 'all 0.15s'
@@ -224,8 +224,8 @@ const AdminSupport = () => {
                     padding: '0.85rem 1rem',
                     border: '1px solid',
                     borderColor: isActive ? 'rgba(225,29,72,0.2)' : '#f1f5f9',
-                    borderRadius: '16px',
-                    backgroundColor: isActive ? '#fff1f2' : '#ffffff',
+                    borderRadius: '8px',
+                    backgroundColor: isActive ? '#fef2f2' : '#ffffff',
                     cursor: 'pointer',
                     transition: 'all 0.2s',
                     textAlign: 'left',
@@ -240,7 +240,7 @@ const AdminSupport = () => {
                       fontSize: '0.6rem',
                       fontWeight: '800',
                       padding: '0.1rem 0.45rem',
-                      borderRadius: '20px',
+                      borderRadius: '8px',
                       backgroundColor: badge.bg,
                       color: badge.color,
                       border: `1px solid ${badge.border}`
@@ -271,7 +271,7 @@ const AdminSupport = () => {
       {/* RIGHT PANEL: CONVERSATION & ACTIONS */}
       <div style={{ 
         backgroundColor: '#ffffff', 
-        borderRadius: '24px', 
+        borderRadius: '10px', 
         border: '1px solid #e2e8f0', 
         padding: '1.5rem', 
         display: 'flex', 
@@ -300,7 +300,7 @@ const AdminSupport = () => {
                     fontSize: '0.65rem',
                     fontWeight: '800',
                     padding: '0.15rem 0.5rem',
-                    borderRadius: '20px',
+                    borderRadius: '8px',
                     backgroundColor: getStatusBadge(selectedTicket.status).bg,
                     color: getStatusBadge(selectedTicket.status).color,
                     border: `1px solid ${getStatusBadge(selectedTicket.status).border}`
@@ -410,8 +410,8 @@ const AdminSupport = () => {
                         width: '32px', 
                         height: '32px', 
                         borderRadius: '10px', 
-                        backgroundColor: '#fff1f2', 
-                        color: '#e11d48', 
+                        backgroundColor: '#fef2f2', 
+                        color: '#991b1b', 
                         display: 'flex', 
                         alignItems: 'center', 
                         justifyContent: 'center', 
@@ -430,7 +430,7 @@ const AdminSupport = () => {
                       </span>
                       <div style={{
                         padding: '0.75rem 1rem',
-                        borderRadius: '18px',
+                        borderRadius: '8px',
                         borderTopLeftRadius: !isAdminReply ? '4px' : '18px',
                         borderTopRightRadius: isAdminReply ? '4px' : '18px',
                         backgroundColor: isAdminReply ? '#1e293b' : '#f1f5f9',
@@ -473,7 +473,7 @@ const AdminSupport = () => {
                 type="submit" 
                 disabled={sending}
                 style={{ 
-                  backgroundColor: '#e11d48', 
+                  backgroundColor: '#991b1b', 
                   color: 'white', 
                   border: 'none', 
                   borderRadius: '12px', 
@@ -508,7 +508,7 @@ const AdminSupport = () => {
               backgroundColor: '#eff6ff', 
               width: '64px', 
               height: '64px', 
-              borderRadius: '20px', 
+              borderRadius: '8px', 
               display: 'flex', 
               alignItems: 'center', 
               justifyContent: 'center',
@@ -525,15 +525,15 @@ const AdminSupport = () => {
 
             {/* Quick stats grid */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem', width: '100%', maxWidth: '400px' }}>
-              <div style={{ backgroundColor: '#fff7ed', borderRadius: '16px', padding: '1rem', border: '1px solid #ffedd5' }}>
+              <div style={{ backgroundColor: '#fff7ed', borderRadius: '8px', padding: '1rem', border: '1px solid #ffedd5' }}>
                 <span style={{ fontSize: '1.5rem', fontWeight: '900', color: '#ea580c', display: 'block' }}>{statsOpen}</span>
                 <span style={{ fontSize: '0.7rem', color: '#c2410c', fontWeight: '700' }}>Yeni Talep</span>
               </div>
-              <div style={{ backgroundColor: '#eff6ff', borderRadius: '16px', padding: '1rem', border: '1px solid #dbeafe' }}>
+              <div style={{ backgroundColor: '#eff6ff', borderRadius: '8px', padding: '1rem', border: '1px solid #dbeafe' }}>
                 <span style={{ fontSize: '1.5rem', fontWeight: '900', color: '#2563eb', display: 'block' }}>{statsAnswered}</span>
                 <span style={{ fontSize: '0.7rem', color: '#1d4ed8', fontWeight: '700' }}>Yanıtlandı</span>
               </div>
-              <div style={{ backgroundColor: '#ecfdf5', borderRadius: '16px', padding: '1rem', border: '1px solid #d1fae5' }}>
+              <div style={{ backgroundColor: '#ecfdf5', borderRadius: '8px', padding: '1rem', border: '1px solid #d1fae5' }}>
                 <span style={{ fontSize: '1.5rem', fontWeight: '900', color: '#10b981', display: 'block' }}>{statsResolved}</span>
                 <span style={{ fontSize: '0.7rem', color: '#065f46', fontWeight: '700' }}>Çözüldü</span>
               </div>

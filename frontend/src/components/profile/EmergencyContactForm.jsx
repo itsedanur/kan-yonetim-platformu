@@ -6,9 +6,9 @@ const EmergencyContactForm = ({ user, handleInputChange }) => {
   const labelStyle = { fontSize: '0.85rem', fontWeight: '700', color: '#1e293b', display: 'block', marginBottom: '0.5rem' };
 
   return (
-    <div className="card glass" style={{ background: '#ffffff', borderRadius: '24px', padding: '2rem', marginBottom: '1.5rem', border: '1px solid rgba(0,0,0,0.04)' }}>
+    <div className="card glass" style={{ background: '#ffffff', borderRadius: '10px', padding: '2rem', marginBottom: '1.5rem', border: '1px solid rgba(0,0,0,0.04)' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem', borderBottom: '1px solid #f1f5f9', paddingBottom: '1rem' }}>
-        <PhoneCall size={24} color="#e11d48" />
+        <PhoneCall size={24} color="#991b1b" />
         <h3 style={{ fontSize: '1.25rem', fontWeight: '800', color: '#0f172a', margin: 0 }}>Acil Durum Kişisi</h3>
       </div>
 

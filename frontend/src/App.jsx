@@ -428,19 +428,19 @@ const App = () => {
                 <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
                   {user.role === 'Admin' ? (
                     <>
-                      <Link to="/" style={{ textDecoration: 'none', fontWeight: '600', color: location.pathname === '/' ? '#e11d48' : '#64748b', fontSize: '0.85rem', transition: 'color 0.2s' }}>Ana Sayfa</Link>
-                      <Link to="/logistics" style={{ textDecoration: 'none', fontWeight: '600', color: location.pathname === '/logistics' ? '#e11d48' : '#64748b', fontSize: '0.85rem', transition: 'color 0.2s' }}>Lojistik</Link>
-                      <Link to="/dashboard" style={{ textDecoration: 'none', fontWeight: '600', color: location.pathname === '/dashboard' ? '#e11d48' : '#64748b', fontSize: '0.85rem', transition: 'color 0.2s' }}>Yönetim Paneli</Link>
-                      <Link to="/support" style={{ textDecoration: 'none', fontWeight: '600', color: location.pathname === '/support' ? '#e11d48' : '#64748b', fontSize: '0.85rem', transition: 'color 0.2s' }}>Destek Talepleri</Link>
+                      <Link to="/" style={{ textDecoration: 'none', fontWeight: '600', color: location.pathname === '/' ? '#991b1b' : '#64748b', fontSize: '0.85rem', transition: 'color 0.2s' }}>Ana Sayfa</Link>
+                      <Link to="/logistics" style={{ textDecoration: 'none', fontWeight: '600', color: location.pathname === '/logistics' ? '#991b1b' : '#64748b', fontSize: '0.85rem', transition: 'color 0.2s' }}>Lojistik</Link>
+                      <Link to="/dashboard" style={{ textDecoration: 'none', fontWeight: '600', color: location.pathname === '/dashboard' ? '#991b1b' : '#64748b', fontSize: '0.85rem', transition: 'color 0.2s' }}>Yönetim Paneli</Link>
+                      <Link to="/support" style={{ textDecoration: 'none', fontWeight: '600', color: location.pathname === '/support' ? '#991b1b' : '#64748b', fontSize: '0.85rem', transition: 'color 0.2s' }}>Destek Talepleri</Link>
                     </>
                   ) : (
                     <>
-                      <Link to="/dashboard" style={{ textDecoration: 'none', fontWeight: '600', color: location.pathname === '/dashboard' || location.pathname === '/' ? '#e11d48' : '#64748b', fontSize: '0.85rem', transition: 'color 0.2s' }}>Ana Sayfa</Link>
+                      <Link to="/dashboard" style={{ textDecoration: 'none', fontWeight: '600', color: location.pathname === '/dashboard' || location.pathname === '/' ? '#991b1b' : '#64748b', fontSize: '0.85rem', transition: 'color 0.2s' }}>Ana Sayfa</Link>
                       <NavBloodRequestsLink pathname={location.pathname} />
                       <NavMyRequestsLink pathname={location.pathname} user={user} />
                     </>
                   )}
-                  <Link to="/profile" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', textDecoration: 'none', fontWeight: '600', color: location.pathname === '/profile' ? '#e11d48' : '#64748b', fontSize: '0.85rem', transition: 'color 0.2s' }}>
+                  <Link to="/profile" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', textDecoration: 'none', fontWeight: '600', color: location.pathname === '/profile' ? '#991b1b' : '#64748b', fontSize: '0.85rem', transition: 'color 0.2s' }}>
                     <User size={16} /> Profilim
                   </Link>
                 </div>
@@ -536,7 +536,7 @@ const NavBloodRequestsLink = ({ pathname }) => {
       style={{
         textDecoration: 'none',
         fontWeight: '600',
-        color: isActive ? '#e11d48' : '#64748b',
+        color: isActive ? '#991b1b' : '#64748b',
         fontSize: '0.85rem',
         transition: 'color 0.2s',
         display: 'flex',
@@ -552,7 +552,7 @@ const NavBloodRequestsLink = ({ pathname }) => {
           position: 'absolute',
           top: '-8px',
           right: '-12px',
-          background: '#e11d48',
+          background: '#991b1b',
           color: 'white',
           borderRadius: '999px',
           fontSize: '0.65rem',
@@ -609,7 +609,7 @@ const NavMyRequestsLink = ({ pathname, user }) => {
       style={{
         textDecoration: 'none',
         fontWeight: '600',
-        color: isActive ? '#e11d48' : '#64748b',
+        color: isActive ? '#991b1b' : '#64748b',
         fontSize: '0.85rem',
         transition: 'color 0.2s',
         position: 'relative',
@@ -625,7 +625,7 @@ const NavMyRequestsLink = ({ pathname, user }) => {
           position: 'absolute',
           top: '-8px',
           right: '-12px',
-          background: '#e11d48',
+          background: '#991b1b',
           color: 'white',
           borderRadius: '999px',
           fontSize: '0.65rem',
@@ -708,11 +708,11 @@ const MyRequests = ({ user }) => {
         />
       )}
 
-      <div style={{ background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)', borderRadius: '28px', padding: '2.5rem', color: 'white', position: 'relative', overflow: 'hidden' }}>
+      <div style={{ background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)', borderRadius: '12px', padding: '2.5rem', color: 'white', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', top: '-60px', right: '-60px', width: '200px', height: '200px', borderRadius: '50%', background: 'rgba(255,255,255,0.04)' }} />
         <div style={{ position: 'relative' }}>
           <h1 style={{ fontSize: '1.9rem', fontWeight: '900', margin: 0, display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <Activity size={32} style={{ color: '#e11d48' }} />
+            <Activity size={32} style={{ color: '#991b1b' }} />
             Taleplerim ve Başvurularım
           </h1>
           <p style={{ margin: '0.5rem 0 0 0', opacity: 0.8, fontSize: '0.95rem' }}>Oluşturduğunuz kan taleplerini ve yaptığınız başvuruları buradan yönetin.</p>
@@ -720,11 +720,11 @@ const MyRequests = ({ user }) => {
       </div>
 
       <div style={{ display: 'flex', gap: '1rem' }}>
-        <button onClick={() => setActiveTab('created')} style={{ flex: 1, padding: '1rem', borderRadius: '16px', border: 'none', background: activeTab === 'created' ? '#e11d48' : '#ffffff', color: activeTab === 'created' ? '#ffffff' : '#64748b', fontWeight: '700', cursor: 'pointer', transition: 'all 0.2s', boxShadow: '0 4px 12px rgba(0,0,0,0.03)', position: 'relative' }}>
+        <button onClick={() => setActiveTab('created')} style={{ flex: 1, padding: '1rem', borderRadius: '8px', border: 'none', background: activeTab === 'created' ? '#991b1b' : '#ffffff', color: activeTab === 'created' ? '#ffffff' : '#64748b', fontWeight: '700', cursor: 'pointer', transition: 'all 0.2s', boxShadow: '0 4px 12px rgba(0,0,0,0.03)', position: 'relative' }}>
           Oluşturduğum Talepler ({myAlerts.length})
           {hasUnreadCreated && <span style={{ position: 'absolute', top: '10px', right: '15px', width: '10px', height: '10px', background: '#fbbf24', borderRadius: '50%', boxShadow: '0 0 10px rgba(251,191,36,0.5)' }} />}
         </button>
-        <button onClick={() => setActiveTab('applied')} style={{ flex: 1, padding: '1rem', borderRadius: '16px', border: 'none', background: activeTab === 'applied' ? '#e11d48' : '#ffffff', color: activeTab === 'applied' ? '#ffffff' : '#64748b', fontWeight: '700', cursor: 'pointer', transition: 'all 0.2s', boxShadow: '0 4px 12px rgba(0,0,0,0.03)', position: 'relative' }}>
+        <button onClick={() => setActiveTab('applied')} style={{ flex: 1, padding: '1rem', borderRadius: '8px', border: 'none', background: activeTab === 'applied' ? '#991b1b' : '#ffffff', color: activeTab === 'applied' ? '#ffffff' : '#64748b', fontWeight: '700', cursor: 'pointer', transition: 'all 0.2s', boxShadow: '0 4px 12px rgba(0,0,0,0.03)', position: 'relative' }}>
           Yaptığım Başvurular ({myApplications.length})
           {hasUnreadApplied && <span style={{ position: 'absolute', top: '10px', right: '15px', width: '10px', height: '10px', background: '#fbbf24', borderRadius: '50%', boxShadow: '0 0 10px rgba(251,191,36,0.5)' }} />}
         </button>
@@ -733,14 +733,14 @@ const MyRequests = ({ user }) => {
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
         {activeTab === 'created' ? (
           myAlerts.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: '4rem', background: '#f8fafc', borderRadius: '24px', border: '1px solid #e2e8f0' }}>Henüz bir talep oluşturmadınız.</div>
+            <div style={{ textAlign: 'center', padding: '4rem', background: '#f8fafc', borderRadius: '10px', border: '1px solid #e2e8f0' }}>Henüz bir talep oluşturmadınız.</div>
           ) : (
             myAlerts.map(alert => (
-              <div key={alert.id} style={{ background: '#ffffff', borderRadius: '24px', padding: '2rem', border: '1px solid #f1f5f9', boxShadow: '0 4px 20px rgba(0,0,0,0.02)' }}>
+              <div key={alert.id} style={{ background: '#ffffff', borderRadius: '10px', padding: '2rem', border: '1px solid #f1f5f9', boxShadow: '0 4px 20px rgba(0,0,0,0.02)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.5rem' }}>
                   <div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.5rem' }}>
-                      <span style={{ background: '#fff1f2', color: '#e11d48', padding: '0.25rem 0.75rem', borderRadius: '8px', fontSize: '0.75rem', fontWeight: '800' }}>{alert.bloodType}</span>
+                      <span style={{ background: '#fef2f2', color: '#991b1b', padding: '0.25rem 0.75rem', borderRadius: '8px', fontSize: '0.75rem', fontWeight: '800' }}>{alert.bloodType}</span>
                       <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: '600' }}>{alert.date} {alert.time}</span>
                     </div>
                     <h3 style={{ margin: 0, fontSize: '1.25rem', fontWeight: '800', color: '#0f172a' }}>{alert.hastane}</h3>
@@ -756,17 +756,17 @@ const MyRequests = ({ user }) => {
                   ) : (
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1rem' }}>
                       {getApplicantsForAlert(alert.id).map(app => (
-                        <div key={app.id} style={{ background: '#f8fafc', padding: '1.25rem', borderRadius: '16px', border: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <div key={app.id} style={{ background: '#f8fafc', padding: '1.25rem', borderRadius: '8px', border: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                           <div>
                             <div style={{ fontWeight: '800', color: '#0f172a', marginBottom: '0.25rem', fontSize: '1rem' }}>{maskName(app.applicantName)}</div>
-                            <div style={{ fontSize: '0.8rem', color: '#64748b', marginBottom: '0.5rem' }}>Kan Grubu: <span style={{ color: '#e11d48', fontWeight: '700' }}>{app.applicantBlood}</span></div>
+                            <div style={{ fontSize: '0.8rem', color: '#64748b', marginBottom: '0.5rem' }}>Kan Grubu: <span style={{ color: '#991b1b', fontWeight: '700' }}>{app.applicantBlood}</span></div>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#94a3b8', fontSize: '0.8rem', fontWeight: '600' }}>
                               <Phone size={12} /> {maskPhone(app.applicantPhone)}
                             </div>
                           </div>
                           <button
                             onClick={() => setActiveChat({ chatId: `${app.alertId}_${app.applicantTc}`, otherName: app.applicantName })}
-                            style={{ background: '#e11d48', color: 'white', border: 'none', padding: '0.5rem 1rem', borderRadius: '10px', fontSize: '0.8rem', fontWeight: '700', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem' }}
+                            style={{ background: '#991b1b', color: 'white', border: 'none', padding: '0.5rem 1rem', borderRadius: '10px', fontSize: '0.8rem', fontWeight: '700', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem' }}
                           >
                             <Mail size={14} /> Mesajlaş
                           </button>
@@ -780,10 +780,10 @@ const MyRequests = ({ user }) => {
           )
         ) : (
           myApplications.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: '4rem', background: '#f8fafc', borderRadius: '24px', border: '1px solid #e2e8f0' }}>Henüz bir talebe başvuruda bulunmadınız.</div>
+            <div style={{ textAlign: 'center', padding: '4rem', background: '#f8fafc', borderRadius: '10px', border: '1px solid #e2e8f0' }}>Henüz bir talebe başvuruda bulunmadınız.</div>
           ) : (
             myApplications.map(app => (
-              <div key={app.id} style={{ background: '#ffffff', borderRadius: '20px', padding: '1.5rem', border: '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div key={app.id} style={{ background: '#ffffff', borderRadius: '8px', padding: '1.5rem', border: '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.25rem' }}>
                     <span style={{ background: '#f0fdf4', color: '#16a34a', padding: '0.2rem 0.5rem', borderRadius: '6px', fontSize: '0.7rem', fontWeight: '800' }}>BAŞVURU ONAYLANDI</span>
@@ -796,7 +796,7 @@ const MyRequests = ({ user }) => {
                 <div style={{ textAlign: 'right' }}>
                   <button
                     onClick={() => setActiveChat({ chatId: `${app.alertId}_${app.applicantTc}`, otherName: app.requesterName })}
-                    style={{ background: '#e11d48', color: 'white', border: 'none', padding: '0.65rem 1.25rem', borderRadius: '12px', fontSize: '0.85rem', fontWeight: '700', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem' }}
+                    style={{ background: '#991b1b', color: 'white', border: 'none', padding: '0.65rem 1.25rem', borderRadius: '12px', fontSize: '0.85rem', fontWeight: '700', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem' }}
                   >
                     <Mail size={16} /> Mesaj Gönder
                   </button>
@@ -865,7 +865,7 @@ const ChatWindow = ({ user, chatId, otherName, onClose }) => {
   };
 
   return (
-    <div style={{ position: 'fixed', bottom: '2rem', right: '2rem', width: '360px', height: '500px', background: 'white', borderRadius: '24px', boxShadow: '0 10px 50px rgba(0,0,0,0.15)', display: 'flex', flexDirection: 'column', zIndex: 1000, border: '1px solid #f1f5f9' }}>
+    <div style={{ position: 'fixed', bottom: '2rem', right: '2rem', width: '360px', height: '500px', background: 'white', borderRadius: '10px', boxShadow: '0 10px 50px rgba(0,0,0,0.15)', display: 'flex', flexDirection: 'column', zIndex: 1000, border: '1px solid #f1f5f9' }}>
       <div style={{ padding: '1.25rem', background: '#0f172a', borderRadius: '24px 24px 0 0', color: 'white', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
           <div>
@@ -886,7 +886,7 @@ const ChatWindow = ({ user, chatId, otherName, onClose }) => {
             maxWidth: '80%',
             padding: '0.75rem 1rem',
             borderRadius: m.senderTc === user.tc ? '16px 16px 0 16px' : '16px 16px 16px 0',
-            background: m.senderTc === user.tc ? '#e11d48' : 'white',
+            background: m.senderTc === user.tc ? '#991b1b' : 'white',
             color: m.senderTc === user.tc ? 'white' : '#0f172a',
             fontSize: '0.85rem',
             boxShadow: '0 2px 8px rgba(0,0,0,0.03)',
@@ -905,7 +905,7 @@ const ChatWindow = ({ user, chatId, otherName, onClose }) => {
           placeholder="Mesajınızı yazın..."
           style={{ flex: 1, padding: '0.75rem', borderRadius: '12px', border: '1px solid #e2e8f0', outline: 'none', fontSize: '0.85rem' }}
         />
-        <button type="submit" style={{ background: '#e11d48', color: 'white', border: 'none', width: '40px', height: '40px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+        <button type="submit" style={{ background: '#991b1b', color: 'white', border: 'none', width: '40px', height: '40px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
           <ArrowRight size={18} />
         </button>
       </form>
@@ -1017,8 +1017,8 @@ const KanTalepleri = ({ user }) => {
     <div className="animate-in" style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
       {/* Header */}
       <div style={{
-        background: 'linear-gradient(135deg, #e11d48 0%, #be123c 100%)',
-        borderRadius: '28px',
+        background: 'linear-gradient(135deg, #991b1b 0%, #7f1d1d 100%)',
+        borderRadius: '12px',
         padding: '2.5rem',
         color: 'white',
         position: 'relative',
@@ -1063,9 +1063,9 @@ const KanTalepleri = ({ user }) => {
               alignItems: 'center',
               gap: '0.75rem',
               padding: '0.85rem 1.75rem',
-              borderRadius: '16px',
+              borderRadius: '8px',
               border: 'none',
-              background: filterSource === cat.id ? '#e11d48' : '#ffffff',
+              background: filterSource === cat.id ? '#991b1b' : '#ffffff',
               color: filterSource === cat.id ? '#ffffff' : '#64748b',
               fontWeight: '700',
               fontSize: '0.95rem',
@@ -1083,7 +1083,7 @@ const KanTalepleri = ({ user }) => {
       {/* Filtre Araçları */}
       <div style={{
         background: '#ffffff',
-        borderRadius: '20px',
+        borderRadius: '8px',
         padding: '1.25rem 1.5rem',
         border: '1px solid #f1f5f9',
         boxShadow: '0 4px 20px rgba(0,0,0,0.03)',
@@ -1174,9 +1174,9 @@ const KanTalepleri = ({ user }) => {
 
       {/* Talepler Listesi */}
       {filtered.length === 0 ? (
-        <div style={{ textAlign: 'center', padding: '5rem 2rem', background: '#f8fafc', borderRadius: '24px', border: '1px solid #e2e8f0' }}>
-          <div style={{ width: '72px', height: '72px', background: '#fff1f2', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.25rem' }}>
-            <Bell size={32} style={{ color: '#e11d48' }} />
+        <div style={{ textAlign: 'center', padding: '5rem 2rem', background: '#f8fafc', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
+          <div style={{ width: '72px', height: '72px', background: '#fef2f2', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.25rem' }}>
+            <Bell size={32} style={{ color: '#991b1b' }} />
           </div>
           <div style={{ fontSize: '1.15rem', fontWeight: '800', color: '#0f172a', marginBottom: '0.5rem' }}>
             {alerts.length === 0 ? 'Şu an için aktif kan talebi bulunmuyor' : 'Filtreye uyan sonuç bulunamadı'}
@@ -1194,7 +1194,7 @@ const KanTalepleri = ({ user }) => {
               style={{
                 background: '#ffffff',
                 padding: '2rem',
-                borderRadius: '24px',
+                borderRadius: '10px',
                 boxShadow: '0 6px 30px rgba(0,0,0,0.04)',
                 border: '1px solid rgba(0,0,0,0.04)',
                 display: 'flex',
@@ -1205,7 +1205,7 @@ const KanTalepleri = ({ user }) => {
               onMouseOut={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 6px 30px rgba(0,0,0,0.04)'; }}
             >
               {/* Sol kenar şeridi */}
-              <div style={{ position: 'absolute', top: 0, left: 0, width: '5px', height: '100%', background: 'linear-gradient(to bottom, #f43f5e, #e11d48)', borderRadius: '24px 0 0 24px' }} />
+              <div style={{ position: 'absolute', top: 0, left: 0, width: '5px', height: '100%', background: 'linear-gradient(to bottom, #f43f5e, #991b1b)', borderRadius: '24px 0 0 24px' }} />
 
               {/* Üst: Aciliyet + Tarih */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.25rem', paddingLeft: '0.5rem' }}>
@@ -1213,8 +1213,8 @@ const KanTalepleri = ({ user }) => {
                   <span style={{
                     fontSize: '0.65rem',
                     fontWeight: '800',
-                    background: alert.autoGenerated === false ? '#eff6ff' : '#fff1f2',
-                    color: alert.autoGenerated === false ? '#2563eb' : '#e11d48',
+                    background: alert.autoGenerated === false ? '#eff6ff' : '#fef2f2',
+                    color: alert.autoGenerated === false ? '#2563eb' : '#991b1b',
                     padding: '0.25rem 0.6rem',
                     borderRadius: '8px',
                     textTransform: 'uppercase',
@@ -1225,8 +1225,8 @@ const KanTalepleri = ({ user }) => {
                   <span style={{
                     fontSize: '0.72rem',
                     fontWeight: '800',
-                    background: alert.urgency === 'Yüksek (Acil)' ? '#fff1f2' : '#fef3c7',
-                    color: alert.urgency === 'Yüksek (Acil)' ? '#e11d48' : '#d97706',
+                    background: alert.urgency === 'Yüksek (Acil)' ? '#fef2f2' : '#fef3c7',
+                    color: alert.urgency === 'Yüksek (Acil)' ? '#991b1b' : '#d97706',
                     padding: '0.35rem 0.75rem',
                     borderRadius: '10px',
                     textTransform: 'uppercase',
@@ -1250,7 +1250,7 @@ const KanTalepleri = ({ user }) => {
               {/* İlçe + Mesafe */}
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem', paddingLeft: '0.5rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#64748b', fontSize: '0.88rem', fontWeight: '500' }}>
-                  <MapPin size={14} style={{ color: '#e11d48' }} />
+                  <MapPin size={14} style={{ color: '#991b1b' }} />
                   <span>{alert.ilce} İlçesi</span>
                 </div>
                 {user?.district && (
@@ -1261,9 +1261,9 @@ const KanTalepleri = ({ user }) => {
               </div>
 
               {/* Alt: Kan grubu + Başvuru */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#f8fafc', padding: '1rem 1.25rem', borderRadius: '16px', border: '1px solid #f1f5f9', marginTop: 'auto' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#f8fafc', padding: '1rem 1.25rem', borderRadius: '8px', border: '1px solid #f1f5f9', marginTop: 'auto' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
-                  <div style={{ background: '#fff1f2', width: '44px', height: '44px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#e11d48', fontWeight: '900', fontSize: '1.05rem', border: '1px solid #fecdd3' }}>
+                  <div style={{ background: '#fef2f2', width: '44px', height: '44px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#991b1b', fontWeight: '900', fontSize: '1.05rem', border: '1px solid #fecdd3' }}>
                     {alert.bloodType}
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.1rem' }}>
@@ -1272,7 +1272,7 @@ const KanTalepleri = ({ user }) => {
                   </div>
                 </div>
                 <button
-                  style={{ background: 'linear-gradient(135deg, #e11d48, #be123c)', color: 'white', border: 'none', padding: '0.65rem 1.1rem', fontSize: '0.82rem', borderRadius: '12px', fontWeight: '700', cursor: 'pointer', boxShadow: '0 4px 12px rgba(225,29,72,0.25)', transition: 'opacity 0.2s' }}
+                  style={{ background: 'linear-gradient(135deg, #991b1b, #7f1d1d)', color: 'white', border: 'none', padding: '0.65rem 1.1rem', fontSize: '0.82rem', borderRadius: '12px', fontWeight: '700', cursor: 'pointer', boxShadow: '0 4px 12px rgba(225,29,72,0.25)', transition: 'opacity 0.2s' }}
                   onMouseOver={e => e.currentTarget.style.opacity = '0.88'}
                   onMouseOut={e => e.currentTarget.style.opacity = '1'}
                   onClick={() => handleApply(alert)}
@@ -1396,7 +1396,7 @@ const Login = ({ setUser, usersList }) => {
         </form>
 
         <div style={{ textAlign: 'center', marginTop: '2rem', fontSize: '0.85rem', color: '#64748b' }}>
-          Hesabınız yok mu? <Link to="/register" style={{ color: '#e11d48', fontWeight: '600', textDecoration: 'none' }}>Kaydolun</Link>
+          Hesabınız yok mu? <Link to="/register" style={{ color: '#991b1b', fontWeight: '600', textDecoration: 'none' }}>Kaydolun</Link>
         </div>
       </div>
     </div>
@@ -1498,7 +1498,7 @@ const Register = ({ setUser, usersList, setUsersList }) => {
 
   return (
     <div className="animate-in" style={{ maxWidth: '800px', margin: '2rem auto' }}>
-      <div className="card glass p-10" style={{ background: '#ffffff', borderRadius: '32px', boxShadow: '0 10px 40px rgba(0,0,0,0.04)', padding: '3rem', border: '1px solid rgba(0,0,0,0.03)' }}>
+      <div className="card glass p-10" style={{ background: '#ffffff', borderRadius: '12px', boxShadow: '0 10px 40px rgba(0,0,0,0.04)', padding: '3rem', border: '1px solid rgba(0,0,0,0.03)' }}>
         <h2 style={{ textAlign: 'center', marginBottom: '0.5rem', fontSize: '2rem', fontWeight: '800', color: '#0f172a' }}>Yeni Kayıt</h2>
         <p style={{ textAlign: 'center', color: '#64748b', marginBottom: '2.5rem', fontSize: '0.85rem' }}>Kan bağışçısı topluluğuna eksiksiz katılın</p>
 
@@ -1578,7 +1578,7 @@ const Register = ({ setUser, usersList, setUsersList }) => {
               type="checkbox" 
               name="kvkk" 
               id="kvkk" 
-              style={{ width: '1.1rem', height: '1.1rem', accentColor: '#e11d48' }} 
+              style={{ width: '1.1rem', height: '1.1rem', accentColor: '#991b1b' }} 
               onClick={(e) => {
                 if (!kvkkRead) {
                   e.preventDefault();
@@ -1587,7 +1587,7 @@ const Register = ({ setUser, usersList, setUsersList }) => {
               }}
             />
             <label htmlFor="kvkk" style={{ fontSize: '0.85rem', color: '#475569', cursor: 'pointer' }}>
-              <a href="#" onClick={(e) => { e.preventDefault(); setShowKvkk(true); }} style={{ color: '#e11d48', textDecoration: 'none', fontWeight: '600' }}>KVKK Aydınlatma Metnini</a> okudum, kişisel verilerimin işlenmesini onaylıyorum.
+              <a href="#" onClick={(e) => { e.preventDefault(); setShowKvkk(true); }} style={{ color: '#991b1b', textDecoration: 'none', fontWeight: '600' }}>KVKK Aydınlatma Metnini</a> okudum, kişisel verilerimin işlenmesini onaylıyorum.
             </label>
           </div>
 
@@ -1604,7 +1604,7 @@ const Register = ({ setUser, usersList, setUsersList }) => {
         </form>
 
         <div style={{ textAlign: 'center', marginTop: '2rem', fontSize: '0.85rem', color: '#64748b' }}>
-          Zaten üye misiniz? <Link to="/login" style={{ color: '#e11d48', fontWeight: '600', textDecoration: 'none' }}>Giriş Yapın</Link>
+          Zaten üye misiniz? <Link to="/login" style={{ color: '#991b1b', fontWeight: '600', textDecoration: 'none' }}>Giriş Yapın</Link>
         </div>
       </div>
 
@@ -1616,7 +1616,7 @@ const Register = ({ setUser, usersList, setUsersList }) => {
           display: 'flex', alignItems: 'center', justifyContent: 'center'
         }}>
           <div style={{
-            background: '#fff', padding: '2rem', borderRadius: '16px',
+            background: '#fff', padding: '2rem', borderRadius: '8px',
             maxWidth: '500px', width: '90%', maxHeight: '80vh', overflowY: 'auto',
             boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)'
           }}>
@@ -1720,8 +1720,8 @@ const Dashboard = ({ user, usersList, setUsersList }) => {
 
     if (nextDate > new Date()) {
       nextDateText = nextDate.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
-      nextDateColor = '#e11d48'; // Red if waiting
-      nextDateBg = 'linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%)';
+      nextDateColor = '#991b1b'; // Red if waiting
+      nextDateBg = 'linear-gradient(135deg, #fef2f2 0%, #ffe4e6 100%)';
     }
   }
 
@@ -1761,40 +1761,40 @@ const Dashboard = ({ user, usersList, setUsersList }) => {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
           
           {/* Admin Navigation Tabs */}
-          <div style={{ display: 'flex', gap: '0.4rem', background: '#ffffff', padding: '0.75rem', borderRadius: '24px', flexWrap: 'wrap', justifyContent: 'center', border: '1px solid rgba(0,0,0,0.03)', boxShadow: '0 10px 40px rgba(0,0,0,0.02)', overflowX: 'auto' }}>
+          <div style={{ display: 'flex', gap: '0.4rem', background: '#ffffff', padding: '0.75rem', borderRadius: '10px', flexWrap: 'wrap', justifyContent: 'center', border: '1px solid rgba(0,0,0,0.03)', boxShadow: '0 10px 40px rgba(0,0,0,0.02)', overflowX: 'auto' }}>
             <button 
               onClick={() => setActiveAdminTab('overview')} 
-              style={{ padding: '0.75rem 1rem', borderRadius: '16px', border: 'none', background: activeAdminTab === 'overview' ? '#e11d48' : 'transparent', color: activeAdminTab === 'overview' ? '#ffffff' : '#475569', fontWeight: '700', fontSize: '0.85rem', cursor: 'pointer', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '0.4rem', whiteSpace: 'nowrap' }}>
+              style={{ padding: '0.75rem 1rem', borderRadius: '8px', border: 'none', background: activeAdminTab === 'overview' ? '#991b1b' : 'transparent', color: activeAdminTab === 'overview' ? '#ffffff' : '#475569', fontWeight: '700', fontSize: '0.85rem', cursor: 'pointer', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '0.4rem', whiteSpace: 'nowrap' }}>
               <LayoutDashboard size={18} /> Sistem Özeti
             </button>
             <button 
               onClick={() => setActiveAdminTab('users')} 
-              style={{ padding: '0.75rem 1rem', borderRadius: '16px', border: 'none', background: activeAdminTab === 'users' ? '#e11d48' : 'transparent', color: activeAdminTab === 'users' ? '#ffffff' : '#475569', fontWeight: '700', fontSize: '0.85rem', cursor: 'pointer', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '0.4rem', whiteSpace: 'nowrap' }}>
+              style={{ padding: '0.75rem 1rem', borderRadius: '8px', border: 'none', background: activeAdminTab === 'users' ? '#991b1b' : 'transparent', color: activeAdminTab === 'users' ? '#ffffff' : '#475569', fontWeight: '700', fontSize: '0.85rem', cursor: 'pointer', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '0.4rem', whiteSpace: 'nowrap' }}>
               <Users size={18} /> Kullanıcı Yönetimi
             </button>
             <button 
               onClick={() => setActiveAdminTab('logs')} 
-              style={{ padding: '0.75rem 1rem', borderRadius: '16px', border: 'none', background: activeAdminTab === 'logs' ? '#e11d48' : 'transparent', color: activeAdminTab === 'logs' ? '#ffffff' : '#475569', fontWeight: '700', fontSize: '0.85rem', cursor: 'pointer', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '0.4rem', whiteSpace: 'nowrap' }}>
+              style={{ padding: '0.75rem 1rem', borderRadius: '8px', border: 'none', background: activeAdminTab === 'logs' ? '#991b1b' : 'transparent', color: activeAdminTab === 'logs' ? '#ffffff' : '#475569', fontWeight: '700', fontSize: '0.85rem', cursor: 'pointer', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '0.4rem', whiteSpace: 'nowrap' }}>
               <Activity size={18} /> Sistem Logları
             </button>
             <button 
               onClick={() => setActiveAdminTab('approvals')} 
-              style={{ padding: '0.75rem 1rem', borderRadius: '16px', border: 'none', background: activeAdminTab === 'approvals' ? '#e11d48' : 'transparent', color: activeAdminTab === 'approvals' ? '#ffffff' : '#475569', fontWeight: '700', fontSize: '0.85rem', cursor: 'pointer', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '0.4rem', whiteSpace: 'nowrap' }}>
+              style={{ padding: '0.75rem 1rem', borderRadius: '8px', border: 'none', background: activeAdminTab === 'approvals' ? '#991b1b' : 'transparent', color: activeAdminTab === 'approvals' ? '#ffffff' : '#475569', fontWeight: '700', fontSize: '0.85rem', cursor: 'pointer', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '0.4rem', whiteSpace: 'nowrap' }}>
               <CheckCircle size={18} /> Onay Merkezi
             </button>
             <button 
               onClick={() => setActiveAdminTab('logistics')} 
-              style={{ padding: '0.75rem 1rem', borderRadius: '16px', border: 'none', background: activeAdminTab === 'logistics' ? '#e11d48' : 'transparent', color: activeAdminTab === 'logistics' ? '#ffffff' : '#475569', fontWeight: '700', fontSize: '0.85rem', cursor: 'pointer', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '0.4rem', whiteSpace: 'nowrap' }}>
+              style={{ padding: '0.75rem 1rem', borderRadius: '8px', border: 'none', background: activeAdminTab === 'logistics' ? '#991b1b' : 'transparent', color: activeAdminTab === 'logistics' ? '#ffffff' : '#475569', fontWeight: '700', fontSize: '0.85rem', cursor: 'pointer', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '0.4rem', whiteSpace: 'nowrap' }}>
               <Truck size={18} /> Lojistik
             </button>
             <button 
               onClick={() => setActiveAdminTab('security')} 
-              style={{ padding: '0.75rem 1rem', borderRadius: '16px', border: 'none', background: activeAdminTab === 'security' ? '#e11d48' : 'transparent', color: activeAdminTab === 'security' ? '#ffffff' : '#475569', fontWeight: '700', fontSize: '0.85rem', cursor: 'pointer', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '0.4rem', whiteSpace: 'nowrap' }}>
+              style={{ padding: '0.75rem 1rem', borderRadius: '8px', border: 'none', background: activeAdminTab === 'security' ? '#991b1b' : 'transparent', color: activeAdminTab === 'security' ? '#ffffff' : '#475569', fontWeight: '700', fontSize: '0.85rem', cursor: 'pointer', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '0.4rem', whiteSpace: 'nowrap' }}>
               <Shield size={18} /> Güvenlik Paneli
             </button>
             <button 
               onClick={() => setActiveAdminTab('livetracking')} 
-              style={{ padding: '0.75rem 1rem', borderRadius: '16px', border: 'none', background: activeAdminTab === 'livetracking' ? '#e11d48' : 'transparent', color: activeAdminTab === 'livetracking' ? '#ffffff' : '#475569', fontWeight: '700', fontSize: '0.85rem', cursor: 'pointer', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '0.4rem', whiteSpace: 'nowrap' }}>
+              style={{ padding: '0.75rem 1rem', borderRadius: '8px', border: 'none', background: activeAdminTab === 'livetracking' ? '#991b1b' : 'transparent', color: activeAdminTab === 'livetracking' ? '#ffffff' : '#475569', fontWeight: '700', fontSize: '0.85rem', cursor: 'pointer', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '0.4rem', whiteSpace: 'nowrap' }}>
               <MapPin size={18} /> Canlı Takip & Harita
             </button>
           </div>
@@ -1887,9 +1887,9 @@ const BloodRequestCreate = ({ user }) => {
   };
 
   return (
-    <div className="glass" style={{ background: '#ffffff', borderRadius: '32px', padding: '2.5rem', marginBottom: '3rem', border: '1px solid #f1f5f9', boxShadow: '0 10px 40px rgba(0,0,0,0.02)' }}>
+    <div className="glass" style={{ background: '#ffffff', borderRadius: '12px', padding: '2.5rem', marginBottom: '3rem', border: '1px solid #f1f5f9', boxShadow: '0 10px 40px rgba(0,0,0,0.02)' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '2rem' }}>
-        <div style={{ background: 'rgba(225, 29, 72, 0.1)', padding: '0.75rem', borderRadius: '16px', color: '#e11d48' }}>
+        <div style={{ background: 'rgba(153, 27, 27, 0.08)', padding: '0.75rem', borderRadius: '8px', color: '#991b1b' }}>
           <PlusCircle size={24} />
         </div>
         <div>
@@ -1965,11 +1965,11 @@ const StockHeatmap = ({ stockData, onDistrictSelect }) => {
   districtStats.sort((a, b) => a.total - b.total);
 
   return (
-    <div className="glass" style={{ background: '#ffffff', borderRadius: '24px', padding: '1.5rem', boxShadow: '0 4px 24px rgba(0,0,0,0.04)', border: '1px solid #f1f5f9' }}>
+    <div className="glass" style={{ background: '#ffffff', borderRadius: '10px', padding: '1.5rem', boxShadow: '0 4px 24px rgba(0,0,0,0.04)', border: '1px solid #f1f5f9' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '1rem' }}>
         <div>
           <h2 style={{ fontSize: '1.3rem', fontWeight: '800', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '0.4rem', margin: 0 }}>
-            <MapPin size={24} style={{ color: '#e11d48' }} />
+            <MapPin size={24} style={{ color: '#991b1b' }} />
             İstanbul Kan İhtiyaç Isı Haritası
           </h2>
           <p style={{ fontSize: '0.85rem', color: '#64748b', margin: '0.2rem 0 0 0' }}>İlçelere göre aktif talep ve düşük stok yoğunluğu</p>
@@ -2037,7 +2037,7 @@ const BloodStockFilter = ({ stockData }) => {
   const bottomDistricts = [...list].sort((a, b) => a.count - b.count).slice(0, 6);
 
   return (
-    <div className="glass" style={{ background: '#ffffff', borderRadius: '24px', padding: '1.5rem', boxShadow: '0 4px 24px rgba(0,0,0,0.04)', border: '1px solid #f1f5f9' }}>
+    <div className="glass" style={{ background: '#ffffff', borderRadius: '10px', padding: '1.5rem', boxShadow: '0 4px 24px rgba(0,0,0,0.04)', border: '1px solid #f1f5f9' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
         <div>
           <h3 style={{ fontSize: '1.15rem', fontWeight: '800', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '0.4rem', margin: 0 }}>
@@ -2053,7 +2053,7 @@ const BloodStockFilter = ({ stockData }) => {
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-        <div style={{ background: '#f0fdf4', borderRadius: '16px', padding: '1.25rem', border: '1px solid #bbf7d0' }}>
+        <div style={{ background: '#f0fdf4', borderRadius: '8px', padding: '1.25rem', border: '1px solid #bbf7d0' }}>
           <h4 style={{ fontSize: '0.85rem', fontWeight: '800', color: '#16a34a', textTransform: 'uppercase', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
             <TrendingUp size={16} /> En Fazla Stok
           </h4>
@@ -2067,15 +2067,15 @@ const BloodStockFilter = ({ stockData }) => {
           </div>
         </div>
 
-        <div style={{ background: '#fff1f2', borderRadius: '16px', padding: '1.25rem', border: '1px solid #fecdd3' }}>
-          <h4 style={{ fontSize: '0.85rem', fontWeight: '800', color: '#e11d48', textTransform: 'uppercase', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+        <div style={{ background: '#fef2f2', borderRadius: '8px', padding: '1.25rem', border: '1px solid #fecdd3' }}>
+          <h4 style={{ fontSize: '0.85rem', fontWeight: '800', color: '#991b1b', textTransform: 'uppercase', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
             <TrendingDown size={16} /> En Az Stok (Acil)
           </h4>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
             {bottomDistricts.map((d, i) => (
               <div key={d.ilce} style={{ display: 'flex', justifyContent: 'space-between', background: '#ffffff', padding: '0.75rem 1rem', borderRadius: '12px', border: '1px solid #ffe4e6' }}>
                 <span style={{ fontWeight: '700', color: '#0f172a', fontSize: '0.85rem' }}>{i + 1}. {d.ilce}</span>
-                <span style={{ fontWeight: '800', color: '#e11d48', fontSize: '0.85rem' }}>{d.count} Ünite</span>
+                <span style={{ fontWeight: '800', color: '#991b1b', fontSize: '0.85rem' }}>{d.count} Ünite</span>
               </div>
             ))}
           </div>
@@ -2223,7 +2223,7 @@ const LogisticsDashboard = () => {
   return (
     <div className="animate-in" style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
       {/* Header */}
-      <div style={{ background: 'linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 100%)', borderRadius: '24px', padding: '2.5rem', color: 'white', position: 'relative', overflow: 'hidden' }}>
+      <div style={{ background: 'linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 100%)', borderRadius: '10px', padding: '2.5rem', color: 'white', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', top: '-40px', right: '-40px', width: '200px', height: '200px', borderRadius: '50%', background: 'rgba(255,255,255,0.05)' }} />
         <div style={{ position: 'absolute', bottom: '-60px', right: '80px', width: '160px', height: '160px', borderRadius: '50%', background: 'rgba(255,255,255,0.04)' }} />
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem', position: 'relative' }}>
@@ -2257,22 +2257,22 @@ const LogisticsDashboard = () => {
 
       {/* Stats row */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }}>
-        <div style={{ background: '#fff1f2', borderRadius: '16px', padding: '1.25rem', border: '1px solid #fecdd3', textAlign: 'center' }}>
-          <div style={{ fontSize: '2rem', fontWeight: '900', color: '#e11d48' }}>{suggestions.length}</div>
-          <div style={{ fontSize: '0.82rem', fontWeight: '700', color: '#be123c', marginTop: '0.25rem' }}>Bekleyen Öneri</div>
+        <div style={{ background: '#fef2f2', borderRadius: '8px', padding: '1.25rem', border: '1px solid #fecdd3', textAlign: 'center' }}>
+          <div style={{ fontSize: '2rem', fontWeight: '900', color: '#991b1b' }}>{suggestions.length}</div>
+          <div style={{ fontSize: '0.82rem', fontWeight: '700', color: '#7f1d1d', marginTop: '0.25rem' }}>Bekleyen Öneri</div>
         </div>
-        <div style={{ background: '#f0fdf4', borderRadius: '16px', padding: '1.25rem', border: '1px solid #bbf7d0', textAlign: 'center' }}>
+        <div style={{ background: '#f0fdf4', borderRadius: '8px', padding: '1.25rem', border: '1px solid #bbf7d0', textAlign: 'center' }}>
           <div style={{ fontSize: '2rem', fontWeight: '900', color: '#16a34a' }}>{completedTransfers.length}</div>
           <div style={{ fontSize: '0.82rem', fontWeight: '700', color: '#15803d', marginTop: '0.25rem' }}>Tamamlanan Transfer</div>
         </div>
-        <div style={{ background: '#eff6ff', borderRadius: '16px', padding: '1.25rem', border: '1px solid #bfdbfe', textAlign: 'center' }}>
+        <div style={{ background: '#eff6ff', borderRadius: '8px', padding: '1.25rem', border: '1px solid #bfdbfe', textAlign: 'center' }}>
           <div style={{ fontSize: '2rem', fontWeight: '900', color: '#1d4ed8' }}>{[...new Set(suggestions.map(s => s.kg))].length}</div>
           <div style={{ fontSize: '0.82rem', fontWeight: '700', color: '#1e40af', marginTop: '0.25rem' }}>Etkilenen Kan Grubu</div>
         </div>
       </div>
 
       {/* Transfer suggestions */}
-      <div style={{ background: '#ffffff', borderRadius: '24px', padding: '1.75rem', boxShadow: '0 4px 24px rgba(0,0,0,0.04)', border: '1px solid #f1f5f9' }}>
+      <div style={{ background: '#ffffff', borderRadius: '10px', padding: '1.75rem', boxShadow: '0 4px 24px rgba(0,0,0,0.04)', border: '1px solid #f1f5f9' }}>
         <h2 style={{ fontSize: '1.2rem', fontWeight: '800', color: '#0f172a', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
           <AlertTriangle size={20} style={{ color: '#f59e0b' }} /> Otomatik Transfer Önerileri
         </h2>
@@ -2288,9 +2288,9 @@ const LogisticsDashboard = () => {
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             {suggestions.map(s => (
-              <div key={s.id} style={{ background: 'linear-gradient(to right, #fffbeb, #fff7ed)', borderRadius: '16px', padding: '1.25rem 1.5rem', border: '1px solid #fde68a', display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+              <div key={s.id} style={{ background: 'linear-gradient(to right, #fffbeb, #fff7ed)', borderRadius: '8px', padding: '1.25rem 1.5rem', border: '1px solid #fde68a', display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
                 {/* Kan Grubu Rozeti */}
-                <div style={{ background: '#e11d48', color: 'white', borderRadius: '12px', padding: '0.75rem 1rem', fontWeight: '900', fontSize: '1.2rem', minWidth: '60px', textAlign: 'center', flexShrink: 0 }}>
+                <div style={{ background: '#991b1b', color: 'white', borderRadius: '12px', padding: '0.75rem 1rem', fontWeight: '900', fontSize: '1.2rem', minWidth: '60px', textAlign: 'center', flexShrink: 0 }}>
                   {s.kg}
                 </div>
 
@@ -2303,7 +2303,7 @@ const LogisticsDashboard = () => {
                     <span style={{ fontSize: '0.8rem', background: '#dcfce7', color: '#16a34a', padding: '0.2rem 0.6rem', borderRadius: '6px', fontWeight: '700' }}>
                       {s.sender}: {s.senderStock} Ünite
                     </span>
-                    <span style={{ fontSize: '0.8rem', background: '#ffe4e6', color: '#e11d48', padding: '0.2rem 0.6rem', borderRadius: '6px', fontWeight: '700' }}>
+                    <span style={{ fontSize: '0.8rem', background: '#ffe4e6', color: '#991b1b', padding: '0.2rem 0.6rem', borderRadius: '6px', fontWeight: '700' }}>
                       {s.receiver}: {s.receiverStock} Ünite
                     </span>
                     <span style={{ fontSize: '0.8rem', background: '#dbeafe', color: '#1d4ed8', padding: '0.2rem 0.6rem', borderRadius: '6px', fontWeight: '700' }}>
@@ -2338,7 +2338,7 @@ const LogisticsDashboard = () => {
 
       {/* Completed Transfers Log */}
       {completedTransfers.length > 0 && (
-        <div style={{ background: '#ffffff', borderRadius: '24px', padding: '1.75rem', boxShadow: '0 4px 24px rgba(0,0,0,0.04)', border: '1px solid #f1f5f9' }}>
+        <div style={{ background: '#ffffff', borderRadius: '10px', padding: '1.75rem', boxShadow: '0 4px 24px rgba(0,0,0,0.04)', border: '1px solid #f1f5f9' }}>
           <h2 style={{ fontSize: '1.2rem', fontWeight: '800', color: '#0f172a', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
             <CheckCircle size={20} style={{ color: '#16a34a' }} /> Tamamlanan Transferler
           </h2>
@@ -2346,7 +2346,7 @@ const LogisticsDashboard = () => {
             {completedTransfers.map((t, i) => (
               <div key={t.id || i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#f8fafc', borderRadius: '12px', padding: '0.85rem 1.25rem', border: '1px solid #e2e8f0', flexWrap: 'wrap', gap: '0.4rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                  <span style={{ background: '#e11d48', color: 'white', borderRadius: '8px', padding: '0.2rem 0.6rem', fontWeight: '900', fontSize: '0.85rem' }}>{t.kg}</span>
+                  <span style={{ background: '#991b1b', color: 'white', borderRadius: '8px', padding: '0.2rem 0.6rem', fontWeight: '900', fontSize: '0.85rem' }}>{t.kg}</span>
                   <span style={{ fontWeight: '700', fontSize: '0.88rem', color: '#0f172a' }}>{t.sender} → {t.receiver}</span>
                   <span style={{ fontSize: '0.8rem', color: '#16a34a', fontWeight: '700' }}>{t.amount} Ünite aktarıldı</span>
                 </div>
@@ -2509,9 +2509,9 @@ const AdminDashboard = ({ user, usersList, setUsersList }) => {
     <div className="animate-in" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', paddingBottom: '4rem' }}>
 
       {/* ── ÜST BAŞLIK: Hastane Seçimi ── */}
-      <div style={{ background: '#ffffff', borderRadius: '24px', padding: '1.5rem 2rem', boxShadow: '0 4px 24px rgba(0,0,0,0.04)', border: '1px solid #f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
+      <div style={{ background: '#ffffff', borderRadius: '10px', padding: '1.5rem 2rem', boxShadow: '0 4px 24px rgba(0,0,0,0.04)', border: '1px solid #f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
-          <div style={{ background: '#e11d48', width: '56px', height: '56px', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ background: '#991b1b', width: '56px', height: '56px', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Activity size={28} style={{ color: 'white' }} />
           </div>
           <div>
@@ -2528,9 +2528,9 @@ const AdminDashboard = ({ user, usersList, setUsersList }) => {
       </div>
 
       {/* ── 1. GÜNCEL KAN STOKLARI (Tam Genişlik) ── */}
-      <div style={{ background: '#ffffff', borderRadius: '24px', padding: '2rem', boxShadow: '0 4px 24px rgba(0,0,0,0.04)', border: '1px solid #f1f5f9' }}>
+      <div style={{ background: '#ffffff', borderRadius: '10px', padding: '2rem', boxShadow: '0 4px 24px rgba(0,0,0,0.04)', border: '1px solid #f1f5f9' }}>
         <h3 style={{ fontSize: '1.15rem', fontWeight: '800', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '1.5rem', margin: 0 }}>
-          <Droplets size={20} style={{ color: '#e11d48' }} />
+          <Droplets size={20} style={{ color: '#991b1b' }} />
           Güncel Kan Stokları
         </h3>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '1rem' }}>
@@ -2547,13 +2547,13 @@ const AdminDashboard = ({ user, usersList, setUsersList }) => {
             let statusColor = '#64748b';
 
             if (numCount <= 5) {
-              bgColor = '#fff1f2';
+              bgColor = '#fef2f2';
               borderColor = '#fecdd3';
-              textColor = '#e11d48';
-              labelColor = '#be123c';
+              textColor = '#991b1b';
+              labelColor = '#7f1d1d';
               statusText = 'Kritik (Acil)';
               statusBg = '#ffe4e6';
-              statusColor = '#e11d48';
+              statusColor = '#991b1b';
             } else if (numCount > 5 && numCount <= 15) {
               bgColor = '#fffbeb';
               borderColor = '#fde68a';
@@ -2573,7 +2573,7 @@ const AdminDashboard = ({ user, usersList, setUsersList }) => {
             }
 
             return (
-              <div key={kg} style={{ background: bgColor, borderRadius: '16px', padding: '1.25rem 1rem', textAlign: 'center', border: `1px solid ${borderColor}`, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.4rem', transition: 'all 0.3s' }}>
+              <div key={kg} style={{ background: bgColor, borderRadius: '8px', padding: '1.25rem 1rem', textAlign: 'center', border: `1px solid ${borderColor}`, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.4rem', transition: 'all 0.3s' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center', marginBottom: '0.2rem' }}>
                   <div style={{ fontSize: '1.1rem', fontWeight: '800', color: labelColor }}>{kg}</div>
                   <div style={{ fontSize: '0.65rem', fontWeight: '700', padding: '0.2rem 0.5rem', borderRadius: '8px', background: statusBg, color: statusColor, textTransform: 'uppercase' }}>{statusText}</div>
@@ -2613,7 +2613,7 @@ const AdminDashboard = ({ user, usersList, setUsersList }) => {
         <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '1.5rem' }}>
           <button
             onClick={saveStock}
-            style={{ background: '#e11d48', color: 'white', border: 'none', borderRadius: '12px', padding: '0.75rem 2rem', fontSize: '0.85rem', fontWeight: '800', cursor: 'pointer', boxShadow: '0 4px 14px rgba(225,29,72,0.2)' }}
+            style={{ background: '#991b1b', color: 'white', border: 'none', borderRadius: '12px', padding: '0.75rem 2rem', fontSize: '0.85rem', fontWeight: '800', cursor: 'pointer', boxShadow: '0 4px 14px rgba(225,29,72,0.2)' }}
           >
             Değişiklikleri Kaydet
           </button>
@@ -2639,7 +2639,7 @@ const AdminDashboard = ({ user, usersList, setUsersList }) => {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
 
           {/* Yeni Form - Kan Bağışı */}
-          <div style={{ background: '#ffffff', borderRadius: '24px', padding: '2rem', boxShadow: '0 4px 24px rgba(0,0,0,0.04)', border: '1px solid #f1f5f9' }}>
+          <div style={{ background: '#ffffff', borderRadius: '10px', padding: '2rem', boxShadow: '0 4px 24px rgba(0,0,0,0.04)', border: '1px solid #f1f5f9' }}>
             <h3 style={{ fontSize: '1.15rem', fontWeight: '800', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '1.5rem', margin: 0 }}>
               <UserRound size={20} style={{ color: '#2563eb' }} />
               Yeni Form - Kan Bağışı
@@ -2666,9 +2666,9 @@ const AdminDashboard = ({ user, usersList, setUsersList }) => {
           </div>
 
           {/* Stok Azaldı Bildirimi */}
-          <div style={{ background: '#fff1f2', borderRadius: '24px', padding: '2rem', border: '1px solid #ffe4e6' }}>
-            <h3 style={{ fontSize: '1.15rem', fontWeight: '800', color: '#be123c', display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.5rem', margin: 0 }}>
-              <Activity size={20} style={{ color: '#be123c' }} />
+          <div style={{ background: '#fef2f2', borderRadius: '10px', padding: '2rem', border: '1px solid #ffe4e6' }}>
+            <h3 style={{ fontSize: '1.15rem', fontWeight: '800', color: '#7f1d1d', display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.5rem', margin: 0 }}>
+              <Activity size={20} style={{ color: '#7f1d1d' }} />
               Stok Azaldı Bildirimi
             </h3>
             <p style={{ fontSize: '0.8rem', color: '#9f1239', marginBottom: '1.5rem', lineHeight: '1.4' }}>Acil kan ihtiyacını diğer hastanelere ve platforma duyurun.</p>
@@ -2694,7 +2694,7 @@ const AdminDashboard = ({ user, usersList, setUsersList }) => {
                   <option>Düşük</option>
                 </select>
               </div>
-              <button type="submit" style={{ background: '#e11d48', color: 'white', border: 'none', borderRadius: '12px', padding: '1rem', fontSize: '0.95rem', fontWeight: '800', cursor: 'pointer', boxShadow: '0 4px 14px rgba(225,29,72,0.2)', transition: 'all 0.2s', marginTop: '0.5rem' }}>
+              <button type="submit" style={{ background: '#991b1b', color: 'white', border: 'none', borderRadius: '12px', padding: '1rem', fontSize: '0.95rem', fontWeight: '800', cursor: 'pointer', boxShadow: '0 4px 14px rgba(225,29,72,0.2)', transition: 'all 0.2s', marginTop: '0.5rem' }}>
                 Talebi Yayınla
               </button>
             </form>

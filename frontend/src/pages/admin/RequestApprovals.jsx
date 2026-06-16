@@ -57,7 +57,7 @@ const RequestApprovals = () => {
         </div>
       </div>
 
-      <div className="card glass" style={{ background: '#ffffff', borderRadius: '32px', border: '1px solid rgba(0,0,0,0.03)', boxShadow: '0 20px 50px rgba(0,0,0,0.04)', overflow: 'hidden' }}>
+      <div className="card glass" style={{ background: '#ffffff', borderRadius: '12px', border: '1px solid rgba(0,0,0,0.03)', boxShadow: '0 20px 50px rgba(0,0,0,0.04)', overflow: 'hidden' }}>
         
         {/* Tabs */}
         <div style={{ display: 'flex', borderBottom: '1px solid #e2e8f0', background: '#f8fafc' }}>
@@ -110,10 +110,10 @@ const RequestApprovals = () => {
               <p style={{ fontSize: '1.1rem', fontWeight: '600' }}>Bu kategoride talep bulunmuyor.</p>
             </div>
           ) : filteredApprovals.map(a => (
-            <div key={a.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.5rem', border: '1px solid #e2e8f0', borderRadius: '16px', background: '#ffffff', transition: 'all 0.2s', boxShadow: '0 4px 6px rgba(0,0,0,0.02)' }} onMouseOver={e => e.currentTarget.style.borderColor = '#cbd5e1'} onMouseOut={e => e.currentTarget.style.borderColor = '#e2e8f0'}>
+            <div key={a.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.5rem', border: '1px solid #e2e8f0', borderRadius: '8px', background: '#ffffff', transition: 'all 0.2s', boxShadow: '0 4px 6px rgba(0,0,0,0.02)' }} onMouseOver={e => e.currentTarget.style.borderColor = '#cbd5e1'} onMouseOut={e => e.currentTarget.style.borderColor = '#e2e8f0'}>
               
               <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
-                <div style={{ width: '60px', height: '60px', borderRadius: '16px', background: 'rgba(225,29,72,0.1)', color: '#e11d48', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', fontWeight: '800' }}>
+                <div style={{ width: '60px', height: '60px', borderRadius: '8px', background: 'rgba(225,29,72,0.1)', color: '#991b1b', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', fontWeight: '800' }}>
                   <Droplet size={20} />
                   <span style={{ fontSize: '0.85rem' }}>{a.bloodTypeName}</span>
                 </div>

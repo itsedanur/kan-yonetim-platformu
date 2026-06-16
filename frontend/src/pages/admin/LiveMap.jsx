@@ -23,7 +23,7 @@ const hospitalLocations = [
 
 const getMarkerColor = (level) => {
   switch (level) {
-    case 'Critical': return '#e11d48'; // Rose 600
+    case 'Critical': return '#991b1b'; // Rose 600
     case 'High': return '#f59e0b'; // Amber 500
     case 'Medium': return '#3b82f6'; // Blue 500
     case 'Low': return '#10b981'; // Emerald 500
@@ -45,7 +45,7 @@ const LiveMap = () => {
   const position = [41.0082, 28.9784]; // Istanbul center
 
   return (
-    <div className="card glass" style={{ background: '#ffffff', borderRadius: '32px', border: '1px solid rgba(0,0,0,0.03)', boxShadow: '0 20px 50px rgba(0,0,0,0.04)', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+    <div className="card glass" style={{ background: '#ffffff', borderRadius: '12px', border: '1px solid rgba(0,0,0,0.03)', boxShadow: '0 20px 50px rgba(0,0,0,0.04)', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
       <div style={{ padding: '1.5rem 2rem', borderBottom: '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
           <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 10px 20px rgba(16,185,129,0.2)' }}>
@@ -58,7 +58,7 @@ const LiveMap = () => {
         </div>
         
         <div style={{ display: 'flex', gap: '1rem', fontSize: '0.8rem', fontWeight: '600' }}>
-          <span style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', color: '#475569' }}><span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#e11d48' }}></span> Kritik</span>
+          <span style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', color: '#475569' }}><span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#991b1b' }}></span> Kritik</span>
           <span style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', color: '#475569' }}><span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#f59e0b' }}></span> Yüksek</span>
           <span style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', color: '#475569' }}><span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#3b82f6' }}></span> Orta</span>
         </div>
@@ -83,7 +83,7 @@ const LiveMap = () => {
                   <div style={{ minWidth: '180px' }}>
                     <h4 style={{ margin: '0 0 0.5rem 0', fontWeight: '800', color: '#0f172a', fontSize: '1rem' }}>{hospital.name}</h4>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
-                      <span style={{ padding: '0.2rem 0.6rem', background: 'rgba(225,29,72,0.1)', color: '#e11d48', borderRadius: '8px', fontSize: '0.8rem', fontWeight: '700' }}>
+                      <span style={{ padding: '0.2rem 0.6rem', background: 'rgba(225,29,72,0.1)', color: '#991b1b', borderRadius: '8px', fontSize: '0.8rem', fontWeight: '700' }}>
                         {hospital.units} Ünite
                       </span>
                       <span style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: '600' }}>{hospital.needLevel} Aciliyet</span>

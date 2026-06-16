@@ -183,9 +183,9 @@ const UserDashboard = ({ user }) => {
   const pieData = homeStats?.bloodGroupStats?.map(bgs => ({
     name: bgs.name,
     value: bgs.value,
-    color: bgs.name.includes('0') || bgs.name.includes('O') ? '#e11d48' : bgs.name.includes('A') ? '#8b5cf6' : bgs.name.includes('B') ? '#f59e0b' : '#3b82f6'
+    color: bgs.name.includes('0') || bgs.name.includes('O') ? '#991b1b' : bgs.name.includes('A') ? '#8b5cf6' : bgs.name.includes('B') ? '#f59e0b' : '#3b82f6'
   })) || [
-    { name: 'O Rh(-)', value: 5, color: '#e11d48' },
+    { name: 'O Rh(-)', value: 5, color: '#991b1b' },
     { name: 'A+', value: 3, color: '#8b5cf6' },
     { name: 'B+', value: 2, color: '#f59e0b' },
     { name: 'AB+', value: 1, color: '#10b981' },
@@ -203,7 +203,7 @@ const UserDashboard = ({ user }) => {
   if (loading) {
     return (
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '60vh', flexDirection: 'column', gap: '1rem' }}>
-        <div style={{ width: '40px', height: '40px', borderRadius: '50%', border: '4px solid #f1f5f9', borderTopColor: '#e11d48', animation: 'spin 1s linear infinite' }} />
+        <div style={{ width: '40px', height: '40px', borderRadius: '50%', border: '4px solid #f1f5f9', borderTopColor: '#991b1b', animation: 'spin 1s linear infinite' }} />
         <span style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: '600' }}>Panel yükleniyor...</span>
         <style dangerouslySetInnerHTML={{__html: `@keyframes spin { to { transform: rotate(360deg); } }`}} />
       </div>
@@ -241,7 +241,7 @@ const UserDashboard = ({ user }) => {
         {/* Welcome & Eligibility Card */}
         <div style={{
           backgroundColor: '#ffffff',
-          borderRadius: '24px',
+          borderRadius: '10px',
           border: '1px solid #e2e8f0',
           padding: '1.5rem',
           display: 'flex',
@@ -263,8 +263,8 @@ const UserDashboard = ({ user }) => {
             {/* Eligibility Badge */}
             <div style={{
               flex: 1,
-              backgroundColor: eligibility?.isEligible ? '#ecfdf5' : '#fff1f2',
-              borderRadius: '16px',
+              backgroundColor: eligibility?.isEligible ? '#ecfdf5' : '#fef2f2',
+              borderRadius: '8px',
               padding: '0.75rem',
               border: eligibility?.isEligible ? '1px solid #d1fae5' : '1px solid #ffe4e6',
               display: 'flex',
@@ -272,14 +272,14 @@ const UserDashboard = ({ user }) => {
               justifyContent: 'space-between'
             }}>
               <span style={{ 
-                color: eligibility?.isEligible ? '#059669' : '#e11d48', 
+                color: eligibility?.isEligible ? '#059669' : '#991b1b', 
                 fontSize: '0.7rem', 
                 fontWeight: '800',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.25rem'
               }}>
-                {eligibility?.isEligible ? <CheckCircle size={12} fill="#059669" color="white" /> : <XCircle size={12} fill="#e11d48" color="white" />}
+                {eligibility?.isEligible ? <CheckCircle size={12} fill="#059669" color="white" /> : <XCircle size={12} fill="#991b1b" color="white" />}
                 {eligibility?.isEligible ? 'Bağış Yapabilir' : 'Bağış Yapılamaz'}
               </span>
               <span style={{ fontSize: '0.65rem', color: '#64748b', marginTop: '0.5rem', fontWeight: '500' }}>
@@ -296,16 +296,16 @@ const UserDashboard = ({ user }) => {
             {/* Blood Type Box */}
             <div style={{
               width: '100px',
-              background: 'linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%)',
+              background: 'linear-gradient(135deg, #fef2f2 0%, #ffe4e6 100%)',
               border: '1px solid #ffd1d5',
-              borderRadius: '16px',
+              borderRadius: '8px',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
               padding: '0.5rem'
             }}>
-              <span style={{ fontSize: '1.25rem', fontWeight: '900', color: '#e11d48' }}>
+              <span style={{ fontSize: '1.25rem', fontWeight: '900', color: '#991b1b' }}>
                 {user?.bloodType ? user.bloodType.replace('+', ' Rh(+)').replace('-', ' Rh(-)') : 'B Rh(+)'}
               </span>
               <span style={{ fontSize: '0.6rem', color: '#9f1239', fontWeight: '700', marginTop: '0.2rem' }}>
@@ -323,7 +323,7 @@ const UserDashboard = ({ user }) => {
             </div>
             <button 
               onClick={() => { const btn = document.querySelector('.sidebar-link[href="/my-requests"]'); if (btn) btn.click(); }}
-              style={{ background: 'none', border: 'none', color: '#e11d48', fontSize: '0.75rem', fontWeight: '700', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.2rem' }}
+              style={{ background: 'none', border: 'none', color: '#991b1b', fontSize: '0.75rem', fontWeight: '700', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.2rem' }}
             >
               Bağış Geçmişim <ArrowRight size={14} />
             </button>
@@ -331,9 +331,9 @@ const UserDashboard = ({ user }) => {
         </div>
 
         {/* SPARKLINE CARD 1: ACTIVE REQUESTS */}
-        <div style={{ backgroundColor: '#ffffff', borderRadius: '24px', border: '1px solid #e2e8f0', padding: '1.25rem', display: 'flex', flexDirection: 'column', justify: 'space-between', boxShadow: '0 4px 12px rgba(0,0,0,0.01)' }}>
+        <div style={{ backgroundColor: '#ffffff', borderRadius: '10px', border: '1px solid #e2e8f0', padding: '1.25rem', display: 'flex', flexDirection: 'column', justify: 'space-between', boxShadow: '0 4px 12px rgba(0,0,0,0.01)' }}>
           <div>
-            <div style={{ backgroundColor: '#fff1f2', width: '36px', height: '36px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#e11d48', marginBottom: '0.75rem' }}>
+            <div style={{ backgroundColor: '#fef2f2', width: '36px', height: '36px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#991b1b', marginBottom: '0.75rem' }}>
               <Activity size={18} />
             </div>
             <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: '600' }}>Aktif Talepler</span>
@@ -347,14 +347,14 @@ const UserDashboard = ({ user }) => {
           <div style={{ height: '40px', marginTop: '0.5rem' }}>
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={sparklineData1}>
-                <Line type="monotone" dataKey="v" stroke="#e11d48" strokeWidth={2} dot={false} />
+                <Line type="monotone" dataKey="v" stroke="#991b1b" strokeWidth={2} dot={false} />
               </LineChart>
             </ResponsiveContainer>
           </div>
         </div>
 
         {/* SPARKLINE CARD 2: NEARBY REQUESTS */}
-        <div style={{ backgroundColor: '#ffffff', borderRadius: '24px', border: '1px solid #e2e8f0', padding: '1.25rem', display: 'flex', flexDirection: 'column', justify: 'space-between', boxShadow: '0 4px 12px rgba(0,0,0,0.01)' }}>
+        <div style={{ backgroundColor: '#ffffff', borderRadius: '10px', border: '1px solid #e2e8f0', padding: '1.25rem', display: 'flex', flexDirection: 'column', justify: 'space-between', boxShadow: '0 4px 12px rgba(0,0,0,0.01)' }}>
           <div>
             <div style={{ backgroundColor: '#eff6ff', width: '36px', height: '36px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#3b82f6', marginBottom: '0.75rem' }}>
               <MapPin size={18} />
@@ -377,7 +377,7 @@ const UserDashboard = ({ user }) => {
         </div>
 
         {/* SPARKLINE CARD 3: BLOOD STOCKS / HOSPITALS */}
-        <div style={{ backgroundColor: '#ffffff', borderRadius: '24px', border: '1px solid #e2e8f0', padding: '1.25rem', display: 'flex', flexDirection: 'column', justify: 'space-between', boxShadow: '0 4px 12px rgba(0,0,0,0.01)' }}>
+        <div style={{ backgroundColor: '#ffffff', borderRadius: '10px', border: '1px solid #e2e8f0', padding: '1.25rem', display: 'flex', flexDirection: 'column', justify: 'space-between', boxShadow: '0 4px 12px rgba(0,0,0,0.01)' }}>
           <div>
             <div style={{ backgroundColor: '#f5f3ff', width: '36px', height: '36px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#8b5cf6', marginBottom: '0.75rem' }}>
               <Users size={18} />
@@ -400,7 +400,7 @@ const UserDashboard = ({ user }) => {
         </div>
 
         {/* SPARKLINE CARD 4: LIVES SAVED */}
-        <div style={{ backgroundColor: '#ffffff', borderRadius: '24px', border: '1px solid #e2e8f0', padding: '1.25rem', display: 'flex', flexDirection: 'column', justify: 'space-between', boxShadow: '0 4px 12px rgba(0,0,0,0.01)' }}>
+        <div style={{ backgroundColor: '#ffffff', borderRadius: '10px', border: '1px solid #e2e8f0', padding: '1.25rem', display: 'flex', flexDirection: 'column', justify: 'space-between', boxShadow: '0 4px 12px rgba(0,0,0,0.01)' }}>
           <div>
             <div style={{ backgroundColor: '#ecfdf5', width: '36px', height: '36px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#10b981', marginBottom: '0.75rem' }}>
               <Heart size={18} />
@@ -430,7 +430,7 @@ const UserDashboard = ({ user }) => {
         {/* Create Blood Request Card */}
         <div style={{
           backgroundColor: '#ffffff',
-          borderRadius: '24px',
+          borderRadius: '10px',
           border: '1px solid #e2e8f0',
           padding: '1.5rem',
           boxShadow: '0 4px 12px rgba(0,0,0,0.01)',
@@ -438,7 +438,7 @@ const UserDashboard = ({ user }) => {
           flexDirection: 'column'
         }} className="request-form-card">
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
-            <PlusCircle size={20} style={{ color: '#e11d48' }} />
+            <PlusCircle size={20} style={{ color: '#991b1b' }} />
             <h3 style={{ fontSize: '1.05rem', fontWeight: '800', color: '#0f172a', margin: 0 }}>Acil Kan Talebi Oluştur</h3>
           </div>
 
@@ -509,7 +509,7 @@ const UserDashboard = ({ user }) => {
               type="submit" 
               style={{ 
                 marginTop: 'auto', 
-                backgroundColor: '#e11d48', 
+                backgroundColor: '#991b1b', 
                 color: 'white', 
                 border: 'none', 
                 padding: '0.75rem', 
@@ -533,7 +533,7 @@ const UserDashboard = ({ user }) => {
         {/* Nearby Requests List Card */}
         <div style={{
           backgroundColor: '#ffffff',
-          borderRadius: '24px',
+          borderRadius: '10px',
           border: '1px solid #e2e8f0',
           padding: '1.5rem',
           boxShadow: '0 4px 12px rgba(0,0,0,0.01)',
@@ -542,10 +542,10 @@ const UserDashboard = ({ user }) => {
         }} className="nearby-requests-card">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <Droplet size={20} style={{ color: '#e11d48' }} fill="#e11d48" />
+              <Droplet size={20} style={{ color: '#991b1b' }} fill="#991b1b" />
               <h3 style={{ fontSize: '1.05rem', fontWeight: '800', color: '#0f172a', margin: 0 }}>Yakınımdaki Acil Talepler</h3>
             </div>
-            <Link to="/blood-requests" style={{ fontSize: '0.75rem', fontWeight: '700', color: '#e11d48', textDecoration: 'none' }}>
+            <Link to="/blood-requests" style={{ fontSize: '0.75rem', fontWeight: '700', color: '#991b1b', textDecoration: 'none' }}>
               Tümünü Gör
             </Link>
           </div>
@@ -553,9 +553,9 @@ const UserDashboard = ({ user }) => {
           <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '0.75rem' }} className="custom-scrollbar nearby-reqs-scroll">
             {nearbyRequests.length > 0 ? (
               nearbyRequests.map((req) => (
-                <div key={req.id} style={{ display: 'flex', alignItems: 'center', padding: '0.75rem 1rem', border: '1px solid #f1f5f9', borderRadius: '16px', backgroundColor: '#ffffff', transition: 'border-color 0.2s' }} className="request-list-item">
+                <div key={req.id} style={{ display: 'flex', alignItems: 'center', padding: '0.75rem 1rem', border: '1px solid #f1f5f9', borderRadius: '8px', backgroundColor: '#ffffff', transition: 'border-color 0.2s' }} className="request-list-item">
                   <div style={{ 
-                    backgroundColor: req.urgencyLevel === 'Kritik' || req.urgencyLevel === 'Acil' ? '#fff1f2' : '#f5f3ff', 
+                    backgroundColor: req.urgencyLevel === 'Kritik' || req.urgencyLevel === 'Acil' ? '#fef2f2' : '#f5f3ff', 
                     width: '44px', 
                     height: '44px', 
                     borderRadius: '12px', 
@@ -565,8 +565,8 @@ const UserDashboard = ({ user }) => {
                     justifyContent: 'center',
                     flexShrink: 0
                   }}>
-                    <Droplet size={14} fill={req.urgencyLevel === 'Kritik' || req.urgencyLevel === 'Acil' ? '#e11d48' : '#8b5cf6'} color={req.urgencyLevel === 'Kritik' || req.urgencyLevel === 'Acil' ? '#e11d48' : '#8b5cf6'} />
-                    <span style={{ fontSize: '0.55rem', fontWeight: '800', color: req.urgencyLevel === 'Kritik' || req.urgencyLevel === 'Acil' ? '#e11d48' : '#8b5cf6', marginTop: '2px' }}>
+                    <Droplet size={14} fill={req.urgencyLevel === 'Kritik' || req.urgencyLevel === 'Acil' ? '#991b1b' : '#8b5cf6'} color={req.urgencyLevel === 'Kritik' || req.urgencyLevel === 'Acil' ? '#991b1b' : '#8b5cf6'} />
+                    <span style={{ fontSize: '0.55rem', fontWeight: '800', color: req.urgencyLevel === 'Kritik' || req.urgencyLevel === 'Acil' ? '#991b1b' : '#8b5cf6', marginTop: '2px' }}>
                       {req.urgencyLevel === 'Kritik' || req.urgencyLevel === 'Acil' ? 'Acil' : 'Orta'}
                     </span>
                   </div>
@@ -581,7 +581,7 @@ const UserDashboard = ({ user }) => {
                   </div>
 
                   <div style={{ textAlign: 'right', marginLeft: '0.75rem' }}>
-                    <span style={{ fontSize: '0.85rem', fontWeight: '800', color: '#e11d48' }}>
+                    <span style={{ fontSize: '0.85rem', fontWeight: '800', color: '#991b1b' }}>
                       {req.distanceKm ? `${req.distanceKm.toFixed(1)} km` : '2.4 km'}
                     </span>
                     <span style={{ display: 'block', fontSize: '0.6rem', color: '#94a3b8', marginTop: '2px' }}>
@@ -598,9 +598,9 @@ const UserDashboard = ({ user }) => {
                 { blood: 'A+', hospital: 'Kartal Eğitim Araştırma Hastanesi', dist: '4.8 km', urgency: 'Orta' },
                 { blood: 'AB+', hospital: 'Ümraniye Eğitim Araştırma Hastanesi', dist: '5.2 km', urgency: 'Bekliyor' }
               ].map((fallback, idx) => (
-                <div key={idx} style={{ display: 'flex', alignItems: 'center', padding: '0.75rem 1rem', border: '1px solid #f1f5f9', borderRadius: '16px', backgroundColor: '#ffffff' }} className="request-list-item">
+                <div key={idx} style={{ display: 'flex', alignItems: 'center', padding: '0.75rem 1rem', border: '1px solid #f1f5f9', borderRadius: '8px', backgroundColor: '#ffffff' }} className="request-list-item">
                   <div style={{ 
-                    backgroundColor: fallback.urgency === 'Acil' ? '#fff1f2' : fallback.urgency === 'Orta' ? '#fffbeb' : '#eff6ff', 
+                    backgroundColor: fallback.urgency === 'Acil' ? '#fef2f2' : fallback.urgency === 'Orta' ? '#fffbeb' : '#eff6ff', 
                     width: '44px', 
                     height: '44px', 
                     borderRadius: '12px', 
@@ -610,8 +610,8 @@ const UserDashboard = ({ user }) => {
                     justifyContent: 'center',
                     flexShrink: 0
                   }}>
-                    <Droplet size={14} fill={fallback.urgency === 'Acil' ? '#e11d48' : fallback.urgency === 'Orta' ? '#d97706' : '#2563eb'} color={fallback.urgency === 'Acil' ? '#e11d48' : fallback.urgency === 'Orta' ? '#d97706' : '#2563eb'} />
-                    <span style={{ fontSize: '0.55rem', fontWeight: '800', color: fallback.urgency === 'Acil' ? '#e11d48' : fallback.urgency === 'Orta' ? '#d97706' : '#2563eb', marginTop: '2px' }}>
+                    <Droplet size={14} fill={fallback.urgency === 'Acil' ? '#991b1b' : fallback.urgency === 'Orta' ? '#d97706' : '#2563eb'} color={fallback.urgency === 'Acil' ? '#991b1b' : fallback.urgency === 'Orta' ? '#d97706' : '#2563eb'} />
+                    <span style={{ fontSize: '0.55rem', fontWeight: '800', color: fallback.urgency === 'Acil' ? '#991b1b' : fallback.urgency === 'Orta' ? '#d97706' : '#2563eb', marginTop: '2px' }}>
                       {fallback.urgency}
                     </span>
                   </div>
@@ -626,7 +626,7 @@ const UserDashboard = ({ user }) => {
                   </div>
 
                   <div style={{ textAlign: 'right', marginLeft: '0.75rem' }}>
-                    <span style={{ fontSize: '0.85rem', fontWeight: '800', color: '#e11d48' }}>
+                    <span style={{ fontSize: '0.85rem', fontWeight: '800', color: '#991b1b' }}>
                       {fallback.dist}
                     </span>
                     <span style={{ display: 'block', fontSize: '0.6rem', color: '#94a3b8', marginTop: '2px' }}>
@@ -642,7 +642,7 @@ const UserDashboard = ({ user }) => {
         {/* Recent Activities Timeline Card */}
         <div style={{
           backgroundColor: '#ffffff',
-          borderRadius: '24px',
+          borderRadius: '10px',
           border: '1px solid #e2e8f0',
           padding: '1.5rem',
           boxShadow: '0 4px 12px rgba(0,0,0,0.01)',
@@ -651,12 +651,12 @@ const UserDashboard = ({ user }) => {
         }} className="activities-card">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <Clock size={20} style={{ color: '#e11d48' }} />
+              <Clock size={20} style={{ color: '#991b1b' }} />
               <h3 style={{ fontSize: '1.05rem', fontWeight: '800', color: '#0f172a', margin: 0 }}>Son Aktiviteler</h3>
             </div>
             <button 
               onClick={() => { const btn = document.querySelector('.sidebar-link[href="/profile"]'); if (btn) btn.click(); }}
-              style={{ background: 'none', border: 'none', fontSize: '0.75rem', fontWeight: '700', color: '#e11d48', cursor: 'pointer', textDecoration: 'none' }}
+              style={{ background: 'none', border: 'none', fontSize: '0.75rem', fontWeight: '700', color: '#991b1b', cursor: 'pointer', textDecoration: 'none' }}
             >
               Tümünü Gör
             </button>
@@ -675,15 +675,15 @@ const UserDashboard = ({ user }) => {
                     width: '20px', 
                     height: '20px', 
                     borderRadius: '50%', 
-                    backgroundColor: '#fff1f2', 
-                    border: '2px solid #e11d48', 
+                    backgroundColor: '#fef2f2', 
+                    border: '2px solid #991b1b', 
                     display: 'flex', 
                     alignItems: 'center', 
                     justifyContent: 'center',
                     flexShrink: 0,
                     zIndex: 2
                   }}>
-                    <div style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#e11d48' }} />
+                    <div style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#991b1b' }} />
                   </div>
 
                   <div style={{ flex: 1 }}>
@@ -713,15 +713,15 @@ const UserDashboard = ({ user }) => {
                     width: '20px', 
                     height: '20px', 
                     borderRadius: '50%', 
-                    backgroundColor: idx === 4 ? '#ecfdf5' : '#fff1f2', 
-                    border: idx === 4 ? '2px solid #10b981' : '2px solid #e11d48', 
+                    backgroundColor: idx === 4 ? '#ecfdf5' : '#fef2f2', 
+                    border: idx === 4 ? '2px solid #10b981' : '2px solid #991b1b', 
                     display: 'flex', 
                     alignItems: 'center', 
                     justifyContent: 'center',
                     flexShrink: 0,
                     zIndex: 2
                   }}>
-                    <div style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: idx === 4 ? '#10b981' : '#e11d48' }} />
+                    <div style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: idx === 4 ? '#10b981' : '#991b1b' }} />
                   </div>
 
                   <div style={{ flex: 1 }}>
@@ -746,7 +746,7 @@ const UserDashboard = ({ user }) => {
         {/* Doughnut Distribution Chart */}
         <div style={{
           backgroundColor: '#ffffff',
-          borderRadius: '24px',
+          borderRadius: '10px',
           border: '1px solid #e2e8f0',
           padding: '1.5rem',
           boxShadow: '0 4px 12px rgba(0,0,0,0.01)',
@@ -791,7 +791,7 @@ const UserDashboard = ({ user }) => {
           </div>
 
           <div style={{ display: 'flex', justifyContent: 'center', borderTop: '1px solid #f1f5f9', paddingTop: '0.85rem', marginTop: '0.5rem' }}>
-            <Link to="/blood-requests" style={{ fontSize: '0.8rem', fontWeight: '700', color: '#e11d48', textDecoration: 'none' }}>
+            <Link to="/blood-requests" style={{ fontSize: '0.8rem', fontWeight: '700', color: '#991b1b', textDecoration: 'none' }}>
               Detaylı İstatistikler →
             </Link>
           </div>
@@ -800,7 +800,7 @@ const UserDashboard = ({ user }) => {
         {/* Bar Chart Donation vs Demand */}
         <div style={{
           backgroundColor: '#ffffff',
-          borderRadius: '24px',
+          borderRadius: '10px',
           border: '1px solid #e2e8f0',
           padding: '1.5rem',
           boxShadow: '0 4px 12px rgba(0,0,0,0.01)',
@@ -811,8 +811,8 @@ const UserDashboard = ({ user }) => {
             <h3 style={{ fontSize: '1.05rem', fontWeight: '800', color: '#0f172a', margin: 0 }}>Aylık Bağış İstatistiğiniz</h3>
             {/* Chart Legend */}
             <div style={{ display: 'flex', gap: '0.75rem', fontSize: '0.75rem', fontWeight: '600' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', color: '#e11d48' }}>
-                <div style={{ width: '10px', height: '10px', backgroundColor: '#e11d48', borderRadius: '3px' }} />
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', color: '#991b1b' }}>
+                <div style={{ width: '10px', height: '10px', backgroundColor: '#991b1b', borderRadius: '3px' }} />
                 Bağış
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', color: '#94a3b8' }}>
@@ -828,7 +828,7 @@ const UserDashboard = ({ user }) => {
                 <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#64748b', fontWeight: '600' }} />
                 <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#64748b', fontWeight: '600' }} />
                 <Tooltip />
-                <Bar dataKey="Bağış" fill="#e11d48" radius={[4, 4, 0, 0]} barSize={12} />
+                <Bar dataKey="Bağış" fill="#991b1b" radius={[4, 4, 0, 0]} barSize={12} />
                 <Bar dataKey="Talep" fill="#cbd5e1" radius={[4, 4, 0, 0]} barSize={12} />
               </BarChart>
             </ResponsiveContainer>
@@ -837,7 +837,7 @@ const UserDashboard = ({ user }) => {
           <div style={{ display: 'flex', justifyContent: 'center', borderTop: '1px solid #f1f5f9', paddingTop: '0.85rem', marginTop: '0.5rem' }}>
             <button 
               onClick={() => toast.success('İstatistikleriniz günceldir.')}
-              style={{ background: 'none', border: 'none', fontSize: '0.8rem', fontWeight: '700', color: '#e11d48', cursor: 'pointer' }}
+              style={{ background: 'none', border: 'none', fontSize: '0.8rem', fontWeight: '700', color: '#991b1b', cursor: 'pointer' }}
             >
               İstatistikleri Gör →
             </button>
@@ -847,7 +847,7 @@ const UserDashboard = ({ user }) => {
         {/* Quick Actions Grid */}
         <div style={{
           backgroundColor: '#ffffff',
-          borderRadius: '24px',
+          borderRadius: '10px',
           border: '1px solid #e2e8f0',
           padding: '1.5rem',
           boxShadow: '0 4px 12px rgba(0,0,0,0.01)',
@@ -868,10 +868,10 @@ const UserDashboard = ({ user }) => {
                   toast.success('Talep oluşturma alanına yönlendirildiniz.');
                 }
               }}
-              style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', padding: '1rem', border: 'none', borderRadius: '16px', backgroundColor: '#fff1f2', cursor: 'pointer', transition: 'all 0.2s', textAlign: 'left' }}
+              style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', padding: '1rem', border: 'none', borderRadius: '8px', backgroundColor: '#fef2f2', cursor: 'pointer', transition: 'all 0.2s', textAlign: 'left' }}
               className="quick-action-btn action-red"
             >
-              <div style={{ color: '#e11d48', backgroundColor: '#ffffff', width: '32px', height: '32px', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ color: '#991b1b', backgroundColor: '#ffffff', width: '32px', height: '32px', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <Plus size={18} />
               </div>
               <span style={{ fontSize: '0.75rem', fontWeight: '800', color: '#9f1239' }}>Kan Talebi Oluştur</span>
@@ -880,7 +880,7 @@ const UserDashboard = ({ user }) => {
             {/* Quick 2: Nearest Centers */}
             <button 
               onClick={() => navigate('/blood-requests')}
-              style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', padding: '1rem', border: 'none', borderRadius: '16px', backgroundColor: '#eff6ff', cursor: 'pointer', transition: 'all 0.2s', textAlign: 'left' }}
+              style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', padding: '1rem', border: 'none', borderRadius: '8px', backgroundColor: '#eff6ff', cursor: 'pointer', transition: 'all 0.2s', textAlign: 'left' }}
               className="quick-action-btn action-blue"
             >
               <div style={{ color: '#3b82f6', backgroundColor: '#ffffff', width: '32px', height: '32px', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -894,7 +894,7 @@ const UserDashboard = ({ user }) => {
               onClick={() => {
                 window.dispatchEvent(new Event('open-donation-history'));
               }}
-              style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', padding: '1rem', border: 'none', borderRadius: '16px', backgroundColor: '#ecfdf5', cursor: 'pointer', transition: 'all 0.2s', textAlign: 'left' }}
+              style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', padding: '1rem', border: 'none', borderRadius: '8px', backgroundColor: '#ecfdf5', cursor: 'pointer', transition: 'all 0.2s', textAlign: 'left' }}
               className="quick-action-btn action-green"
             >
               <div style={{ color: '#10b981', backgroundColor: '#ffffff', width: '32px', height: '32px', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -915,7 +915,7 @@ const UserDashboard = ({ user }) => {
                   { duration: 5000 }
                 );
               }}
-              style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', padding: '1rem', border: 'none', borderRadius: '16px', backgroundColor: '#fffbeb', cursor: 'pointer', transition: 'all 0.2s', textAlign: 'left' }}
+              style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', padding: '1rem', border: 'none', borderRadius: '8px', backgroundColor: '#fffbeb', cursor: 'pointer', transition: 'all 0.2s', textAlign: 'left' }}
               className="quick-action-btn action-yellow"
             >
               <div style={{ color: '#d97706', backgroundColor: '#ffffff', width: '32px', height: '32px', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -946,7 +946,7 @@ const UserDashboard = ({ user }) => {
           width: '56px',
           height: '56px',
           borderRadius: '50%',
-          backgroundColor: '#e11d48',
+          backgroundColor: '#991b1b',
           color: 'white',
           border: 'none',
           display: 'flex',
@@ -979,7 +979,7 @@ const UserDashboard = ({ user }) => {
 
         .floating-action-fab:hover {
           transform: scale(1.1) rotate(90deg);
-          background-color: #be123c;
+          background-color: #7f1d1d;
           box-shadow: 0 12px 30px rgba(225,29,72,0.4);
         }
 
