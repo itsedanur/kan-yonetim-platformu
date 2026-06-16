@@ -113,7 +113,7 @@ const UserLayout = ({ children, user, setUser }) => {
   ];
 
   return (
-    <div style={{ display: 'flex', height: '100vh', width: '100vw', backgroundColor: '#f8fafc', overflow: 'hidden', fontFamily: "'Outfit', sans-serif" }}>
+    <div style={{ display: 'flex', height: '100vh', width: '100vw', backgroundColor: '#f1f5f9', overflow: 'hidden', fontFamily: "'Outfit', sans-serif" }}>
       
       {/* MOBILE HEADER */}
       <div style={{
@@ -155,8 +155,8 @@ const UserLayout = ({ children, user, setUser }) => {
       {/* LEFT SIDEBAR */}
       <div style={{
         width: '260px',
-        backgroundColor: '#ffffff',
-        borderRight: '1px solid #e2e8f0',
+        backgroundColor: '#0f172a',
+        borderRight: '1px solid #1e293b',
         display: 'flex',
         flexDirection: 'column',
         height: '100%',
@@ -172,13 +172,13 @@ const UserLayout = ({ children, user, setUser }) => {
       }} className={`sidebar-container ${mobileOpen ? 'mobile-open' : ''}`}>
         
         {/* Sidebar Header Logo */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '1.5rem 1.5rem', borderBottom: '1px solid #f1f5f9' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '1.5rem 1.5rem', borderBottom: '1px solid #1e293b' }}>
           <div style={{ backgroundColor: '#991b1b', width: '36px', height: '36px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 10px rgba(225,29,72,0.2)' }}>
             <Heart size={18} fill="white" color="white" />
           </div>
           <div>
-            <h1 style={{ fontSize: '1.25rem', fontWeight: '800', color: '#0f172a', margin: 0, letterSpacing: '-0.02em', lineHeight: 1.1 }}>Hayat Ağı</h1>
-            <span style={{ fontSize: '0.65rem', color: '#991b1b', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Kan Yönetimi</span>
+            <h1 style={{ fontSize: '1.25rem', fontWeight: '800', color: '#ffffff', margin: 0, letterSpacing: '-0.02em', lineHeight: 1.1 }}>Hayat Ağı</h1>
+            <span style={{ fontSize: '0.65rem', color: '#f43f5e', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Kan Yönetimi</span>
           </div>
           {mobileOpen && (
             <button onClick={() => setMobileOpen(false)} style={{ marginLeft: 'auto', background: 'none', border: 'none', cursor: 'pointer', color: '#64748b' }}>
@@ -194,10 +194,10 @@ const UserLayout = ({ children, user, setUser }) => {
             const content = (
               <>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                  <span style={{ color: isActive ? '#991b1b' : '#64748b', transition: 'color 0.2s', display: 'flex', alignItems: 'center' }}>
+                  <span style={{ color: isActive ? '#ffffff' : '#94a3b8', transition: 'color 0.2s', display: 'flex', alignItems: 'center' }}>
                     {item.icon}
                   </span>
-                  <span style={{ fontSize: '0.9rem', fontWeight: isActive ? '700' : '500', color: isActive ? '#991b1b' : '#334155' }}>
+                  <span style={{ fontSize: '0.9rem', fontWeight: isActive ? '700' : '500', color: isActive ? '#ffffff' : '#cbd5e1' }}>
                     {item.name}
                   </span>
                 </div>
@@ -225,7 +225,7 @@ const UserLayout = ({ children, user, setUser }) => {
               borderRadius: '12px',
               textDecoration: 'none',
               cursor: 'pointer',
-              backgroundColor: isActive ? '#fef2f2' : 'transparent',
+              backgroundColor: isActive ? '#991b1b' : 'transparent',
               transition: 'all 0.2s ease',
               border: 'none',
               textAlign: 'left',
@@ -250,14 +250,14 @@ const UserLayout = ({ children, user, setUser }) => {
         </div>
 
         {/* Sidebar Footer Banners */}
-        <div style={{ padding: '1rem', display: 'flex', flexDirection: 'column', gap: '1rem', borderTop: '1px solid #f1f5f9' }}>
+        <div style={{ padding: '1rem', display: 'flex', flexDirection: 'column', gap: '1rem', borderTop: '1px solid #1e293b' }}>
           {/* Emergency Box */}
-          <div style={{ backgroundColor: '#fef2f2', borderRadius: '8px', padding: '1rem', border: '1px solid #ffe4e6' }}>
+          <div style={{ backgroundColor: 'rgba(153, 27, 27, 0.1)', borderRadius: '8px', padding: '1rem', border: '1px solid rgba(153, 27, 27, 0.2)' }}>
             <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'flex-start', marginBottom: '0.5rem' }}>
-              <AlertTriangle size={18} style={{ color: '#991b1b', flexShrink: 0 }} />
+              <AlertTriangle size={18} style={{ color: '#f43f5e', flexShrink: 0 }} />
               <div>
-                <h4 style={{ fontSize: '0.8rem', fontWeight: '800', color: '#9f1239', margin: 0 }}>Acil Durumda mısınız?</h4>
-                <p style={{ fontSize: '0.7rem', color: '#991b1b', margin: '0.1rem 0 0 0', lineHeight: 1.3 }}>En yakın kan merkezine hemen ulaşın.</p>
+                <h4 style={{ fontSize: '0.8rem', fontWeight: '800', color: '#fca5a5', margin: 0 }}>Acil Durumda mısınız?</h4>
+                <p style={{ fontSize: '0.7rem', color: '#fca5a5', margin: '0.1rem 0 0 0', lineHeight: 1.3 }}>En yakın kan merkezine hemen ulaşın.</p>
               </div>
             </div>
             <button 
@@ -553,8 +553,11 @@ const UserLayout = ({ children, user, setUser }) => {
           background-color: #fef2f2;
         }
         .sidebar-link:hover {
-          background-color: #fef2f2;
+          background-color: rgba(255, 255, 255, 0.05) !important;
           transform: translateX(4px);
+        }
+        .sidebar-link:hover span {
+          color: #ffffff !important;
         }
         .sidebar-link {
           transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
