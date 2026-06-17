@@ -32,6 +32,8 @@ const UserLayout = ({ children, user, setUser }) => {
   const [myApplications, setMyApplications] = useState([]);
   const [loadingHistory, setLoadingHistory] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [notifications, setNotifications] = useState([]);
+  const [showNotificationsDropdown, setShowNotificationsDropdown] = useState(false);
 
   // Fetch stats for badges
   useEffect(() => {
@@ -50,12 +52,69 @@ const UserLayout = ({ children, user, setUser }) => {
     return () => clearInterval(interval);
   }, [user]);
 
+  const fetchNotifications = async () => {
+    try {
+      // Mock sistem için localStorage desteği
+      const localNotifs = JSON.parse(localStorage.getItem('user_notifications') || '[]');
+      try {
+        const res = await axios.get('/User/notifications');
+        setNotifications([...res.data, ...localNotifs].sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt)));
+      } catch (backendError) {
+        setNotifications(localNotifs.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt)));
+      }
+    } catch (error) {
+      console.error('Error fetching notifications:', error);
+    }
+  };
+
+  useEffect(() => {
+    if (!user) return;
+    fetchNotifications();
+    const interval = setInterval(fetchNotifications, 30000);
+    return () => clearInterval(interval);
+  }, [user]);
+
+  const handleMarkAsRead = async (id) => {
+    try {
+      await axios.post(`/User/notifications/${id}/read`);
+      setNotifications(prev => prev.map(n => n.id === id ? { ...n, isRead: true } : n));
+    } catch (error) {
+      console.error('Error marking notification as read:', error);
+    }
+  };
+
+  const handleMarkAllAsRead = async () => {
+    try {
+      await axios.post('/User/notifications/read-all');
+      setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
+      toast.success('Tüm bildirimler okundu olarak işaretlendi.');
+    } catch (error) {
+      console.error('Error marking all notifications as read:', error);
+    }
+  };
+
+  const unreadCount = notifications.filter(n => !n.isRead).length;
+
   // Fetch applications for History Modal
   const fetchDonationHistory = async () => {
     setLoadingHistory(true);
     try {
-      const res = await axios.get('/DonationApplication/my-applications');
-      setMyApplications(res.data);
+      // Mock sistem için localStorage'dan okuma
+      const apps = JSON.parse(localStorage.getItem('bloodApplications') || '[]');
+      const userApps = apps.filter(a => a.applicantTc === user?.tc);
+      
+      // Arayüzün beklediği formata (DonationRequest objesine) çevirme
+      const mappedApps = userApps.map(a => ({
+        id: a.id,
+        applicationDate: a.date,
+        status: a.status === 'Approved' ? 'Approved' : 'Pending',
+        donationRequest: {
+          bloodType: { name: a.alertBlood || a.bloodTypeName },
+          hospital: { name: a.alertHospital || a.hospitalName }
+        }
+      }));
+      
+      setMyApplications(mappedApps);
     } catch (error) {
       console.error('Error fetching history:', error);
       toast.error('Bağış geçmişi yüklenirken hata oluştu.');
@@ -313,17 +372,135 @@ const UserLayout = ({ children, user, setUser }) => {
           <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
             
             {/* Notifications */}
-            <button 
-              onClick={() => { toast.success('Yeni bir bildiriminiz bulunmuyor.'); }}
-              style={{ position: 'relative', background: 'none', border: 'none', cursor: 'pointer', color: '#64748b', transition: 'color 0.2s', padding: '0.25rem' }}
-              onMouseOver={e => e.currentTarget.style.color = '#991b1b'}
-              onMouseOut={e => e.currentTarget.style.color = '#64748b'}
-            >
-              <Bell size={20} />
-              {activeRequestsCount > 0 && (
-                <span style={{ position: 'absolute', top: 0, right: 0, width: '8px', height: '8px', backgroundColor: '#991b1b', borderRadius: '50%' }} />
+            <div style={{ position: 'relative' }}>
+              <button 
+                onClick={() => setShowNotificationsDropdown(!showNotificationsDropdown)}
+                style={{ position: 'relative', background: 'none', border: 'none', cursor: 'pointer', color: '#64748b', transition: 'color 0.2s', padding: '0.25rem', outline: 'none' }}
+                onMouseOver={e => e.currentTarget.style.color = '#991b1b'}
+                onMouseOut={e => e.currentTarget.style.color = '#64748b'}
+              >
+                <Bell size={20} />
+                {unreadCount > 0 && (
+                  <span style={{ 
+                    position: 'absolute', 
+                    top: '-4px', 
+                    right: '-4px', 
+                    backgroundColor: '#991b1b', 
+                    color: 'white', 
+                    fontSize: '0.65rem', 
+                    fontWeight: '800', 
+                    borderRadius: '50%', 
+                    width: '16px', 
+                    height: '16px', 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    justifyContent: 'center',
+                    boxShadow: '0 2px 4px rgba(225,29,72,0.3)'
+                  }}>
+                    {unreadCount}
+                  </span>
+                )}
+              </button>
+
+              {showNotificationsDropdown && (
+                <>
+                  <div 
+                    onClick={() => setShowNotificationsDropdown(false)}
+                    style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 998 }}
+                  />
+                  <div style={{
+                    position: 'absolute',
+                    top: '35px',
+                    right: '-10px',
+                    width: '320px',
+                    backgroundColor: '#ffffff',
+                    borderRadius: '12px',
+                    border: '1px solid #e2e8f0',
+                    boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
+                    zIndex: 999,
+                    overflow: 'hidden',
+                    display: 'flex',
+                    flexDirection: 'column'
+                  }}>
+                    {/* Header */}
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.75rem 1rem', borderBottom: '1px solid #f1f5f9', backgroundColor: '#f8fafc' }}>
+                      <span style={{ fontSize: '0.85rem', fontWeight: '800', color: '#0f172a' }}>Bildirimler</span>
+                      {unreadCount > 0 && (
+                        <button 
+                          onClick={handleMarkAllAsRead}
+                          style={{ background: 'none', border: 'none', color: '#991b1b', fontSize: '0.75rem', fontWeight: '700', cursor: 'pointer', padding: 0 }}
+                        >
+                          Tümünü Okundu İşaretle
+                        </button>
+                      )}
+                    </div>
+
+                    {/* Notification List */}
+                    <div style={{ maxHeight: '280px', overflowY: 'auto' }} className="custom-scrollbar">
+                      {notifications.length > 0 ? (
+                        notifications.map((n) => {
+                          const isSpecial = n.type === 'Success';
+                          return (
+                            <div 
+                              key={n.id} 
+                              onClick={() => {
+                                if (!n.isRead) handleMarkAsRead(n.id);
+                                if (n.type === 'Success') {
+                                  navigate('/profile');
+                                }
+                                setShowNotificationsDropdown(false);
+                              }}
+                              style={{ 
+                                padding: '0.85rem 1rem', 
+                                borderBottom: '1px solid #f1f5f9', 
+                                cursor: 'pointer',
+                                backgroundColor: n.isRead ? '#ffffff' : isSpecial ? '#f0fdf4' : '#f8fafc',
+                                transition: 'background-color 0.2s',
+                                display: 'flex',
+                                gap: '0.75rem',
+                                alignItems: 'flex-start'
+                              }}
+                              className="notification-item"
+                            >
+                              <div style={{ 
+                                backgroundColor: isSpecial ? '#d1fae5' : '#eff6ff', 
+                                color: isSpecial ? '#059669' : '#3b82f6', 
+                                borderRadius: '50%', 
+                                width: '28px', 
+                                height: '28px', 
+                                display: 'flex', 
+                                alignItems: 'center', 
+                                justifyContent: 'center',
+                                flexShrink: 0,
+                                marginTop: '2px'
+                              }}>
+                                <Heart size={14} fill={isSpecial ? '#059669' : '#3b82f6'} />
+                              </div>
+                              <div style={{ flex: 1, minWidth: 0 }}>
+                                <p style={{ margin: 0, fontSize: '0.8rem', fontWeight: n.isRead ? '600' : '800', color: '#334155', lineHeight: 1.3 }}>
+                                  {n.title}
+                                </p>
+                                <p style={{ margin: '0.15rem 0 0 0', fontSize: '0.7rem', color: '#64748b', lineHeight: 1.3 }}>
+                                  {n.message}
+                                </p>
+                                <span style={{ fontSize: '0.65rem', color: '#94a3b8', display: 'block', marginTop: '0.35rem' }}>
+                                  {new Date(n.createdAt).toLocaleDateString('tr-TR')}
+                                </span>
+                              </div>
+                            </div>
+                          );
+                        })
+                      ) : (
+                        <div style={{ padding: '2rem 1rem', textAlign: 'center', color: '#64748b' }}>
+                          <Bell size={32} style={{ color: '#cbd5e1', marginBottom: '0.5rem' }} />
+                          <p style={{ margin: 0, fontSize: '0.8rem', fontWeight: '600' }}>Yeni bildiriminiz bulunmuyor.</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </>
               )}
-            </button>
+            </div>
 
             {/* Messages */}
             <button 
@@ -459,7 +636,18 @@ const UserLayout = ({ children, user, setUser }) => {
                           Başvuru: {new Date(app.applicationDate).toLocaleDateString('tr-TR')}
                         </span>
                       </div>
-                      <div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        {app.status === 'Approved' && (
+                          <button 
+                            onClick={(e) => { e.stopPropagation(); import('../utils/pdfGenerator').then(m => m.generateCertificate(user?.fullName, new Date(app.applicationDate).toLocaleDateString('tr-TR'), app.donationRequest?.bloodType?.name, app.donationRequest?.hospital?.name)); }}
+                            style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', background: '#ffffff', border: '1px solid #e2e8f0', color: '#0f172a', padding: '0.25rem 0.6rem', borderRadius: '8px', fontSize: '0.7rem', fontWeight: '700', cursor: 'pointer', transition: 'all 0.2s' }}
+                            onMouseOver={e => { e.currentTarget.style.borderColor = '#cbd5e1'; e.currentTarget.style.background = '#f8fafc'; }}
+                            onMouseOut={e => { e.currentTarget.style.borderColor = '#e2e8f0'; e.currentTarget.style.background = '#ffffff'; }}
+                            title="Teşekkür Belgesini İndir"
+                          >
+                            <span style={{ fontSize: '1rem' }}>📜</span> Belgeyi İndir
+                          </button>
+                        )}
                         <span style={{
                           backgroundColor: app.status === 'Approved' ? '#ecfdf5' : app.status === 'Pending' ? '#fef3c7' : '#fef2f2',
                           color: app.status === 'Approved' ? '#10b981' : app.status === 'Pending' ? '#d97706' : '#991b1b',

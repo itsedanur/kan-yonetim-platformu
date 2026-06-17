@@ -116,6 +116,7 @@ namespace KanYonetim.API.Models
         public int UnitsNeeded { get; set; }
         public string UrgencyLevel { get; set; } = "Normal"; // Normal, Acil, Kritik
         public string Status { get; set; } = "Active"; // Active, Fulfilled, Cancelled
+        public string ProtocolNumber { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public ICollection<DonationApplication> Applications { get; set; } = new List<DonationApplication>();
     }
@@ -128,6 +129,8 @@ namespace KanYonetim.API.Models
         public int DonationRequestId { get; set; }
         public DonationRequest? DonationRequest { get; set; }
         public string Status { get; set; } = "Pending"; // Pending, Approved, Rejected
+        public string VerificationCode { get; set; } = string.Empty;
+        public bool IsApproved { get; set; } = false;
         public DateTime ApplicationDate { get; set; } = DateTime.UtcNow;
     }
 

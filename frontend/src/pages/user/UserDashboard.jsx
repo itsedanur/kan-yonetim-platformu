@@ -149,6 +149,91 @@ const UserDashboard = ({ user }) => {
     }
   }, [user]);
 
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0, totalMs: 0 });
+  const [localEligibility, setLocalEligibility] = useState(null);
+  const [dynamicStats, setDynamicStats] = useState({ count: 0, lastDate: null });
+
+  useEffect(() => {
+    if (user) {
+      const apps = JSON.parse(localStorage.getItem('bloodApplications') || '[]');
+      const approvedApps = apps.filter(a => a.applicantTc === user.tc && a.status === 'Approved');
+      
+      const parseDate = (dStr) => {
+        if (!dStr) return 0;
+        const parts = dStr.split('.');
+        if (parts.length === 3) return new Date(parts[2], parts[1]-1, parts[0]).getTime();
+        return new Date(dStr).getTime();
+      };
+
+      approvedApps.sort((a, b) => parseDate(b.date) - parseDate(a.date));
+      
+      setDynamicStats({
+        count: approvedApps.length,
+        lastDate: approvedApps.length > 0 ? approvedApps[0].date : null
+      });
+    }
+  }, [user]);
+
+  useEffect(() => {
+    const lastDateToUse = dynamicStats.lastDate || profileData?.lastDonationDate;
+    if (lastDateToUse) {
+      const waitDays = (profileData?.gender || user?.gender) === 'Kadın' ? 120 : 90;
+      
+      let lastDonation;
+      if (typeof lastDateToUse === 'string' && lastDateToUse.includes('.')) {
+        const parts = lastDateToUse.split('.');
+        lastDonation = new Date(parts[2], parts[1]-1, parts[0]);
+      } else {
+        lastDonation = new Date(lastDateToUse);
+      }
+      
+      const nextEligible = new Date(lastDonation.getTime() + waitDays * 24 * 60 * 60 * 1000);
+      const isEligible = nextEligible.getTime() <= Date.now();
+      
+      setLocalEligibility({
+        isEligible,
+        nextEligibleDate: nextEligible.toISOString(),
+        waitDays
+      });
+    } else if (eligibility) {
+      setLocalEligibility(eligibility);
+    }
+  }, [profileData, eligibility, dynamicStats]);
+
+  useEffect(() => {
+    if (!localEligibility || localEligibility.isEligible || !localEligibility.nextEligibleDate) {
+      return;
+    }
+
+    const calculateTimeLeft = () => {
+      const targetTime = new Date(localEligibility.nextEligibleDate);
+      const difference = targetTime.getTime() - Date.now();
+      if (difference <= 0) {
+        return { days: 0, hours: 0, minutes: 0, seconds: 0, totalMs: 0 };
+      }
+
+      return {
+        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((difference / 1000 / 60) % 60),
+        seconds: Math.floor((difference / 1000) % 60),
+        totalMs: difference
+      };
+    };
+
+    setTimeLeft(calculateTimeLeft());
+
+    const timer = setInterval(() => {
+      const left = calculateTimeLeft();
+      setTimeLeft(left);
+      if (left.totalMs <= 0) {
+        clearInterval(timer);
+      }
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [localEligibility]);
+
   // Form Submit Handler
   const handleRequestSubmit = async (e) => {
     e.preventDefault();
@@ -261,37 +346,89 @@ const UserDashboard = ({ user }) => {
 
           <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '1.25rem' }} className="welcome-card-badges">
             {/* Eligibility Badge */}
-            <div style={{
-              flex: 1,
-              backgroundColor: eligibility?.isEligible ? '#ecfdf5' : '#fef2f2',
-              borderRadius: '8px',
-              padding: '0.75rem',
-              border: eligibility?.isEligible ? '1px solid #d1fae5' : '1px solid #ffe4e6',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between'
-            }}>
-              <span style={{ 
-                color: eligibility?.isEligible ? '#059669' : '#991b1b', 
-                fontSize: '0.7rem', 
-                fontWeight: '800',
+            {eligibility?.isEligible ? (
+              <div style={{
+                flex: 1,
+                backgroundColor: '#ecfdf5',
+                borderRadius: '8px',
+                padding: '0.75rem',
+                border: '1px solid #d1fae5',
                 display: 'flex',
-                alignItems: 'center',
-                gap: '0.25rem'
+                flexDirection: 'column',
+                justifyContent: 'center',
+                gap: '0.25rem',
+                animation: 'pulse 2s infinite'
               }}>
-                {eligibility?.isEligible ? <CheckCircle size={12} fill="#059669" color="white" /> : <XCircle size={12} fill="#991b1b" color="white" />}
-                {eligibility?.isEligible ? 'Bağış Yapabilir' : 'Bağış Yapılamaz'}
-              </span>
-              <span style={{ fontSize: '0.65rem', color: '#64748b', marginTop: '0.5rem', fontWeight: '500' }}>
-                Son değerlendirme: Bugün 09:15
-              </span>
-              <button 
-                onClick={() => toast(eligibility?.message || 'Bağış kriterleri standarda uygundur.', { icon: 'ℹ️' })}
-                style={{ background: 'none', border: 'none', color: '#64748b', fontSize: '0.65rem', fontWeight: '700', textDecoration: 'underline', cursor: 'pointer', textAlign: 'left', marginTop: '0.4rem', padding: 0 }}
-              >
-                Detayları Gör
-              </button>
-            </div>
+                <span style={{ 
+                  color: '#059669', 
+                  fontSize: '0.8rem', 
+                  fontWeight: '800',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.25rem'
+                }}>
+                  <CheckCircle size={14} fill="#059669" color="white" /> Hazırsınız!
+                </span>
+                <span style={{ fontSize: '0.75rem', fontWeight: '800', color: '#065f46', lineHeight: 1.2 }}>
+                  Yeniden hayat kurtarmaya hazırsınız!
+                </span>
+                <button 
+                  onClick={() => toast.success(eligibility?.message || 'Bağış yapmaya uygunsunuz.', { icon: '❤️' })}
+                  style={{ background: 'none', border: 'none', color: '#047857', fontSize: '0.65rem', fontWeight: '700', textDecoration: 'underline', cursor: 'pointer', textAlign: 'left', marginTop: '0.1rem', padding: 0 }}
+                >
+                  Detayları Gör
+                </button>
+              </div>
+            ) : (
+              <div style={{
+                flex: 1,
+                backgroundColor: '#fffbeb',
+                borderRadius: '8px',
+                padding: '0.6rem 0.75rem',
+                border: '1px solid #fef3c7',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between'
+              }}>
+                <span style={{ 
+                  color: '#d97706', 
+                  fontSize: '0.7rem', 
+                  fontWeight: '800',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.25rem'
+                }}>
+                  <XCircle size={12} fill="#d97706" color="white" /> Yeniden Bağış İçin
+                </span>
+                
+                {/* Countdown Timer */}
+                <div style={{ display: 'flex', gap: '0.25rem', margin: '0.35rem 0' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: '#991b1b', color: 'white', padding: '0.25rem 0.4rem', borderRadius: '6px', minWidth: '28px' }}>
+                    <span style={{ fontSize: '0.85rem', fontWeight: '900', lineHeight: 1 }}>{timeLeft.days}</span>
+                    <span style={{ fontSize: '0.45rem', fontWeight: '700', textTransform: 'uppercase', marginTop: '1px' }}>Gün</span>
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: '#1e293b', color: 'white', padding: '0.25rem 0.4rem', borderRadius: '6px', minWidth: '28px' }}>
+                    <span style={{ fontSize: '0.85rem', fontWeight: '900', lineHeight: 1 }}>{timeLeft.hours}</span>
+                    <span style={{ fontSize: '0.45rem', fontWeight: '700', textTransform: 'uppercase', marginTop: '1px' }}>Sa</span>
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: '#1e293b', color: 'white', padding: '0.25rem 0.4rem', borderRadius: '6px', minWidth: '28px' }}>
+                    <span style={{ fontSize: '0.85rem', fontWeight: '900', lineHeight: 1 }}>{timeLeft.minutes}</span>
+                    <span style={{ fontSize: '0.45rem', fontWeight: '700', textTransform: 'uppercase', marginTop: '1px' }}>Dk</span>
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: '#1e293b', color: 'white', padding: '0.25rem 0.4rem', borderRadius: '6px', minWidth: '28px' }}>
+                    <span style={{ fontSize: '0.85rem', fontWeight: '900', lineHeight: 1 }}>{timeLeft.seconds}</span>
+                    <span style={{ fontSize: '0.45rem', fontWeight: '700', textTransform: 'uppercase', marginTop: '1px' }}>Sn</span>
+                  </div>
+                </div>
+
+                <button 
+                  onClick={() => toast(eligibility?.message || 'Bağış kriterleri standarda uygundur.', { icon: 'ℹ️' })}
+                  style={{ background: 'none', border: 'none', color: '#b45309', fontSize: '0.65rem', fontWeight: '700', textDecoration: 'underline', cursor: 'pointer', textAlign: 'left', padding: 0 }}
+                >
+                  Detaylar
+                </button>
+              </div>
+            )}
 
             {/* Blood Type Box */}
             <div style={{
@@ -318,7 +455,7 @@ const UserDashboard = ({ user }) => {
             <div style={{ display: 'flex', flexDirection: 'column' }}>
               <span style={{ fontSize: '0.65rem', color: '#94a3b8', fontWeight: '600' }}>Son bağışınız</span>
               <span style={{ fontSize: '0.75rem', fontWeight: '800', color: '#334155' }}>
-                {formatDate(profileData?.lastDonationDate)}
+                {dynamicStats.lastDate ? dynamicStats.lastDate : formatDate(profileData?.lastDonationDate)}
               </span>
             </div>
             <button 
@@ -424,81 +561,126 @@ const UserDashboard = ({ user }) => {
 
       </div>
 
+      {/* ROW 1.5: GAMIFICATION (BADGES) */}
+      <div style={{ backgroundColor: '#ffffff', borderRadius: '10px', border: '1px solid #e2e8f0', padding: '1.5rem', boxShadow: '0 4px 12px rgba(0,0,0,0.01)' }}>
+        <h3 style={{ fontSize: '1.1rem', fontWeight: '800', color: '#0f172a', margin: '0 0 1rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <span style={{ fontSize: '1.2rem' }}>🏆</span> Gönüllülük Skoru & Rozetlerim
+        </h3>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
+          {(() => {
+            const count = dynamicStats.count || profileData?.donationCount || user?.donationCount || 0;
+            const badges = [];
+            badges.push({ name: 'Kahraman Başlangıcı', icon: '🌟', color: '#10b981', desc: 'İlk adım (1+ bağış)', earned: count >= 1 });
+            badges.push({ name: 'Düzenli Donör', icon: '🛡️', color: '#3b82f6', desc: 'Sürekli destek (3+ bağış)', earned: count >= 3 });
+            badges.push({ name: 'Hayat Kurtaran', icon: '🦸‍♂️', color: '#8b5cf6', desc: 'Büyük özveri (5+ bağış)', earned: count >= 5 });
+            badges.push({ name: 'Efsanevi Bağışçı', icon: '👑', color: '#f59e0b', desc: 'Gerçek bir kahraman (10+ bağış)', earned: count >= 10 });
+
+            return badges.map((badge, idx) => (
+              <div key={idx} style={{ 
+                backgroundColor: badge.earned ? `${badge.color}15` : '#f8fafc', 
+                border: `1px solid ${badge.earned ? badge.color : '#e2e8f0'}`, 
+                borderRadius: '8px', 
+                padding: '1rem', 
+                display: 'flex', 
+                alignItems: 'center', 
+                gap: '1rem',
+                opacity: badge.earned ? 1 : 0.5,
+                transition: 'all 0.2s',
+                boxShadow: badge.earned ? `0 4px 10px ${badge.color}10` : 'none'
+              }}>
+                <div style={{ fontSize: '2rem', filter: badge.earned ? 'none' : 'grayscale(100%)' }}>
+                  {badge.icon}
+                </div>
+                <div>
+                  <div style={{ fontWeight: '800', color: badge.earned ? badge.color : '#64748b', fontSize: '0.95rem' }}>{badge.name}</div>
+                  <div style={{ fontSize: '0.75rem', color: '#64748b', marginTop: '0.2rem' }}>{badge.desc}</div>
+                </div>
+              </div>
+            ));
+          })()}
+        </div>
+        <div style={{ marginTop: '1.25rem', fontSize: '0.85rem', color: '#64748b', fontWeight: '500', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div>Toplam Onaylanan Bağış Sayınız: <strong style={{ color: '#0f172a', fontSize: '1.1rem' }}>{dynamicStats.count || profileData?.donationCount || user?.donationCount || 0}</strong></div>
+          <div style={{ fontSize: '0.75rem', backgroundColor: '#e2e8f0', padding: '0.2rem 0.6rem', borderRadius: '12px' }}>Her bağış yeni bir rozet puanıdır!</div>
+        </div>
+      </div>
+
       {/* ROW 2: FORMS, NEARBY REQUESTS & ACTIVITIES */}
       <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 1.5fr 1fr', gap: '1.5rem' }} className="dashboard-grid-row2">
         
         {/* Create Blood Request Card */}
         <div style={{
-          backgroundColor: '#ffffff',
+          backgroundColor: '#0f172a',
           borderRadius: '10px',
-          border: '1px solid #e2e8f0',
+          border: '1px solid #1e293b',
           padding: '1.5rem',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.01)',
+          boxShadow: '0 10px 30px rgba(15,23,42,0.2)',
           display: 'flex',
           flexDirection: 'column'
         }} className="request-form-card">
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
-            <PlusCircle size={20} style={{ color: '#991b1b' }} />
-            <h3 style={{ fontSize: '1.05rem', fontWeight: '800', color: '#0f172a', margin: 0 }}>Acil Kan Talebi Oluştur</h3>
+            <PlusCircle size={20} style={{ color: '#ef4444' }} />
+            <h3 style={{ fontSize: '1.05rem', fontWeight: '800', color: '#ffffff', margin: 0 }}>Acil Kan Talebi Oluştur</h3>
           </div>
 
           <form onSubmit={handleRequestSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem', flex: 1 }}>
             
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
               <div>
-                <label style={{ fontSize: '0.75rem', fontWeight: '700', color: '#475569', display: 'block', marginBottom: '0.35rem' }}>Kan Grubu</label>
+                <label style={{ fontSize: '0.75rem', fontWeight: '700', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em', display: 'block', marginBottom: '0.35rem' }}>Kan Grubu</label>
                 <select 
                   id="quick-request-blood-type"
                   value={formData.bloodType} 
                   onChange={e => setFormData({ ...formData, bloodType: e.target.value })}
-                  style={{ padding: '0.65rem 0.85rem', borderRadius: '10px', fontSize: '0.85rem' }}
+                  style={{ padding: '0.65rem 0.85rem', borderRadius: '10px', fontSize: '0.85rem', background: '#1e293b', border: '1px solid #334155', color: '#ffffff', outline: 'none', width: '100%', cursor: 'pointer' }}
                 >
                   {['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', '0+', '0-'].map(kg => (
-                    <option key={kg} value={kg}>{kg}</option>
+                    <option key={kg} value={kg} style={{ background: '#1e293b', color: '#ffffff' }}>{kg}</option>
                   ))}
                 </select>
               </div>
               <div>
-                <label style={{ fontSize: '0.75rem', fontWeight: '700', color: '#475569', display: 'block', marginBottom: '0.35rem' }}>İlçe</label>
+                <label style={{ fontSize: '0.75rem', fontWeight: '700', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em', display: 'block', marginBottom: '0.35rem' }}>İlçe</label>
                 <select 
                   value={formData.district} 
                   onChange={e => setFormData({ ...formData, district: e.target.value })}
-                  style={{ padding: '0.65rem 0.85rem', borderRadius: '10px', fontSize: '0.85rem' }}
+                  style={{ padding: '0.65rem 0.85rem', borderRadius: '10px', fontSize: '0.85rem', background: '#1e293b', border: '1px solid #334155', color: '#ffffff', outline: 'none', width: '100%', cursor: 'pointer' }}
                 >
                   {ISTANBUL_ILCELER.map(ilce => (
-                    <option key={ilce} value={ilce}>{ilce}</option>
+                    <option key={ilce} value={ilce} style={{ background: '#1e293b', color: '#ffffff' }}>{ilce}</option>
                   ))}
                 </select>
               </div>
             </div>
 
             <div>
-              <label style={{ fontSize: '0.75rem', fontWeight: '700', color: '#475569', display: 'block', marginBottom: '0.35rem' }}>Hastane</label>
+              <label style={{ fontSize: '0.75rem', fontWeight: '700', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em', display: 'block', marginBottom: '0.35rem' }}>Hastane</label>
               <input 
                 type="text" 
                 value={formData.hospital} 
                 onChange={e => setFormData({ ...formData, hospital: e.target.value })}
-                style={{ padding: '0.65rem 0.85rem', borderRadius: '10px', fontSize: '0.85rem' }}
+                style={{ padding: '0.65rem 0.85rem', borderRadius: '10px', fontSize: '0.85rem', background: '#1e293b', border: '1px solid #334155', color: '#ffffff', outline: 'none', width: '100%' }}
                 placeholder="Hastane adı girin..."
               />
             </div>
 
             <div>
-              <label style={{ fontSize: '0.75rem', fontWeight: '700', color: '#475569', display: 'block', marginBottom: '0.35rem' }}>Not (isteğe bağlı)</label>
+              <label style={{ fontSize: '0.75rem', fontWeight: '700', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em', display: 'block', marginBottom: '0.35rem' }}>Not (isteğe bağlı)</label>
               <textarea 
                 value={formData.note}
                 onChange={e => setFormData({ ...formData, note: e.target.value })}
                 style={{ 
                   width: '100%', 
                   borderRadius: '10px', 
-                  border: '1px solid #e2e8f0', 
+                  border: '1px solid #334155', 
                   padding: '0.65rem 0.85rem', 
                   fontSize: '0.85rem', 
                   minHeight: '70px',
                   maxHeight: '100px',
                   resize: 'vertical',
                   outline: 'none',
-                  color: '#0f172a',
+                  color: '#ffffff',
+                  background: '#1e293b',
                   fontFamily: 'inherit'
                 }}
                 placeholder="İrtibat telefonu, talep nedeni vb. ekleyebilirsiniz..."

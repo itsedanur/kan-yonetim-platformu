@@ -240,13 +240,13 @@ const Support = () => {
 
       {/* RIGHT PANEL: CONTENT (FORM OR CHAT) */}
       <div style={{ 
-        backgroundColor: '#ffffff', 
+        backgroundColor: isCreating ? '#0f172a' : '#ffffff', 
         borderRadius: '10px', 
-        border: '1px solid #e2e8f0', 
+        border: isCreating ? '1px solid #1e293b' : '1px solid #e2e8f0', 
         padding: '1.5rem', 
         display: 'flex', 
         flexDirection: 'column',
-        boxShadow: '0 4px 12px rgba(0,0,0,0.01)',
+        boxShadow: isCreating ? '0 10px 30px rgba(15,23,42,0.2)' : '0 4px 12px rgba(0,0,0,0.01)',
         height: '100%',
         overflow: 'hidden'
       }}>
@@ -254,12 +254,12 @@ const Support = () => {
           /* CREATE TICKET FORM */
           <form onSubmit={handleCreateTicket} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', height: '100%' }}>
             <div>
-              <h2 style={{ fontSize: '1.2rem', fontWeight: '800', color: '#0f172a', margin: 0 }}>Yeni Destek Talebi</h2>
-              <p style={{ fontSize: '0.75rem', color: '#64748b', margin: '0.25rem 0 0 0' }}>Yaşadığınız sorunu detaylıca iletin, ekibimiz size hızlıca dönüş yapsın.</p>
+              <h2 style={{ fontSize: '1.2rem', fontWeight: '800', color: '#ffffff', margin: 0 }}>Yeni Destek Talebi</h2>
+              <p style={{ fontSize: '0.75rem', color: '#94a3b8', margin: '0.25rem 0 0 0' }}>Yaşadığınız sorunu detaylıca iletin, ekibimiz size hızlıca dönüş yapsın.</p>
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-              <label style={{ fontSize: '0.8rem', fontWeight: '700', color: '#475569' }}>Talep Konusu</label>
+              <label style={{ fontSize: '0.75rem', fontWeight: '700', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Talep Konusu</label>
               <input 
                 type="text" 
                 value={subject}
@@ -268,17 +268,18 @@ const Support = () => {
                 style={{ 
                   padding: '0.75rem 1rem', 
                   borderRadius: '12px', 
-                  border: '1px solid #e2e8f0', 
+                  border: '1px solid #334155', 
                   fontSize: '0.85rem', 
                   outline: 'none',
-                  color: '#0f172a'
+                  color: '#ffffff',
+                  background: '#1e293b'
                 }}
                 required
               />
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', flex: 1 }}>
-              <label style={{ fontSize: '0.8rem', fontWeight: '700', color: '#475569' }}>Açıklama / Mesajınız</label>
+              <label style={{ fontSize: '0.75rem', fontWeight: '700', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Açıklama / Mesajınız</label>
               <textarea 
                 value={messageText}
                 onChange={e => setMessageText(e.target.value)}
@@ -286,10 +287,11 @@ const Support = () => {
                 style={{ 
                   padding: '0.75rem 1rem', 
                   borderRadius: '12px', 
-                  border: '1px solid #e2e8f0', 
+                  border: '1px solid #334155', 
                   fontSize: '0.85rem', 
                   outline: 'none',
-                  color: '#0f172a',
+                  color: '#ffffff',
+                  background: '#1e293b',
                   fontFamily: 'inherit',
                   resize: 'none',
                   height: '100%',
@@ -305,9 +307,9 @@ const Support = () => {
                 onClick={() => setIsCreating(false)}
                 style={{ 
                   flex: 1, 
-                  backgroundColor: 'white', 
-                  color: '#475569', 
-                  border: '1px solid #cbd5e1', 
+                  backgroundColor: '#1e293b', 
+                  color: '#cbd5e1', 
+                  border: '1px solid #334155', 
                   padding: '0.75rem', 
                   borderRadius: '12px', 
                   fontWeight: '700', 

@@ -99,6 +99,7 @@ namespace KanYonetim.API.Data
                             UnitsNeeded = random.Next(2, 10),
                             UrgencyLevel = urgencies[random.Next(urgencies.Length)],
                             Status = statuses[random.Next(statuses.Length)],
+                            ProtocolNumber = $"PRT-{random.Next(10000, 99999)}",
                             CreatedAt = DateTime.UtcNow.AddDays(-random.Next(1, 15))
                         };
                         seededRequests.Add(request);
@@ -134,6 +135,8 @@ namespace KanYonetim.API.Data
                                 DonorId = donor.Id,
                                 DonationRequestId = request.Id,
                                 Status = appStatus,
+                                VerificationCode = appStatus == "Pending" ? $"DONOR-{random.Next(1000, 9999)}" : null,
+                                IsApproved = appStatus == "Approved",
                                 ApplicationDate = request.CreatedAt.AddHours(random.Next(2, 48))
                             };
                             seededApps.Add(app);

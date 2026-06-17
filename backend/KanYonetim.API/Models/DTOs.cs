@@ -62,6 +62,12 @@ namespace KanYonetim.API.Models.DTOs
         public string UrgencyLevel { get; set; } = "Normal";
     }
 
+    public class VerifyDonationRequestDto
+    {
+        public string ProtocolNumber { get; set; } = string.Empty;
+        public string VerificationCode { get; set; } = string.Empty;
+    }
+
     // Eligibility DTO
     public class EligibilityDto
     {

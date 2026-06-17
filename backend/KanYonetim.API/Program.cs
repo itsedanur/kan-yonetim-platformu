@@ -52,6 +52,7 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IDonationEligibilityService, DonationEligibilityService>();
 builder.Services.AddScoped<IDistanceService, DistanceService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddHostedService<DonationReminderBackgroundService>();
 
 // CORS
 builder.Services.AddCors(opt =>

@@ -187,5 +187,69 @@ namespace KanYonetim.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("notifications")]
+        public async Task<IActionResult> GetNotifications()
+        {
+            try
+            {
+                int userId = GetUserId();
+                var notifications = await _context.Notifications
+                    .Where(n => n.UserId == userId)
+                    .OrderByDescending(n => n.CreatedAt)
+                    .ToListAsync();
+                return Ok(notifications);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("notifications/{id}/read")]
+        public async Task<IActionResult> MarkNotificationAsRead(int id)
+        {
+            try
+            {
+                int userId = GetUserId();
+                var notification = await _context.Notifications
+                    .FirstOrDefaultAsync(n => n.Id == id && n.UserId == userId);
+                
+                if (notification == null) return NotFound("Bildirim bulunamadı.");
+                
+                notification.IsRead = true;
+                await _context.SaveChangesAsync();
+                
+                return Ok(new { message = "Bildirim okundu olarak işaretlendi." });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("notifications/read-all")]
+        public async Task<IActionResult> MarkAllNotificationsAsRead()
+        {
+            try
+            {
+                int userId = GetUserId();
+                var notifications = await _context.Notifications
+                    .Where(n => n.UserId == userId && !n.IsRead)
+                    .ToListAsync();
+                
+                foreach (var n in notifications)
+                {
+                    n.IsRead = true;
+                }
+                
+                await _context.SaveChangesAsync();
+                return Ok(new { message = "Tüm bildirimler okundu olarak işaretlendi." });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

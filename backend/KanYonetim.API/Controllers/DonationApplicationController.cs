@@ -29,11 +29,16 @@ namespace KanYonetim.API.Controllers
             
             if (existingApplication != null) return BadRequest("Bu talep için zaten başvurunuz bulunmaktadır.");
 
+            var random = new Random();
+            var verificationCode = $"DONOR-{random.Next(1000, 9999)}";
+
             var application = new DonationApplication
                 {
                     DonorId = userId,
                     DonationRequestId = requestId,
                     Status = "Pending",
+                    VerificationCode = verificationCode,
+                    IsApproved = false,
                     ApplicationDate = DateTime.UtcNow
                 };
 
@@ -82,6 +87,43 @@ namespace KanYonetim.API.Controllers
 
             await _context.SaveChangesAsync();
             return Ok();
+        }
+
+        [HttpPost("verify")]
+        [Authorize(Roles = "Hospital,Admin")]
+        public async Task<ActionResult> VerifyDonation([FromBody] KanYonetim.API.Models.DTOs.VerifyDonationRequestDto dto)
+        {
+            var application = await _context.DonationApplications
+                .Include(a => a.Donor)
+                .Include(a => a.DonationRequest)
+                .FirstOrDefaultAsync(a => a.VerificationCode == dto.VerificationCode && a.DonationRequest!.ProtocolNumber == dto.ProtocolNumber);
+
+            if (application == null) return NotFound("Doğrulama kodu veya protokol numarası eşleşmedi.");
+
+            if (application.IsApproved) return BadRequest("Bu bağış zaten onaylanmış.");
+
+            application.IsApproved = true;
+            application.Status = "Approved";
+
+            if (application.Donor != null)
+            {
+                application.Donor.LastDonationDate = DateTime.UtcNow;
+            }
+
+            // Create an audit log for approved donation
+            _context.AuditLogs.Add(new AuditLog
+            {
+                UserId = application.DonorId,
+                ActionType = "DonationVerification",
+                EntityName = "DonationApplication",
+                EntityId = application.Id.ToString(),
+                IpAddress = "System", // Or HttpContext.Connection.RemoteIpAddress?.ToString()
+                Description = $"Bağış başarıyla hastane tarafından doğrulandı. Protokol: {dto.ProtocolNumber}, Kod: {dto.VerificationCode}",
+                CreatedAt = DateTime.UtcNow
+            });
+
+            await _context.SaveChangesAsync();
+            return Ok(new { Message = "Kan bağışı başarıyla doğrulandı." });
         }
     }
 }
